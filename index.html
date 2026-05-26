@@ -1,52 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Capesize Friction Index — CFI Terminal</title>
-  <!-- PWA / Home Screen App -->
-  <link rel="manifest" href="/manifest.json" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="CFI Terminal" />
-  <meta name="theme-color" content="#0d1117" />
-  <link rel="apple-touch-icon" href="icon-180.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
-  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="CFI Terminal"/>
+  <meta name="theme-color" content="#0d1117"/>
+  <link rel="apple-touch-icon" href="icon-180.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --void:       #0d1117;
-      --surface:    #111820;
-      --card:       #141c26;
-      --card-hover: #18222e;
-      --inset:      #0a1018;
-      --border:     rgba(255,255,255,0.06);
-      --border-mid: rgba(255,255,255,0.11);
-      --text:       #c9d1d9;
-      --text-dim:   #6e7681;
-      --text-mute:  #30363d;
-      --silver:     #e6edf3;
-      --gold:       #c9a96e;
-      --gold-dim:   rgba(201,169,110,0.14);
-      --nominal:    #238636;
-      --nominal-bg: rgba(35,134,54,0.10);
-      --nominal-br: rgba(35,134,54,0.25);
-      --moderate:   #9e6a03;
-      --mod-bg:     rgba(158,106,3,0.10);
-      --mod-br:     rgba(158,106,3,0.30);
-      --high:       #d29922;
-      --high-bg:    rgba(210,153,34,0.09);
-      --high-br:    rgba(210,153,34,0.32);
-      --critical:   #da3633;
-      --crit-bg:    rgba(218,54,51,0.08);
-      --crit-br:    rgba(218,54,51,0.40);
-      --crit-glow:  rgba(218,54,51,0.15);
-      --font-d: 'Cormorant Garamond', Georgia, serif;
-      --font-m: 'IBM Plex Mono', 'Courier New', monospace;
+    :root{
+      --void:#0d1117;--surface:#111820;--card:#141c26;--card-hover:#18222e;--inset:#0a1018;
+      --border:rgba(255,255,255,0.06);--border-mid:rgba(255,255,255,0.11);
+      --text:#c9d1d9;--text-dim:#6e7681;--text-mute:#30363d;--silver:#e6edf3;
+      --gold:#c9a96e;--gold-dim:rgba(201,169,110,0.14);
+      --nominal:#238636;--nominal-bg:rgba(35,134,54,0.10);--nominal-br:rgba(35,134,54,0.25);
+      --moderate:#9e6a03;--mod-bg:rgba(158,106,3,0.10);--mod-br:rgba(158,106,3,0.30);
+      --high:#d29922;--high-bg:rgba(210,153,34,0.09);--high-br:rgba(210,153,34,0.32);
+      --warn:#f5a623;
+      --critical:#da3633;--crit-bg:rgba(218,54,51,0.08);--crit-br:rgba(218,54,51,0.40);--crit-glow:rgba(218,54,51,0.15);
+      --font-d:'Cormorant Garamond',Georgia,serif;--font-m:'IBM Plex Mono','Courier New',monospace;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{background:var(--void);color:var(--text);font-family:var(--font-m);font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -78,7 +59,7 @@
     .dot{width:5px;height:5px;border-radius:50%}
     .d-nom{background:var(--nominal);box-shadow:0 0 5px var(--nominal)}
     .d-mod{background:var(--moderate);box-shadow:0 0 5px var(--moderate)}
-    .d-hi {background:var(--high);box-shadow:0 0 5px var(--high)}
+    .d-hi{background:var(--high);box-shadow:0 0 5px var(--high)}
     .d-crit{background:var(--critical);box-shadow:0 0 7px var(--critical);animation:pd 1.4s ease-in-out infinite}
     @keyframes pd{0%,100%{opacity:1}50%{opacity:.3}}
     .ssep{width:1px;height:12px;background:var(--border)}
@@ -86,7 +67,7 @@
     .blink{width:4px;height:4px;border-radius:50%;animation:bl 2s ease-in-out infinite}
     @keyframes bl{0%,100%{opacity:1}50%{opacity:.1}}
 
-    /* CRITICAL LOCKDOWN BANNER */
+    /* LOCKDOWN */
     .lockdown{display:none;background:var(--crit-bg);border:1px solid var(--crit-br);border-left:4px solid var(--critical);padding:14px 24px;margin:20px 48px 0;animation:ldf 1.6s ease-in-out infinite}
     .lockdown.show{display:flex;align-items:center;gap:16px}
     @keyframes ldf{0%,100%{border-left-color:var(--critical);box-shadow:0 0 0 0 var(--crit-glow)}50%{border-left-color:#ff6b6b;box-shadow:0 0 20px var(--crit-glow)}}
@@ -108,18 +89,23 @@
     .sec-lbl{font-size:8px;letter-spacing:.24em;color:var(--text-mute);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
     .sec-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
 
+    /* VESSEL CLASS TABS */
+    .vessel-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px}
+    .vtab{font-family:var(--font-m);font-size:10px;letter-spacing:.1em;color:var(--text-dim);background:none;border:none;border-bottom:2px solid transparent;padding:10px 24px 8px;cursor:pointer;transition:all .15s;text-transform:uppercase}
+    .vtab:hover{color:var(--text)}
+    .vtab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
     /* ROUTE CARDS */
     .routes{display:flex;flex-direction:column;gap:2px;margin-bottom:40px}
     .rcard{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--border);padding:18px 22px;display:grid;grid-template-columns:240px 1fr auto;gap:20px;align-items:center;transition:all .2s;position:relative;overflow:hidden;animation:ci .4s ease both}
     @keyframes ci{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
     .rcard:hover{background:var(--card-hover);border-color:var(--border-mid)}
-    .rcard.nominal {border-left-color:var(--nominal)}
+    .rcard.nominal{border-left-color:var(--nominal)}
     .rcard.moderate{border-left-color:var(--moderate);background:color-mix(in srgb,var(--card) 93%,var(--mod-bg))}
-    .rcard.high    {border-left-color:var(--high);background:color-mix(in srgb,var(--card) 92%,var(--high-bg))}
+    .rcard.high{border-left-color:var(--high);background:color-mix(in srgb,var(--card) 92%,var(--high-bg))}
     .rcard.critical{border-left-color:var(--critical);background:color-mix(in srgb,var(--card) 90%,var(--crit-bg));box-shadow:inset 0 0 40px var(--crit-glow),0 0 0 1px var(--crit-br);animation:ci .4s ease both,crp 2.5s ease-in-out infinite}
     @keyframes crp{0%,100%{box-shadow:inset 0 0 40px var(--crit-glow),0 0 0 1px var(--crit-br)}50%{box-shadow:inset 0 0 70px rgba(218,54,51,.22),0 0 0 1px var(--crit-br)}}
     .rcard.pinned{order:-1}
-
     .ri{display:flex;flex-direction:column;gap:5px}
     .rcode{font-size:8px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
     .rname{font-family:var(--font-d);font-size:17px;font-weight:600;color:var(--silver);line-height:1.2}
@@ -142,90 +128,20 @@
     .sc-lbl{font-size:8px;letter-spacing:.18em;color:var(--text-mute);text-transform:uppercase}
     .sc-num{font-size:44px;font-weight:600;line-height:1;letter-spacing:-.02em;transition:color .3s}
     .sc-num.loading{color:var(--text-mute)}
-    .sc-num.nominal {color:var(--nominal)}
+    .sc-num.nominal{color:var(--nominal)}
     .sc-num.moderate{color:var(--moderate)}
-    .sc-num.high    {color:var(--high)}
+    .sc-num.high{color:var(--high)}
     .sc-num.critical{color:var(--critical);text-shadow:0 0 18px rgba(218,54,51,.5)}
     .badge{font-size:8px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:2px 9px;border:1px solid}
-    .badge.nominal {color:var(--nominal); background:var(--nominal-bg); border-color:var(--nominal-br)}
-    .badge.moderate{color:var(--moderate);background:var(--mod-bg);    border-color:var(--mod-br)}
-    .badge.high    {color:var(--high);    background:var(--high-bg);   border-color:var(--high-br)}
-    .badge.critical{color:var(--critical);background:var(--crit-bg);  border-color:var(--crit-br);animation:bf 1.6s ease-in-out infinite}
+    .badge.nominal{color:var(--nominal);background:var(--nominal-bg);border-color:var(--nominal-br)}
+    .badge.moderate{color:var(--moderate);background:var(--mod-bg);border-color:var(--mod-br)}
+    .badge.high{color:var(--high);background:var(--high-bg);border-color:var(--high-br)}
+    .badge.critical{color:var(--critical);background:var(--crit-bg);border-color:var(--crit-br);animation:bf 1.6s ease-in-out infinite}
     @keyframes bf{0%,100%{opacity:1}50%{opacity:.5}}
     .badge.loading{color:var(--text-mute);background:transparent;border-color:var(--border)}
     .btn-action{font-family:var(--font-m);font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:9px 16px;cursor:pointer;transition:all .15s;border:none;color:#0d1117;background:var(--critical);white-space:nowrap}
     .btn-action:hover{background:#f85149;box-shadow:0 0 18px rgba(218,54,51,.4)}
-
-    /* PENALTY TAG */
     .penalty-tag{font-size:8px;color:var(--critical);letter-spacing:.08em;text-align:right}
-
-    /* LEADS SECTION */
-    .leads-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;margin-bottom:40px}
-    .lead-card{background:var(--card);border:1px solid var(--border);padding:16px 20px;display:flex;flex-direction:column;gap:10px;transition:background .2s}
-    .lead-card:hover{background:var(--card-hover)}
-    .lead-route-tag{font-size:7.5px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-bottom:2px}
-    .lead-name{font-family:var(--font-d);font-size:15px;font-weight:600;color:var(--silver)}
-    .lead-role{font-size:9px;color:var(--text-dim);margin-top:1px}
-    .lead-co{font-size:9px;color:var(--text-dim)}
-    .lead-contacts{display:flex;gap:14px;flex-wrap:wrap}
-    .lc{font-size:8.5px;color:var(--text-dim)}
-    .lc a{color:var(--gold);text-decoration:none}
-    .lc a:hover{color:#e8c97e}
-    .lead-tier{display:inline-block;font-size:7px;padding:1px 6px;letter-spacing:.1em;text-transform:uppercase;background:var(--gold-dim);color:var(--gold)}
-    .btn-outreach{font-family:var(--font-m);font-size:8px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;cursor:pointer;border:1px solid var(--border-mid);background:transparent;color:var(--text);transition:all .15s;margin-top:2px}
-    .btn-outreach:hover{border-color:var(--gold-dim);color:var(--gold);background:var(--gold-dim)}
-
-    /* SANDBOX */
-    .sandbox{background:var(--card);border:1px solid var(--border);padding:24px;margin-bottom:40px}
-    .sb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
-    .sb-field{display:flex;flex-direction:column;gap:6px}
-    .sb-lbl{font-size:8px;letter-spacing:.14em;color:var(--text-dim);text-transform:uppercase}
-    .sb-sub{font-size:7.5px;color:var(--text-mute);margin-top:-2px}
-    .sb-input{font-family:var(--font-m);font-size:12px;color:var(--silver);background:var(--inset);border:1px solid var(--border);padding:8px 12px;width:100%;outline:none;transition:border-color .15s;-webkit-appearance:none}
-    .sb-input:focus{border-color:var(--gold-dim)}
-    .sb-select{font-family:var(--font-m);font-size:12px;color:var(--silver);background:var(--inset);border:1px solid var(--border);padding:8px 12px;width:100%;outline:none;cursor:pointer}
-    .sb-result{margin-top:20px;padding:16px;background:var(--inset);border:1px solid var(--border);display:flex;gap:32px;align-items:center;flex-wrap:wrap}
-    .sbr-item{display:flex;flex-direction:column;gap:2px}
-    .sbr-lbl{font-size:7.5px;letter-spacing:.14em;color:var(--text-mute);text-transform:uppercase}
-    .sbr-val{font-size:18px;font-weight:500;color:var(--silver)}
-    .sbr-val.crit{color:var(--critical)}
-    .sbr-val.high{color:var(--high)}
-    .sbr-val.mod{color:var(--moderate)}
-    .sbr-val.nom{color:var(--nominal)}
-    .btn-run{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:9px 22px;cursor:pointer;border:1px solid var(--gold-dim);background:transparent;color:var(--gold);transition:all .15s;margin-top:16px}
-    .btn-run:hover{background:var(--gold-dim);color:#e8c97e}
-
-    /* MODAL */
-    .overlay{position:fixed;inset:0;background:rgba(13,17,23,.94);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:opacity .22s;backdrop-filter:blur(8px)}
-    .overlay.open{opacity:1;pointer-events:all}
-    .modal{background:#111820;border:1px solid var(--border-mid);border-top:2px solid var(--critical);width:100%;max-width:760px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;transform:translateY(14px);transition:transform .22s;box-shadow:0 40px 80px rgba(0,0,0,.7),0 0 0 1px var(--border)}
-    .overlay.open .modal{transform:translateY(0)}
-    .mhdr{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0}
-    .mhdr-l{display:flex;flex-direction:column;gap:3px}
-    .m-eye{font-size:8px;letter-spacing:.2em;color:var(--critical);text-transform:uppercase}
-    .m-title{font-family:var(--font-d);font-size:22px;font-weight:600;color:var(--silver)}
-    .m-sub{font-size:10px;color:var(--text-dim)}
-    .m-close{font-size:18px;color:var(--text-dim);background:none;border:none;cursor:pointer;padding:0 4px;line-height:1;transition:color .15s;flex-shrink:0}
-    .m-close:hover{color:var(--silver)}
-    .m-meta{padding:10px 24px;background:var(--inset);border-bottom:1px solid var(--border);display:flex;gap:24px;flex-wrap:wrap;flex-shrink:0}
-    .mm-item{display:flex;flex-direction:column;gap:1px}
-    .mm-lbl{font-size:7.5px;letter-spacing:.14em;color:var(--text-mute);text-transform:uppercase}
-    .mm-val{font-size:13px;font-weight:500;color:var(--text)}
-    .mm-val.red{color:var(--critical)}
-    .m-body{flex:1;overflow-y:auto;padding:20px 24px}
-    .m-subj{font-size:9px;color:var(--text-dim);padding:9px 12px;background:var(--inset);border:1px solid var(--border);margin-bottom:14px;letter-spacing:.06em}
-    .m-subj span{color:var(--gold)}
-    .m-email{font-family:var(--font-m);font-size:11px;line-height:1.85;color:var(--text);white-space:pre-wrap;word-break:break-word}
-    .imfpa-block{background:rgba(218,54,51,.05);border:1px solid rgba(218,54,51,.20);border-left:2px solid var(--critical);padding:10px 14px;margin:14px 0;font-size:10px;color:var(--text-dim);line-height:1.7}
-    .imfpa-lbl{font-size:8px;letter-spacing:.14em;color:var(--critical);text-transform:uppercase;margin-bottom:4px;font-weight:600}
-    .mftr{padding:12px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-    .mftr-note{font-size:8.5px;color:var(--text-mute)}
-    .mftr-btns{display:flex;gap:8px}
-    .btn-copy{font-family:var(--font-m);font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;cursor:pointer;transition:all .15s;border:1px solid var(--gold-dim);color:var(--gold);background:transparent}
-    .btn-copy:hover{background:var(--gold-dim)}
-    .btn-copy.ok{color:var(--nominal);border-color:var(--nominal-br);background:var(--nominal-bg)}
-    .btn-mailto{font-family:var(--font-m);font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;cursor:pointer;transition:all .15s;border:1px solid var(--border-mid);color:var(--text-dim);background:transparent;text-decoration:none;display:inline-block}
-    .btn-mailto:hover{color:var(--silver);border-color:var(--border-mid)}
 
     /* FIXTURE COUNTDOWN */
     .fixture-countdown{margin-top:4px;text-align:right}
@@ -239,15 +155,53 @@
     .fc-bar{height:2px;background:var(--border);margin-top:5px;border-radius:1px;overflow:hidden}
     .fc-bar-fill{height:100%;transition:width .5s linear;border-radius:1px}
 
+    /* LEADS */
+    .leads-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;margin-bottom:40px}
+    .lead-card{background:var(--card);border:1px solid var(--border);padding:16px 20px;display:flex;flex-direction:column;gap:10px;transition:background .2s}
+    .lead-card:hover{background:var(--card-hover)}
+    .lead-route-tag{font-size:7.5px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-bottom:2px}
+    .lead-name{font-family:var(--font-d);font-size:15px;font-weight:600;color:var(--silver)}
+    .lead-role{font-size:9px;color:var(--text-dim);margin-top:1px}
+    .lead-co{font-size:9px;color:var(--text-dim)}
+    .lead-contacts{display:flex;gap:14px;flex-wrap:wrap}
+    .lc{font-size:8.5px;color:var(--text-dim)}
+    .lc a{color:var(--gold);text-decoration:none}
+    .lc a:hover{color:#e8c97e}
+    .lead-tier{display:inline-block;font-size:7px;padding:1px 6px;letter-spacing:.1em;text-transform:uppercase;background:var(--gold-dim);color:var(--gold)}
+    .lead-actions{display:flex;gap:6px;flex-wrap:wrap}
+    .btn-outreach{font-family:var(--font-m);font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px;cursor:pointer;border:1px solid var(--border-mid);background:transparent;color:var(--text);transition:all .15s}
+    .btn-outreach:hover{border-color:var(--gold-dim);color:var(--gold);background:var(--gold-dim)}
+    .btn-wa{font-family:var(--font-m);font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px;cursor:pointer;border:1px solid rgba(37,211,102,0.25);background:rgba(37,211,102,0.06);color:#25d366;transition:all .15s;text-decoration:none;display:inline-block}
+    .btn-wa:hover{background:rgba(37,211,102,0.14);border-color:rgba(37,211,102,0.5)}
+
+    /* RATE CALCULATOR */
+    .calc-panel{background:var(--card);border:1px solid var(--border);padding:24px;margin-bottom:40px}
+    .calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+    .calc-field{display:flex;flex-direction:column;gap:5px}
+    .calc-lbl{font-size:8px;letter-spacing:.14em;color:var(--text-dim);text-transform:uppercase}
+    .calc-sub{font-size:7.5px;color:var(--text-mute);margin-top:-2px}
+    .calc-input{font-family:var(--font-m);font-size:13px;color:var(--silver);background:var(--inset);border:1px solid var(--border);padding:8px 12px;width:100%;outline:none;transition:border-color .15s;-webkit-appearance:none}
+    .calc-input:focus{border-color:var(--gold-dim)}
+    .calc-select{font-family:var(--font-m);font-size:13px;color:var(--silver);background:var(--inset);border:1px solid var(--border);padding:8px 12px;width:100%;outline:none;cursor:pointer}
+    .calc-result{margin-top:20px;background:var(--inset);border:1px solid var(--border);padding:18px;display:none}
+    .calc-result.show{display:block}
+    .calc-headline{font-family:var(--font-d);font-size:28px;font-weight:700;color:var(--critical);margin-bottom:4px}
+    .calc-sub-line{font-size:10px;color:var(--text-dim);margin-bottom:16px}
+    .calc-breakdown{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .cbi{display:flex;flex-direction:column;gap:2px}
+    .cbi-lbl{font-size:7.5px;letter-spacing:.13em;color:var(--text-mute);text-transform:uppercase}
+    .cbi-val{font-size:15px;font-weight:500;color:var(--text)}
+    .btn-calc{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:9px 22px;cursor:pointer;border:1px solid var(--gold-dim);background:transparent;color:var(--gold);transition:all .15s;margin-top:16px}
+    .btn-calc:hover{background:var(--gold-dim);color:#e8c97e}
+
     /* BDI OVERLAY */
     .bdi-panel{background:var(--card);border:1px solid var(--border);padding:24px;margin-bottom:40px}
-    .bdi-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:20px}
     .bdi-heading{font-family:var(--font-d);font-size:16px;color:var(--silver);font-weight:600}
     .bdi-sub{font-size:9px;color:var(--text-dim);margin-top:3px;max-width:520px;line-height:1.6}
     .bdi-source{font-size:8px;color:var(--text-mute);margin-top:5px}
     .bdi-source a{color:var(--gold);text-decoration:none}
     .bdi-source a:hover{color:#e8c97e}
-    .bdi-input-row{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+    .bdi-input-row{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-top:16px}
     .bdi-field{display:flex;flex-direction:column;gap:5px}
     .bdi-lbl{font-size:8px;letter-spacing:.14em;color:var(--text-dim);text-transform:uppercase}
     .bdi-input{font-family:var(--font-m);font-size:14px;color:var(--silver);background:var(--inset);border:1px solid var(--border);padding:8px 14px;width:160px;outline:none;transition:border-color .15s;-webkit-appearance:none}
@@ -272,6 +226,75 @@
     .bdi-insight.show{display:block}
     .bdi-insight strong{color:var(--gold)}
 
+    /* SANDBOX */
+    .sandbox{background:var(--card);border:1px solid var(--border);padding:24px;margin-bottom:40px}
+    .sb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+    .sb-field{display:flex;flex-direction:column;gap:6px}
+    .sb-lbl{font-size:8px;letter-spacing:.14em;color:var(--text-dim);text-transform:uppercase}
+    .sb-sub{font-size:7.5px;color:var(--text-mute);margin-top:-2px}
+    .sb-input{font-family:var(--font-m);font-size:12px;color:var(--silver);background:var(--inset);border:1px solid var(--border);padding:8px 12px;width:100%;outline:none;transition:border-color .15s;-webkit-appearance:none}
+    .sb-input:focus{border-color:var(--gold-dim)}
+    .sb-select{font-family:var(--font-m);font-size:12px;color:var(--silver);background:var(--inset);border:1px solid var(--border);padding:8px 12px;width:100%;outline:none;cursor:pointer}
+    .sb-result{margin-top:20px;padding:16px;background:var(--inset);border:1px solid var(--border);display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+    .sbr-item{display:flex;flex-direction:column;gap:2px}
+    .sbr-lbl{font-size:7.5px;letter-spacing:.14em;color:var(--text-mute);text-transform:uppercase}
+    .sbr-val{font-size:18px;font-weight:500;color:var(--silver)}
+    .sbr-val.crit{color:var(--critical)}
+    .sbr-val.high{color:var(--high)}
+    .sbr-val.mod{color:var(--moderate)}
+    .sbr-val.nom{color:var(--nominal)}
+    .btn-run{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:9px 22px;cursor:pointer;border:1px solid var(--gold-dim);background:transparent;color:var(--gold);transition:all .15s;margin-top:16px}
+    .btn-run:hover{background:var(--gold-dim);color:#e8c97e}
+
+    /* EMAIL SEND LOG */
+    .log-panel{background:var(--card);border:1px solid var(--border);padding:24px;margin-bottom:40px}
+    .log-table{width:100%;border-collapse:collapse;margin-top:16px}
+    .log-table th{font-size:7.5px;letter-spacing:.14em;color:var(--text-mute);text-transform:uppercase;text-align:left;padding:8px 12px;border-bottom:1px solid var(--border)}
+    .log-table td{font-size:10px;color:var(--text-dim);padding:9px 12px;border-bottom:1px solid var(--border)}
+    .log-table tr:last-child td{border-bottom:none}
+    .log-table tr:hover td{background:var(--inset)}
+    .log-empty{font-size:10px;color:var(--text-mute);padding:20px 0;text-align:center}
+    .log-badge{font-size:7px;padding:1px 7px;letter-spacing:.1em;text-transform:uppercase;border:1px solid}
+    .log-badge.crit{color:var(--critical);border-color:var(--crit-br);background:var(--crit-bg)}
+    .log-badge.high{color:var(--high);border-color:var(--high-br);background:var(--high-bg)}
+    .log-badge.mod{color:var(--moderate);border-color:var(--mod-br);background:var(--mod-bg)}
+    .btn-clear-log{font-family:var(--font-m);font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;cursor:pointer;border:1px solid var(--border-mid);color:var(--text-mute);background:transparent;transition:all .15s}
+    .btn-clear-log:hover{color:var(--critical);border-color:var(--crit-br)}
+
+    /* MODAL */
+    .overlay{position:fixed;inset:0;background:rgba(13,17,23,.94);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:opacity .22s;backdrop-filter:blur(8px)}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:#111820;border:1px solid var(--border-mid);border-top:2px solid var(--critical);width:100%;max-width:760px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;transform:translateY(14px);transition:transform .22s;box-shadow:0 40px 80px rgba(0,0,0,.7),0 0 0 1px var(--border)}
+    .overlay.open .modal{transform:translateY(0)}
+    .mhdr{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0}
+    .mhdr-l{display:flex;flex-direction:column;gap:3px}
+    .m-eye{font-size:8px;letter-spacing:.2em;color:var(--critical);text-transform:uppercase}
+    .m-title{font-family:var(--font-d);font-size:22px;font-weight:600;color:var(--silver)}
+    .m-sub{font-size:10px;color:var(--text-dim)}
+    .m-close{font-size:18px;color:var(--text-dim);background:none;border:none;cursor:pointer;padding:0 4px;line-height:1;transition:color .15s;flex-shrink:0}
+    .m-close:hover{color:var(--silver)}
+    .m-meta{padding:10px 24px;background:var(--inset);border-bottom:1px solid var(--border);display:flex;gap:24px;flex-wrap:wrap;flex-shrink:0}
+    .mm-item{display:flex;flex-direction:column;gap:1px}
+    .mm-lbl{font-size:7.5px;letter-spacing:.14em;color:var(--text-mute);text-transform:uppercase}
+    .mm-val{font-size:13px;font-weight:500;color:var(--text)}
+    .mm-val.red{color:var(--critical)}
+    .m-body{flex:1;overflow-y:auto;padding:20px 24px}
+    .m-subj{font-size:9px;color:var(--text-dim);padding:9px 12px;background:var(--inset);border:1px solid var(--border);margin-bottom:14px;letter-spacing:.06em}
+    .m-subj span{color:var(--gold)}
+    .m-email{font-family:var(--font-m);font-size:11px;line-height:1.85;color:var(--text);white-space:pre-wrap;word-break:break-word}
+    .imfpa-block{background:rgba(218,54,51,.05);border:1px solid rgba(218,54,51,.20);border-left:2px solid var(--critical);padding:10px 14px;margin:14px 0;font-size:10px;color:var(--text-dim);line-height:1.7}
+    .imfpa-lbl{font-size:8px;letter-spacing:.14em;color:var(--critical);text-transform:uppercase;margin-bottom:4px;font-weight:600}
+    .mftr{padding:12px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px}
+    .mftr-note{font-size:8.5px;color:var(--text-mute)}
+    .mftr-btns{display:flex;gap:6px;flex-wrap:wrap}
+    .btn-copy{font-family:var(--font-m);font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all .15s;border:1px solid var(--gold-dim);color:var(--gold);background:transparent}
+    .btn-copy:hover{background:var(--gold-dim)}
+    .btn-copy.ok{color:var(--nominal);border-color:var(--nominal-br);background:var(--nominal-bg)}
+    .btn-mailto{font-family:var(--font-m);font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all .15s;border:1px solid var(--border-mid);color:var(--text-dim);background:transparent;text-decoration:none;display:inline-block}
+    .btn-mailto:hover{color:var(--silver);border-color:var(--border-mid)}
+    .btn-wa-modal{font-family:var(--font-m);font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:all .15s;border:1px solid rgba(37,211,102,0.25);color:#25d366;background:rgba(37,211,102,0.06);text-decoration:none;display:inline-block}
+    .btn-wa-modal:hover{background:rgba(37,211,102,0.14)}
+
     /* FOOTER */
     .ftr{border-top:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;justify-content:space-between}
     .ftr-l,.ftr-r{font-size:8.5px;color:var(--text-mute);letter-spacing:.08em}
@@ -285,7 +308,9 @@
       .metrics{grid-template-columns:repeat(3,1fr)}
       .mc-cell:nth-child(3){border-right:none}
       .mc-cell:nth-child(1),.mc-cell:nth-child(2),.mc-cell:nth-child(3){border-bottom:1px solid var(--border)}
-      .sb-grid{grid-template-columns:repeat(2,1fr)}
+      .sb-grid,.calc-grid{grid-template-columns:repeat(2,1fr)}
+      .bdi-route-row{grid-template-columns:1fr 1fr 1fr}
+      .calc-breakdown{grid-template-columns:repeat(2,1fr)}
     }
     @media(max-width:640px){
       .hdr-title{font-size:24px}
@@ -295,18 +320,16 @@
 </head>
 <body>
 
-<!-- TOAST -->
 <div class="toast" id="toast">
   <div class="toast-title">⛔ Critical Anomaly Detected</div>
   <div class="toast-body" id="toast-body">CFI threshold exceeded. Immediate outreach opportunity active.</div>
 </div>
 
-<!-- HEADER -->
 <header class="hdr">
   <div class="hdr-l">
-    <div class="hdr-eye">Proprietary Chartering Intelligence · Iron Ore Capesize</div>
+    <div class="hdr-eye">Proprietary Chartering Intelligence · Dry Bulk Monitor</div>
     <h1 class="hdr-title">Capesize <em>Friction</em> Index</h1>
-    <div class="hdr-sub">CFI = (delay_days / voyage_days) × (1 + congestion_index) × (1 + weather_factor) × 100 · Threshold: 75</div>
+    <div class="hdr-sub">CFI = (delay_days / voyage_days) × (1 + congestion) × (1 + weather) × 100 · Alert threshold: 75</div>
   </div>
   <div class="hdr-r">
     <div><div class="ts-lbl">Last Calculated</div><div class="ts-val" id="ts">—</div></div>
@@ -314,28 +337,26 @@
   </div>
 </header>
 
-<!-- STATUS BAR -->
 <div class="sbar">
-  <div class="si"><div class="dot d-nom"></div>Low · CFI &lt; 30</div>
+  <div class="si"><div class="dot d-nom"></div>Low · &lt;30</div>
   <div class="ssep"></div>
   <div class="si"><div class="dot d-mod"></div>Moderate · 30–55</div>
   <div class="ssep"></div>
   <div class="si"><div class="dot d-hi"></div>High · 55–75</div>
   <div class="ssep"></div>
-  <div class="si"><div class="dot d-crit"></div>Critical Anomaly · &gt; 75</div>
+  <div class="si"><div class="dot d-crit"></div>Critical · &gt;75</div>
   <div class="ssep"></div>
-  <div class="si"><span style="color:var(--gold)">2</span>&nbsp;Routes · Iron Ore · Capesize</div>
+  <div class="si" id="route-count-display"><span style="color:var(--gold)">4</span>&nbsp;Routes Active</div>
   <div class="ssep"></div>
   <div class="si" id="next-refresh" style="color:var(--text-mute)">Auto-check: 30m</div>
   <div class="slive" id="slive"><div class="blink" style="background:var(--gold)"></div>Initialising…</div>
 </div>
 
-<!-- CRITICAL LOCKDOWN BANNER -->
 <div class="lockdown" id="lockdown">
   <div class="ld-icon">⛔</div>
   <div class="ld-text">
     <div class="ld-hed">Critical Market Anomaly — Immediate Action Required</div>
-    <div class="ld-body" id="ld-body">CFI threshold exceeded on active route. Outreach window is live.</div>
+    <div class="ld-body" id="ld-body">CFI threshold exceeded. Outreach window is live.</div>
   </div>
   <div class="ld-penalty">
     <div class="ld-plabel">Friction Penalty / MT</div>
@@ -343,36 +364,68 @@
   </div>
 </div>
 
-<!-- MAIN -->
 <main>
 
-  <!-- ROUTES -->
+  <!-- VESSEL CLASS TABS -->
+  <div class="vessel-tabs">
+    <button class="vtab active" id="tab-capesize" onclick="switchVesselClass('capesize')">Capesize · Iron Ore</button>
+    <button class="vtab" id="tab-panamax" onclick="switchVesselClass('panamax')">Panamax · Coal &amp; Grain</button>
+  </div>
+
   <div class="sec-lbl">Live Route Monitor</div>
   <div class="routes" id="routes-grid"></div>
 
-  <!-- LEADS -->
   <div class="sec-lbl">Institutional Target Database</div>
   <div class="leads-grid" id="leads-grid"></div>
 
+  <!-- RATE CALCULATOR -->
+  <div class="sec-lbl">Cargo Exposure Calculator</div>
+  <div class="calc-panel">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-family:var(--font-d);font-size:16px;color:var(--silver);font-weight:600">Total Financial Exposure</div>
+        <div style="font-size:9px;color:var(--text-dim);margin-top:3px">Enter cargo size in metric tonnes to calculate the total dollar exposure from current friction costs. Use this figure in your pitch — "You are leaving $X on the table on this shipment."</div>
+      </div>
+    </div>
+    <div class="calc-grid">
+      <div class="calc-field">
+        <div class="calc-lbl">Route</div>
+        <select class="calc-select" id="calc-route">
+          <option value="tubaro_qingdao">Tubarão → Qingdao ($36.25 base)</option>
+          <option value="hedland_qingdao">Port Hedland → Qingdao ($15.45 base)</option>
+          <option value="richards_rotterdam">Richards Bay → Rotterdam ($22.10 base)</option>
+          <option value="dampier_pohang">Dampier → Pohang ($14.80 base)</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <div class="calc-lbl">Cargo Size (MT)</div>
+        <div class="calc-sub">Typical Capesize: 150,000–180,000 MT</div>
+        <input class="calc-input" type="number" id="calc-cargo" value="170000" min="1000" max="400000" step="1000"/>
+      </div>
+      <div class="calc-field">
+        <div class="calc-lbl">Voyage Count</div>
+        <div class="calc-sub">Annualise over multiple fixtures</div>
+        <input class="calc-input" type="number" id="calc-voyages" value="1" min="1" max="52" step="1"/>
+      </div>
+    </div>
+    <button class="btn-calc" onclick="runCalc()">Calculate Total Exposure</button>
+    <div class="calc-result" id="calc-result"></div>
+  </div>
 
   <!-- BDI OVERLAY -->
   <div class="sec-lbl">Baltic Dry Index — Market Divergence Monitor</div>
   <div class="bdi-panel">
-    <div class="bdi-top">
-      <div>
-        <div class="bdi-heading">BDI vs CFI Divergence Analysis</div>
-        <div class="bdi-sub">Enter today's Baltic Dry Index reading to calculate the gap between your proprietary CFI signal and where the public market is currently priced. A high divergence means you are seeing stress the market has not yet acted on — your outreach window.</div>
-        <div class="bdi-source">Live BDI: <a href="https://www.bloomberg.com/quote/BDIY:IND" target="_blank">bloomberg.com/quote/BDIY:IND</a> &nbsp;·&nbsp; <a href="https://www.balticexchange.com/en/data/indices/bdi.html" target="_blank">balticexchange.com</a></div>
-      </div>
-    </div>
+    <div class="bdi-heading">BDI vs CFI Divergence Analysis</div>
+    <div class="bdi-sub">Enter today's BDI reading to calculate the gap between your CFI signal and the public market. High divergence = you are seeing stress the market has not priced yet — your window.</div>
+    <div class="bdi-source">Live BDI: <a href="https://www.bloomberg.com/quote/BDIY:IND" target="_blank">bloomberg.com/quote/BDIY:IND</a> &nbsp;·&nbsp; <a href="https://www.balticexchange.com/en/data/indices/bdi.html" target="_blank">balticexchange.com</a></div>
     <div class="bdi-input-row">
       <div class="bdi-field">
         <div class="bdi-lbl">Today's BDI</div>
-        <input class="bdi-input" type="number" id="bdi-value" placeholder="e.g. 1840" min="100" max="12000" step="1" />
+        <input class="bdi-input" type="number" id="bdi-value" placeholder="e.g. 1840" min="100" max="12000" step="1"/>
       </div>
       <div class="bdi-field">
         <div class="bdi-lbl">Previous BDI (optional)</div>
-        <input class="bdi-input" type="number" id="bdi-prev" placeholder="e.g. 1790" min="100" max="12000" step="1" />
+        <input class="bdi-input" type="number" id="bdi-prev" placeholder="e.g. 1790" min="100" max="12000" step="1"/>
       </div>
       <button class="btn-bdi" onclick="runBDI()">Calculate Divergence</button>
     </div>
@@ -383,35 +436,33 @@
   <!-- SANDBOX -->
   <div class="sec-lbl">Interactive Testing Sandbox</div>
   <div class="sandbox">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-      <div>
-        <div style="font-family:var(--font-d);font-size:16px;color:var(--silver);font-weight:600">Manual Parameter Override</div>
-        <div style="font-size:9px;color:var(--text-dim);margin-top:3px">Adjust inputs to test friction variances live. Results do not affect route cards.</div>
-      </div>
-    </div>
+    <div style="font-family:var(--font-d);font-size:16px;color:var(--silver);font-weight:600">Manual Parameter Override</div>
+    <div style="font-size:9px;color:var(--text-dim);margin-top:3px">Adjust inputs to test friction variances live. Results do not affect route cards.</div>
     <div class="sb-grid">
       <div class="sb-field">
         <div class="sb-lbl">Route</div>
         <div class="sb-sub">Select baseline</div>
         <select class="sb-select" id="sb-route">
-          <option value="tubaro">Tubarão → Qingdao (35d voyage)</option>
-          <option value="hedland">Port Hedland → Qingdao (12d voyage)</option>
+          <option value="tubaro_qingdao">Tubarão → Qingdao (35d)</option>
+          <option value="hedland_qingdao">Port Hedland → Qingdao (12d)</option>
+          <option value="richards_rotterdam">Richards Bay → Rotterdam (20d)</option>
+          <option value="dampier_pohang">Dampier → Pohang (11d)</option>
         </select>
       </div>
       <div class="sb-field">
         <div class="sb-lbl">Delay Days</div>
         <div class="sb-sub">Weather + port shutdown</div>
-        <input class="sb-input" type="number" id="sb-delay" value="4.5" min="0" max="30" step="0.5" />
+        <input class="sb-input" type="number" id="sb-delay" value="4.5" min="0" max="30" step="0.5"/>
       </div>
       <div class="sb-field">
         <div class="sb-lbl">Congestion Index</div>
         <div class="sb-sub">0.00 – 0.95</div>
-        <input class="sb-input" type="number" id="sb-congestion" value="0.28" min="0" max="0.95" step="0.01" />
+        <input class="sb-input" type="number" id="sb-congestion" value="0.28" min="0" max="0.95" step="0.01"/>
       </div>
       <div class="sb-field">
         <div class="sb-lbl">Weather Factor</div>
         <div class="sb-sub">0.00 – 0.80</div>
-        <input class="sb-input" type="number" id="sb-weather" value="0.18" min="0" max="0.80" step="0.01" />
+        <input class="sb-input" type="number" id="sb-weather" value="0.18" min="0" max="0.80" step="0.01"/>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
@@ -428,15 +479,27 @@
     <div class="sb-result" id="sb-result" style="display:none"></div>
   </div>
 
+  <!-- EMAIL SEND LOG -->
+  <div class="sec-lbl">Outreach Log</div>
+  <div class="log-panel">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-family:var(--font-d);font-size:16px;color:var(--silver);font-weight:600">Email Send History</div>
+        <div style="font-size:9px;color:var(--text-dim);margin-top:3px">Automatically logged when you copy or open an outreach email. Prevents duplicate contact and tracks your outreach cadence.</div>
+      </div>
+      <button class="btn-clear-log" onclick="clearLog()">Clear Log</button>
+    </div>
+    <div id="log-body"></div>
+  </div>
+
 </main>
 
-<!-- FOOTER -->
 <footer class="ftr">
-  <div class="ftr-l">CFI · All scores indicative · Not financial advice · Standalone offline edition</div>
-  <div class="ftr-r">Iron Ore Capesize · Brazil–China · Australia–China · Simulation engine active</div>
+  <div class="ftr-l">CFI · All scores indicative · Not financial advice · v2.0</div>
+  <div class="ftr-r">Capesize + Panamax · Iron Ore · Coal · Grain · 4 Routes Active</div>
 </footer>
 
-<!-- OUTREACH MODAL -->
+<!-- MODAL -->
 <div class="overlay" id="overlay" onclick="closeModal(event)">
   <div class="modal">
     <div class="mhdr">
@@ -453,10 +516,11 @@
       <div class="m-email" id="m-email"></div>
     </div>
     <div class="mftr">
-      <div class="mftr-note">Edit firm details before sending. IMFPA clause is template only — obtain legal review.</div>
+      <div class="mftr-note">Edit firm details before sending. IMFPA is template only — obtain legal review.</div>
       <div class="mftr-btns">
         <button class="btn-copy" id="btn-copy" onclick="copyEmail()">Copy Email</button>
         <a class="btn-mailto" id="btn-mailto" href="#">Open in Mail ↗</a>
+        <a class="btn-wa-modal" id="btn-wa-modal" href="#" target="_blank">WhatsApp ↗</a>
       </div>
     </div>
   </div>
@@ -465,371 +529,235 @@
 <script>
 "use strict";
 
-// ═══════════════════════════════════════════════════════════════════
-// SECTION 1 — ROUTE & LEAD DATABASE
-// ═══════════════════════════════════════════════════════════════════
-const DB = {
-  routes: [
+// ═══════════════════════════════════════════════════════
+// SECTION 1 — COMPLETE ROUTE & LEAD DATABASE
+// ═══════════════════════════════════════════════════════
+const ALL_ROUTES = {
+  capesize: [
     {
-      id: "tubaro_qingdao",
-      name: "Ponta da Madeira / Tubarão → Qingdao",
-      short: "TBR–QDG",
-      region: "South Atlantic – Pacific",
-      commodity: "Iron Ore",
-      vessel: "Capesize 180k DWT",
-      origin: { port: "Tubarão / Ponta da Madeira", country: "Brazil", congestion_baseline: 2.4 },
-      destination: { port: "Qingdao", country: "China" },
-      distance_nm: 11850,
-      typical_voyage_days: 35,
-      baseline_rate_usd_ton: 36.25,
-      ballast_speed_kn: 12.8,
+      id:"tubaro_qingdao", name:"Ponta da Madeira / Tubarão → Qingdao", short:"TBR–QDG",
+      region:"South Atlantic – Pacific", commodity:"Iron Ore", vessel:"Capesize 180k DWT",
+      vessel_class:"capesize",
+      origin:{port:"Tubarão / Ponta da Madeira",country:"Brazil",congestion_baseline:2.4},
+      destination:{port:"Qingdao",country:"China"},
+      distance_nm:11850, typical_voyage_days:35, baseline_rate_usd_ton:36.25, ballast_speed_kn:12.8,
     },
     {
-      id: "hedland_qingdao",
-      name: "Dampier / Port Hedland → Qingdao",
-      short: "PHD–QDG",
-      region: "Indian Ocean – Pacific",
-      commodity: "Iron Ore",
-      vessel: "Capesize 180k DWT",
-      origin: { port: "Port Hedland / Dampier", country: "Australia", congestion_baseline: 1.7 },
-      destination: { port: "Qingdao", country: "China" },
-      distance_nm: 3650,
-      typical_voyage_days: 12,
-      baseline_rate_usd_ton: 15.45,
-      ballast_speed_kn: 13.4,
-    }
+      id:"hedland_qingdao", name:"Dampier / Port Hedland → Qingdao", short:"PHD–QDG",
+      region:"Indian Ocean – Pacific", commodity:"Iron Ore", vessel:"Capesize 180k DWT",
+      vessel_class:"capesize",
+      origin:{port:"Port Hedland / Dampier",country:"Australia",congestion_baseline:1.7},
+      destination:{port:"Qingdao",country:"China"},
+      distance_nm:3650, typical_voyage_days:12, baseline_rate_usd_ton:15.45, ballast_speed_kn:13.4,
+    },
+    {
+      id:"richards_rotterdam", name:"Richards Bay → Rotterdam", short:"RBY–RTM",
+      region:"Atlantic", commodity:"Thermal Coal", vessel:"Capesize 170k DWT",
+      vessel_class:"capesize",
+      origin:{port:"Richards Bay",country:"South Africa",congestion_baseline:2.8},
+      destination:{port:"Rotterdam",country:"Netherlands"},
+      distance_nm:6740, typical_voyage_days:20, baseline_rate_usd_ton:22.10, ballast_speed_kn:12.5,
+    },
+    {
+      id:"dampier_pohang", name:"Dampier → Pohang", short:"DMP–PHG",
+      region:"Pacific", commodity:"Iron Ore", vessel:"Capesize 160k DWT",
+      vessel_class:"capesize",
+      origin:{port:"Dampier",country:"Australia",congestion_baseline:1.4},
+      destination:{port:"Pohang",country:"South Korea"},
+      distance_nm:3420, typical_voyage_days:11, baseline_rate_usd_ton:14.80, ballast_speed_kn:13.6,
+    },
   ],
-
-  leads: [
-    // ── Brazil route (3) ─────────────────────────────────────────
+  panamax: [
     {
-      id: "l01", route_id: "tubaro_qingdao",
-      name: "Carlos Drummond",
-      title: "Head of Global Chartering",
-      company: "Austral Mineração S.A.",
-      email: "c.drummond@australmineracao.com.br",
-      phone: "+55 21 3478 9200 ext. 4112",
-      tier: 1,
-      notes: "Controls >12Mt annual Capesize allocation. Q4 programme open for tender."
+      id:"newcastle_rotterdam_pmax", name:"Newcastle → Rotterdam", short:"NCS–RTM",
+      region:"Asia–Atlantic", commodity:"Thermal Coal", vessel:"Panamax 75k DWT",
+      vessel_class:"panamax",
+      origin:{port:"Newcastle NSW",country:"Australia",congestion_baseline:2.1},
+      destination:{port:"Rotterdam",country:"Netherlands"},
+      distance_nm:11350, typical_voyage_days:30, baseline_rate_usd_ton:18.60, ballast_speed_kn:11.8,
     },
     {
-      id: "l02", route_id: "tubaro_qingdao",
-      name: "Fernanda Machado",
-      title: "VP Mineral Supply Chain",
-      company: "Minas Rio Trading S.A.",
-      email: "f.machado@minasriotrading.com",
-      phone: "+55 31 3301 5540 ext. 2204",
-      tier: 1,
-      notes: "Procurement authority to $50M freight. COA structures strongly preferred."
+      id:"santos_qingdao_pmax", name:"Santos → Qingdao", short:"STS–QDG",
+      region:"Atlantic – Pacific", commodity:"Soybeans", vessel:"Panamax 75k DWT",
+      vessel_class:"panamax",
+      origin:{port:"Santos",country:"Brazil",congestion_baseline:3.2},
+      destination:{port:"Qingdao",country:"China"},
+      distance_nm:12400, typical_voyage_days:38, baseline_rate_usd_ton:31.40, ballast_speed_kn:11.5,
     },
-    {
-      id: "l03", route_id: "tubaro_qingdao",
-      name: "Ricardo Sobral",
-      title: "Lead Dry Bulk Tonnage Allocator",
-      company: "Meridian Commodities Group",
-      email: "r.sobral@meridiancommodities.com",
-      phone: "+55 11 4502 8810",
-      tier: 2,
-      notes: "Independent trading house. Spot and voyage charter focus. Fast decision cycle."
-    },
-    // ── Australia route (2) ──────────────────────────────────────
-    {
-      id: "l04", route_id: "hedland_qingdao",
-      name: "James Whitmore",
-      title: "Head of Freight & Logistics",
-      company: "Pinnacle Resources Pty Ltd",
-      email: "j.whitmore@pinnacleresources.com.au",
-      phone: "+61 8 6212 4400 ext. 302",
-      tier: 1,
-      notes: "Reports to CFO. Controls ballast leg positioning decisions. Open to period."
-    },
-    {
-      id: "l05", route_id: "hedland_qingdao",
-      name: "Sarah Chen",
-      title: "VP Mineral Supply Chain – Asia",
-      company: "Pacific Iron Holdings Ltd",
-      email: "s.chen@pacificiron.com.au",
-      phone: "+61 2 9280 3365",
-      tier: 1,
-      notes: "Manages 18–22 vessel loadings per quarter. Strong preference for Capesize over Panamax."
-    }
-  ]
+  ],
 };
 
-// ═══════════════════════════════════════════════════════════════════
+const ALL_LEADS = [
+  // ── CAPESIZE LEADS ───────────────────────────────────────────────
+  {id:"l01",route_id:"tubaro_qingdao",name:"Carlos Drummond",title:"Head of Global Chartering",company:"Austral Mineração S.A.",email:"c.drummond@australmineracao.com.br",phone:"+55 21 3478 9200 ext. 4112",tier:1,notes:"Controls >12Mt annual Capesize allocation. Q4 programme open for tender."},
+  {id:"l02",route_id:"tubaro_qingdao",name:"Fernanda Machado",title:"VP Mineral Supply Chain",company:"Minas Rio Trading S.A.",email:"f.machado@minasriotrading.com",phone:"+55 31 3301 5540 ext. 2204",tier:1,notes:"Procurement authority to $50M freight. COA structures strongly preferred."},
+  {id:"l03",route_id:"tubaro_qingdao",name:"Ricardo Sobral",title:"Lead Dry Bulk Tonnage Allocator",company:"Meridian Commodities Group",email:"r.sobral@meridiancommodities.com",phone:"+55 11 4502 8810",tier:2,notes:"Independent trading house. Spot and voyage charter focus. Fast decision cycle."},
+  {id:"l04",route_id:"hedland_qingdao",name:"James Whitmore",title:"Head of Freight & Logistics",company:"Pinnacle Resources Pty Ltd",email:"j.whitmore@pinnacleresources.com.au",phone:"+61 8 6212 4400 ext. 302",tier:1,notes:"Reports to CFO. Controls ballast leg positioning. Open to period charter."},
+  {id:"l05",route_id:"hedland_qingdao",name:"Sarah Chen",title:"VP Mineral Supply Chain – Asia",company:"Pacific Iron Holdings Ltd",email:"s.chen@pacificiron.com.au",phone:"+61 2 9280 3365",tier:1,notes:"Manages 18–22 vessel loadings per quarter. Strong preference for Capesize."},
+  {id:"l06",route_id:"richards_rotterdam",name:"Pieter van der Berg",title:"Coal Trading & Freight Manager",company:"Glencore Coal Division",email:"p.vdberg@glencore.com",phone:"+27 11 444 2300",tier:1,notes:"Dominant shipper on this lane. Seasonal volume spikes Q4. COA renewal cycle."},
+  {id:"l07",route_id:"richards_rotterdam",name:"Isabelle Fournier",title:"Freight Operations Lead",company:"Trafigura Bulk Commodities",email:"i.fournier@trafigura.com",phone:"+44 20 7096 1000",tier:1,notes:"Active COA renewal. Pricing benchmarked to C5TC. Open to spot supplement."},
+  {id:"l08",route_id:"dampier_pohang",name:"Kim Seong-Jun",title:"Raw Materials Logistics Director",company:"POSCO International",email:"seongjun.kim@posco.co.kr",phone:"+82 2 3457 5000",tier:1,notes:"Steel mill captive shipper. Annual volume 8Mt+. COA focus."},
+  {id:"l09",route_id:"dampier_pohang",name:"Takahiro Yamamoto",title:"Bulk Carrier Chartering",company:"Mitsui O.S.K. Lines – Bulkers",email:"t.yamamoto@mol.co.jp",phone:"+81 3 3587 7111",tier:1,notes:"Largest Japanese dry bulk operator. Strong period charter appetite."},
+  // ── PANAMAX LEADS ─────────────────────────────────────────────────
+  {id:"l10",route_id:"newcastle_rotterdam_pmax",name:"David Okafor",title:"Head of Coal Freight – EMEA",company:"Vitol Group Marine",email:"d.okafor@vitol.com",phone:"+44 20 3301 6200",tier:1,notes:"Trades thermal coal for European utilities. Spot-oriented. Fast cycle."},
+  {id:"l11",route_id:"newcastle_rotterdam_pmax",name:"Marta Kowalski",title:"Panamax Chartering Executive",company:"Oldendorff Carriers",email:"m.kowalski@oldendorff.com",phone:"+49 451 1500 200",tier:1,notes:"One of largest Panamax operators globally. Open to back-to-back voyages."},
+  {id:"l12",route_id:"santos_qingdao_pmax",name:"Rafael Costa",title:"Grain Logistics VP",company:"Cargill Ocean Transportation",email:"r.costa@cargill.com",phone:"+55 13 3219 0000",tier:1,notes:"World's largest grain shipper. Massive Panamax programme out of Santos."},
+  {id:"l13",route_id:"santos_qingdao_pmax",name:"Liu Pengfei",title:"Bulk Import Manager",company:"COFCO International",email:"liu.pengfei@cofco.com",phone:"+86 10 6789 8888",tier:1,notes:"China state grain importer. Largest single soybean import programme."},
+];
+
+// ═══════════════════════════════════════════════════════
 // SECTION 2 — CALCULATION ENGINE
-// Formula: CFI = (delay_days / typical_voyage_days) * (1 + congestion_index) * (1 + weather_factor) * 100
-// ═══════════════════════════════════════════════════════════════════
-
+// ═══════════════════════════════════════════════════════
 const CFI_CRITICAL = 75;
+let activeClass = "capesize";
 
-/** Deterministic weather sim seeded by port name + UTC hour */
+function getActiveRoutes() { return ALL_ROUTES[activeClass]; }
+function getActiveLeads()  { return ALL_LEADS.filter(l => getActiveRoutes().some(r => r.id === l.route_id)); }
+
 function simWeather(portName) {
-  const seed     = portName.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const hbias    = (new Date().getUTCHours() % 12) / 12;
-  const wind_ms  = parseFloat((2.5 + ((seed % 11) + hbias * 4.5)).toFixed(1));
-  const precip   = parseFloat(((seed % 20) + hbias * 18).toFixed(1));
-  const labels   = ["clear sky","light cloud","scattered cloud","overcast","light rain","moderate rain","heavy rain","near gale"];
-  const desc     = labels[Math.floor(((seed + hbias * 4)) % labels.length)];
-  return { wind_ms, precip_mm: precip, description: desc };
+  const seed = portName.split("").reduce((a,c) => a+c.charCodeAt(0),0);
+  const hbias = (new Date().getUTCHours()%12)/12;
+  const wind_ms = parseFloat((2.5+((seed%11)+hbias*4.5)).toFixed(1));
+  const precip = parseFloat(((seed%20)+hbias*18).toFixed(1));
+  const labels = ["clear sky","light cloud","scattered cloud","overcast","light rain","moderate rain","heavy rain","near gale"];
+  return {wind_ms, precip_mm:precip, description:labels[Math.floor((seed+hbias*4)%labels.length)]};
 }
-
-/** Simulate AIS ballast speed with baseline + noise */
 function simSpeed(routeId, baseline) {
-  const seed  = routeId.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const noise = (Math.random() - 0.5) * 1.8;
-  return parseFloat(Math.max(8.0, baseline - (seed % 3) * 0.3 + noise).toFixed(2));
+  const seed = routeId.split("").reduce((a,c)=>a+c.charCodeAt(0),0);
+  return parseFloat(Math.max(8.0, baseline-(seed%3)*0.3+(Math.random()-0.5)*1.8).toFixed(2));
 }
-
-/** Simulate port congestion peaking 08–18 UTC */
 function simCongestion(portName, baseline) {
-  const seed = portName.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  const seed = portName.split("").reduce((a,c)=>a+c.charCodeAt(0),0);
   const hour = new Date().getUTCHours();
-  const peak = (hour >= 8 && hour < 18) ? 1.35 : 0.75;
-  const base = baseline + ((seed % 5) - 2) * 0.25;
-  return parseFloat(Math.max(0.4, base * peak).toFixed(2));
+  const peak = (hour>=8&&hour<18)?1.35:0.75;
+  return parseFloat(Math.max(0.4, (baseline+((seed%5)-2)*0.25)*peak).toFixed(2));
 }
-
-/**
- * Iron Ore Wet-Loading Friction Logic
- * Heavy rain (>15mm/day) risks iron ore liquefaction, triggering port shutdown days.
- */
 function wetLoadingPenalty(precip_mm) {
-  const THRESHOLD = 15; // mm/day
-  if (precip_mm <= THRESHOLD) return 0;
-  // Each mm above threshold adds 0.12 shutdown days, capped at 4 days
-  return parseFloat(Math.min(4.0, (precip_mm - THRESHOLD) * 0.12).toFixed(2));
+  if(precip_mm<=15) return 0;
+  return parseFloat(Math.min(4.0,(precip_mm-15)*0.12).toFixed(2));
 }
-
-/**
- * Bunker Fuel Adjustment Factor (BAF)
- * Slow-steaming vessels (< 12 kn) delay tonnage replacement arrivals → raise congestion
- */
-function bafCongestionLift(speedKn) {
-  if (speedKn < 11)   return 0.22; // severe slow-steam
-  if (speedKn < 12)   return 0.14; // moderate slow-steam
-  if (speedKn < 13)   return 0.06; // slight under-performance
-  return 0;
+function bafCongestionLift(spd) {
+  if(spd<11) return 0.22; if(spd<12) return 0.14; if(spd<13) return 0.06; return 0;
 }
-
-/** Derive weather factor (0–0.80) from wind speed m/s */
 function deriveWeatherFactor(wind_ms) {
-  const kn = wind_ms * 1.944;
-  if (kn >= 48) return 0.80;
-  if (kn >= 34) return 0.55;
-  if (kn >= 22) return 0.32;
-  if (kn >= 11) return 0.14;
-  return 0.04;
+  const kn=wind_ms*1.944;
+  if(kn>=48) return 0.80; if(kn>=34) return 0.55; if(kn>=22) return 0.32; if(kn>=11) return 0.14; return 0.04;
 }
-
-/** Classify CFI into interpretation band */
 function classifyCFI(cfi) {
-  if (cfi > CFI_CRITICAL) return { band: "Critical Anomaly", level: "critical", short: "CRITICAL" };
-  if (cfi > 55)           return { band: "High",             level: "high",     short: "HIGH" };
-  if (cfi > 30)           return { band: "Moderate",         level: "moderate", short: "MODERATE" };
-  return                         { band: "Low",              level: "nominal",  short: "LOW" };
+  if(cfi>CFI_CRITICAL) return {band:"Critical Anomaly",level:"critical"};
+  if(cfi>55)           return {band:"High",level:"high"};
+  if(cfi>30)           return {band:"Moderate",level:"moderate"};
+  return                      {band:"Low",level:"nominal"};
 }
-
-/**
- * Core route calculation — equivalent to the Netlify function logic running client-side.
- * Returns the full payload that index.html consumes.
- */
 function calcRoute(route) {
-  const weather      = simWeather(route.origin.port);
-  const ballast_spd  = simSpeed(route.id, route.ballast_speed_kn);
-  const cong_raw     = simCongestion(route.origin.port, route.origin.congestion_baseline);
-  const wet_days     = wetLoadingPenalty(weather.precip_mm);
-  const baf_lift     = bafCongestionLift(ballast_spd);
-  const wind_kn      = parseFloat((weather.wind_ms * 1.944).toFixed(1));
-
-  // Build congestion_index (0–0.95) incorporating BAF
-  const congestion_index = parseFloat(Math.min(0.95, (cong_raw / 10) + baf_lift).toFixed(3));
-
-  // Weather delay from Beaufort
-  const beaufort_delay = wind_kn >= 34 ? 3.5 : wind_kn >= 22 ? 2.2 : wind_kn >= 11 ? 1.1 : 0.5;
-
-  // Total delay days: weather + congestion + wet-loading shutdown
-  const delay_days = parseFloat((beaufort_delay + cong_raw + wet_days).toFixed(2));
-
-  // Weather factor
+  const weather = simWeather(route.origin.port);
+  const ballast_spd = simSpeed(route.id, route.ballast_speed_kn);
+  const cong_raw = simCongestion(route.origin.port, route.origin.congestion_baseline);
+  const wet_days = wetLoadingPenalty(weather.precip_mm);
+  const baf_lift = bafCongestionLift(ballast_spd);
+  const wind_kn = parseFloat((weather.wind_ms*1.944).toFixed(1));
+  const congestion_index = parseFloat(Math.min(0.95,(cong_raw/10)+baf_lift).toFixed(3));
+  const beaufort_delay = wind_kn>=34?3.5:wind_kn>=22?2.2:wind_kn>=11?1.1:0.5;
+  const delay_days = parseFloat((beaufort_delay+cong_raw+wet_days).toFixed(2));
   const weather_factor = deriveWeatherFactor(weather.wind_ms);
-
-  // ── THE FORMULA ──
-  const CFI = parseFloat(
-    (delay_days / route.typical_voyage_days) * (1 + congestion_index) * (1 + weather_factor) * 100
-  ).toFixed(2);
-
-  const cfi_num = parseFloat(CFI);
-  const cls     = classifyCFI(cfi_num);
-
-  // Financial penalty per metric ton
-  const penalty_per_ton = parseFloat(((cfi_num / 100) * route.baseline_rate_usd_ton).toFixed(2));
-
+  const cfi = parseFloat(((delay_days/route.typical_voyage_days)*(1+congestion_index)*(1+weather_factor)*100).toFixed(2));
+  const cls = classifyCFI(cfi);
   return {
-    route_id:        route.id,
-    timestamp:       new Date().toISOString(),
-    cfi:             cfi_num,
-    band:            cls.band,
-    level:           cls.level,
-    critical_anomaly: cfi_num > CFI_CRITICAL,
-    inputs: {
-      delay_days, congestion_index, weather_factor,
-      beaufort_delay, congestion_raw: cong_raw, wet_loading_days: wet_days,
-      ballast_speed_kn: ballast_spd, baf_lift,
-      wind_speed_kn: wind_kn, wind_ms: weather.wind_ms,
-      precip_mm: weather.precip_mm, weather_description: weather.description,
-      slow_steam_flag: ballast_spd < 12,
-    },
-    penalty_per_ton,
-    baseline_rate: route.baseline_rate_usd_ton,
+    route_id:route.id, cfi, band:cls.band, level:cls.level,
+    critical_anomaly:cfi>CFI_CRITICAL,
+    inputs:{delay_days,congestion_index,weather_factor,beaufort_delay,
+            congestion_raw:cong_raw,wet_loading_days:wet_days,
+            ballast_speed_kn:ballast_spd,baf_lift,
+            wind_speed_kn:wind_kn,precip_mm:weather.precip_mm,
+            weather_description:weather.description,slow_steam_flag:ballast_spd<12},
+    penalty_per_ton:parseFloat(((cfi/100)*route.baseline_rate_usd_ton).toFixed(2)),
+    baseline_rate:route.baseline_rate_usd_ton,
   };
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// SECTION 3 — STATE & UI
-// ═══════════════════════════════════════════════════════════════════
-
-let cache       = {};  // route_id → payload
-let activeModal = null; // { route, lead }
-let audioCtx    = null;
-
-// ── Telegram Alert Config ─────────────────────────────────────────
-const TG_TOKEN    = ""; // Alerts handled server-side via GitHub Actions
-const TG_CHAT_ID  = ""; // Alerts handled server-side via GitHub Actions
-const TG_API      = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`;
-
-// Track which routes have already triggered a Telegram alert this session
-// so you don't get spammed every 30 minutes for the same route
+// ═══════════════════════════════════════════════════════
+// SECTION 3 — STATE
+// ═══════════════════════════════════════════════════════
+let cache = {};
+let activeModal = null;
+let audioCtx = null;
 const tgAlertSent = {};
+const REFRESH_MS = 30*60*1000;
+let nextRefreshAt = null;
+const tickRegistry = {};
 
-// Auto-refresh interval: every 30 minutes (1,800,000 ms)
-const REFRESH_INTERVAL_MS = 30 * 60 * 1000;
+// Email send log — persisted to localStorage
+let sendLog = [];
+try { sendLog = JSON.parse(localStorage.getItem("cfi_send_log")||"[]"); } catch(e){}
 
-/**
- * Send a Telegram message to your phone.
- * Fires silently in the background — UI is never blocked.
- */
-async function sendTelegramAlert(crits) {
-  for (const route of crits) {
-    // Only alert once per route per session unless score has moved significantly
-    const p         = cache[route.id];
-    const cacheKey  = `${route.id}_${Math.floor(p.cfi / 5)}`; // re-alert if score moves 5+ points
-    if (tgAlertSent[cacheKey]) continue;
-    tgAlertSent[cacheKey] = true;
-
-    const leads     = DB.leads.filter(l => l.route_id === route.id && l.tier === 1);
-    const leadNames = leads.map(l => `${l.name} — ${l.company}`).join("\n  ");
-    const time      = new Date().toUTCString().replace("GMT", "UTC");
-
-    const msg = [
-      `⛔ *CFI CRITICAL ANOMALY*`,
-      ``,
-      `*Route:* ${route.name}`,
-      `*CFI Score:* ${p.cfi.toFixed(1)} \\[threshold: 75\\]`,
-      `*Band:* ${p.band}`,
-      `*Penalty/MT:* $${p.penalty_per_ton.toFixed(2)} vs $${route.baseline_rate_usd_ton} baseline`,
-      ``,
-      `*Key Inputs:*`,
-      `  Delay Days: ${p.inputs.delay_days.toFixed(2)}d`,
-      `  Congestion: ${p.inputs.congestion_index.toFixed(3)}`,
-      `  Weather: ${p.inputs.weather_description}`,
-      `  Ballast Speed: ${p.inputs.ballast_speed_kn.toFixed(1)} kn${p.inputs.slow_steam_flag ? " ⚠ slow-steam" : ""}`,
-      p.inputs.wet_loading_days > 0 ? `  Wet-Load Risk: ${p.inputs.wet_loading_days.toFixed(2)}d shutdown` : null,
-      ``,
-      `*Tier 1 Targets:*`,
-      `  ${leadNames}`,
-      ``,
-      `🕐 ${time}`,
-      `_Open CFI dashboard → Generate Outreach → Send_`,
-    ].filter(Boolean).join("\n");
-
-    try {
-      await fetch(TG_API, {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id:    TG_CHAT_ID,
-          text:       msg,
-          parse_mode: "Markdown",
-        }),
-      });
-    } catch (err) {
-      console.warn("[CFI] Telegram alert failed:", err.message);
-    }
-  }
-}
-
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded",()=>{
   renderSkeletons();
   renderLeads();
-  setTimeout(refreshAll, 300);
-
-  // Auto-refresh every 30 minutes
-  setInterval(refreshAll, REFRESH_INTERVAL_MS);
-  updateNextRefreshDisplay();
-  setInterval(updateNextRefreshDisplay, 60 * 1000); // update countdown every minute
+  renderLog();
+  setTimeout(refreshAll,300);
+  setInterval(refreshAll,REFRESH_MS);
+  setInterval(updateTimer,60000);
+  nextRefreshAt = Date.now()+REFRESH_MS;
+  updateTimer();
 });
 
-/** Shows a live "Next check in X min" counter in the status bar */
-let nextRefreshAt = null;
-function updateNextRefreshDisplay() {
-  if (!nextRefreshAt) { nextRefreshAt = Date.now() + REFRESH_INTERVAL_MS; return; }
-  const minsLeft = Math.max(0, Math.round((nextRefreshAt - Date.now()) / 60000));
+function updateTimer() {
+  if(!nextRefreshAt) return;
+  const m = Math.max(0,Math.round((nextRefreshAt-Date.now())/60000));
   const el = document.getElementById("next-refresh");
-  if (el) el.textContent = `Next check in ${minsLeft}m`;
+  if(el) el.textContent = `Next check in ${m}m`;
+}
+function resetTimer() { nextRefreshAt=Date.now()+REFRESH_MS; updateTimer(); }
+
+// Vessel class switch
+function switchVesselClass(cls) {
+  activeClass = cls;
+  document.getElementById("tab-capesize").classList.toggle("active", cls==="capesize");
+  document.getElementById("tab-panamax").classList.toggle("active", cls==="panamax");
+  renderSkeletons();
+  renderLeads();
+  getActiveRoutes().forEach(r=>{
+    try{cache[r.id]=calcRoute(r);}catch(e){cache[r.id]=null;}
+    populateCard(r,cache[r.id]);
+  });
+  const count = getActiveRoutes().length;
+  document.getElementById("route-count-display").innerHTML=`<span style="color:var(--gold)">${count}</span>&nbsp;Routes Active`;
 }
 
-function resetRefreshTimer() {
-  nextRefreshAt = Date.now() + REFRESH_INTERVAL_MS;
-  updateNextRefreshDisplay();
-}
-
-// ── Refresh ───────────────────────────────────────────────────────
+// ── Refresh ──────────────────────────────────────────
 function refreshAll() {
-  const btn  = document.getElementById("btn-refresh");
-  const live = document.getElementById("slive");
-  btn.classList.add("loading");
-  btn.textContent = "Calculating…";
-  live.innerHTML  = '<div class="blink" style="background:var(--gold)"></div>Running…';
+  const btn=document.getElementById("btn-refresh");
+  const live=document.getElementById("slive");
+  btn.classList.add("loading"); btn.textContent="Calculating…";
+  live.innerHTML='<div class="blink" style="background:var(--gold)"></div>Running…';
 
-  DB.routes.forEach(route => {
-    try { cache[route.id] = calcRoute(route); }
-    catch(e) { console.error(e); cache[route.id] = null; }
-    populateCard(route, cache[route.id]);
+  // Calculate all routes across both classes so cache is always warm
+  [...ALL_ROUTES.capesize,...ALL_ROUTES.panamax].forEach(r=>{
+    try{cache[r.id]=calcRoute(r);}catch(e){cache[r.id]=null;}
   });
+  // Only render active class
+  getActiveRoutes().forEach(r=>populateCard(r,cache[r.id]));
 
-  document.getElementById("ts").textContent = new Date().toUTCString().replace("GMT","UTC");
+  document.getElementById("ts").textContent=new Date().toUTCString().replace("GMT","UTC");
+  const crits=getActiveRoutes().filter(r=>cache[r.id]?.critical_anomaly);
+  crits.forEach(r=>{const c=document.getElementById(`card-${r.id}`);if(c)c.classList.add("pinned");});
 
-  // Check for criticals
-  const crits = DB.routes.filter(r => cache[r.id]?.critical_anomaly);
-
-  // Pin critical cards to top
-  crits.forEach(r => {
-    const card = document.getElementById(`card-${r.id}`);
-    if (card) card.classList.add("pinned");
-  });
-
-  if (crits.length > 0) {
-    showLockdown(crits);
-    showToast(crits);
-    triggerChirp();
-    sendTelegramAlert(crits); // ← fires Telegram message to your phone
-    live.innerHTML = `<div class="blink" style="background:var(--critical)"></div>${crits.length} Critical`;
-    live.style.color = "var(--critical)";
+  if(crits.length>0){
+    showLockdown(crits); showToast(crits); triggerChirp();
+    live.innerHTML=`<div class="blink" style="background:var(--critical)"></div>${crits.length} Critical`;
+    live.style.color="var(--critical)";
   } else {
     hideLockdown();
-    live.innerHTML = '<div class="blink" style="background:var(--nominal);box-shadow:0 0 5px var(--nominal)"></div>All Clear';
-    live.style.color = "var(--nominal)";
+    live.innerHTML='<div class="blink" style="background:var(--nominal);box-shadow:0 0 5px var(--nominal)"></div>All Clear';
+    live.style.color="var(--nominal)";
   }
-
-  btn.classList.remove("loading");
-  btn.innerHTML = "↻ &nbsp;Recalculate";
-  resetRefreshTimer();
+  btn.classList.remove("loading"); btn.innerHTML="↻ &nbsp;Recalculate";
+  resetTimer();
 }
 
-// ── Skeleton ──────────────────────────────────────────────────────
+// ── Skeletons ─────────────────────────────────────────
 function renderSkeletons() {
-  document.getElementById("routes-grid").innerHTML = DB.routes.map((r, i) => `
+  document.getElementById("routes-grid").innerHTML=getActiveRoutes().map((r,i)=>`
     <div class="rcard" id="card-${r.id}" style="animation-delay:${i*.08}s">
       <div class="ri">
         <div class="rcode">${r.short} · ${r.region}</div>
@@ -843,84 +771,58 @@ function renderSkeletons() {
       </div>
       <div class="metrics">
         <div class="mc-cell"><div class="mc-lbl">Delay Days</div><div class="mc-val shim" id="v-delay-${r.id}">——</div><div class="mc-unit">total</div></div>
-        <div class="mc-cell"><div class="mc-lbl">Congestion Idx</div><div class="mc-val shim" id="v-cong-${r.id}">——</div><div class="mc-unit">BAF-adjusted</div></div>
-        <div class="mc-cell"><div class="mc-lbl">Weather Factor</div><div class="mc-val shim" id="v-wx-${r.id}">——</div><div class="mc-unit">Beaufort</div></div>
-        <div class="mc-cell"><div class="mc-lbl">Ballast Speed</div><div class="mc-val shim" id="v-spd-${r.id}">——</div><div class="mc-unit">knots</div></div>
-        <div class="mc-cell"><div class="mc-lbl">Wet-Load Days</div><div class="mc-val shim" id="v-wet-${r.id}">——</div><div class="mc-unit">shutdown risk</div></div>
+        <div class="mc-cell"><div class="mc-lbl">Congestion</div><div class="mc-val shim" id="v-cong-${r.id}">——</div><div class="mc-unit">BAF-adj</div></div>
+        <div class="mc-cell"><div class="mc-lbl">Weather</div><div class="mc-val shim" id="v-wx-${r.id}">——</div><div class="mc-unit">factor</div></div>
+        <div class="mc-cell"><div class="mc-lbl">Ballast Spd</div><div class="mc-val shim" id="v-spd-${r.id}">——</div><div class="mc-unit">knots</div></div>
+        <div class="mc-cell"><div class="mc-lbl">Wet-Load</div><div class="mc-val shim" id="v-wet-${r.id}">——</div><div class="mc-unit">shutdown d</div></div>
       </div>
       <div class="sb">
-        <div>
-          <div class="sc-lbl">CFI Score</div>
-          <div class="sc-num loading" id="sc-${r.id}">—</div>
-        </div>
+        <div><div class="sc-lbl">CFI Score</div><div class="sc-num loading" id="sc-${r.id}">—</div></div>
         <div class="badge loading" id="badge-${r.id}">Calculating</div>
       </div>
-    </div>
-  `).join("");
+    </div>`).join("");
 }
 
-// ── Populate card ─────────────────────────────────────────────────
-function populateCard(route, p) {
-  const card    = document.getElementById(`card-${route.id}`);
-  const scEl    = document.getElementById(`sc-${route.id}`);
-  const bdgEl   = document.getElementById(`badge-${route.id}`);
-
-  if (!p) { scEl.textContent = "ERR"; return; }
-
-  const set = (id, val) => {
-    const el = document.getElementById(id);
-    if (el) { el.classList.remove("shim"); el.textContent = val; }
-  };
-
-  set(`v-delay-${route.id}`, p.inputs.delay_days.toFixed(2));
-  set(`v-cong-${route.id}`,  p.inputs.congestion_index.toFixed(3));
-  set(`v-wx-${route.id}`,    p.inputs.weather_factor.toFixed(2));
-  set(`v-spd-${route.id}`,   p.inputs.ballast_speed_kn.toFixed(1) + (p.inputs.slow_steam_flag ? " ⚠" : ""));
-  set(`v-wet-${route.id}`,   p.inputs.wet_loading_days.toFixed(2));
-
-  scEl.textContent = p.cfi.toFixed(1);
-  scEl.className   = `sc-num ${p.level}`;
-
-  const labels = { nominal:"Low", moderate:"Moderate", high:"High", critical:"Critical Anomaly" };
-  bdgEl.textContent = labels[p.level];
-  bdgEl.className   = `badge ${p.level}`;
-  card.className    = `rcard ${p.level}${p.critical_anomaly ? " pinned" : ""}`;
-
-  // Clean up previous dynamic children
-  card.querySelectorAll(".btn-action,.penalty-tag,.fixture-countdown").forEach(e => e.remove());
-
-  const sb = card.querySelector(".sb");
-
-  // Penalty tag
-  const ptag = document.createElement("div");
-  ptag.className = "penalty-tag";
-  ptag.textContent = `Penalty: $${p.penalty_per_ton.toFixed(2)}/MT`;
+// ── Populate card ──────────────────────────────────────
+function populateCard(route,p) {
+  const card=document.getElementById(`card-${route.id}`);
+  const scEl=document.getElementById(`sc-${route.id}`);
+  const bdgEl=document.getElementById(`badge-${route.id}`);
+  if(!p){scEl.textContent="ERR";return;}
+  const set=(id,val)=>{const el=document.getElementById(id);if(el){el.classList.remove("shim");el.textContent=val;}};
+  set(`v-delay-${route.id}`,p.inputs.delay_days.toFixed(2));
+  set(`v-cong-${route.id}`,p.inputs.congestion_index.toFixed(3));
+  set(`v-wx-${route.id}`,p.inputs.weather_factor.toFixed(2));
+  set(`v-spd-${route.id}`,p.inputs.ballast_speed_kn.toFixed(1)+(p.inputs.slow_steam_flag?" ⚠":""));
+  set(`v-wet-${route.id}`,p.inputs.wet_loading_days.toFixed(2));
+  scEl.textContent=p.cfi.toFixed(1); scEl.className=`sc-num ${p.level}`;
+  const lbs={nominal:"Low",moderate:"Moderate",high:"High",critical:"Critical Anomaly"};
+  bdgEl.textContent=lbs[p.level]; bdgEl.className=`badge ${p.level}`;
+  card.className=`rcard ${p.level}${p.critical_anomaly?" pinned":""}`;
+  card.querySelectorAll(".btn-action,.penalty-tag,.fixture-countdown").forEach(e=>e.remove());
+  const sb=card.querySelector(".sb");
+  const ptag=document.createElement("div");
+  ptag.className="penalty-tag";
+  ptag.textContent=`Penalty: $${p.penalty_per_ton.toFixed(2)}/MT`;
   sb.appendChild(ptag);
-
-  // Fixture window countdown
-  buildCountdown(route, p, sb);
-
-  // Action button for high/critical
-  if (p.level === "critical" || p.level === "high") {
-    const btn      = document.createElement("button");
-    btn.className  = "btn-action";
-    btn.textContent = "⚡ Trigger Outreach";
-    btn.onclick    = () => {
-      const lead = DB.leads.find(l => l.route_id === route.id && l.tier === 1);
-      openModal(route.id, lead?.id || DB.leads.find(l => l.route_id === route.id)?.id);
-    };
+  buildCountdown(route,p,sb);
+  if(p.level==="critical"||p.level==="high"){
+    const btn=document.createElement("button");
+    btn.className="btn-action";btn.textContent="⚡ Trigger Outreach";
+    btn.onclick=()=>{const lead=getActiveLeads().find(l=>l.route_id===route.id&&l.tier===1)||getActiveLeads().find(l=>l.route_id===route.id);openModal(route.id,lead?.id);};
     sb.appendChild(btn);
   }
 }
 
-// ── Lead cards ────────────────────────────────────────────────────
+// ── Lead cards ─────────────────────────────────────────
 function renderLeads() {
-  document.getElementById("leads-grid").innerHTML = DB.leads.map(lead => {
-    const route = DB.routes.find(r => r.id === lead.route_id);
+  document.getElementById("leads-grid").innerHTML=getActiveLeads().map(lead=>{
+    const route=getActiveRoutes().find(r=>r.id===lead.route_id);
+    const waMsg=encodeURIComponent(`Hi ${lead.name.split(" ")[0]}, I'm reaching out regarding a Capesize freight opportunity on the ${route?.short||""} corridor. Our proprietary CFI index has flagged elevated friction costs on this route. Are you available for a brief call?`);
     return `
       <div class="lead-card">
         <div>
-          <div class="lead-route-tag">${route?.short || "—"} · ${route?.commodity}</div>
+          <div class="lead-route-tag">${route?.short||"—"} · ${route?.commodity}</div>
           <div class="lead-name">${lead.name}</div>
           <div class="lead-role">${lead.title}</div>
           <div class="lead-co">${lead.company}</div>
@@ -931,127 +833,271 @@ function renderLeads() {
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
           <div class="lead-tier">Tier ${lead.tier}</div>
-          <button class="btn-outreach" onclick="openModal('${lead.route_id}','${lead.id}')">
-            Generate Outreach →
-          </button>
+          <div class="lead-actions">
+            <button class="btn-outreach" onclick="openModal('${lead.route_id}','${lead.id}')">Email →</button>
+            <a class="btn-wa" href="https://wa.me/${lead.phone.replace(/\D/g,'')}?text=${waMsg}" target="_blank">WhatsApp ↗</a>
+          </div>
         </div>
         <div style="font-size:8.5px;color:var(--text-mute);line-height:1.5">${lead.notes}</div>
-      </div>
-    `;
+      </div>`;
   }).join("");
 }
 
-// ── Critical lockdown banner ──────────────────────────────────────
-function showLockdown(critRoutes) {
-  const best   = critRoutes[0];
-  const payload = cache[best.id];
-  const ld     = document.getElementById("lockdown");
-  document.getElementById("ld-body").textContent =
-    `CFI ${payload.cfi.toFixed(1)} on ${best.short} — ${payload.band}. Penalty: $${payload.penalty_per_ton.toFixed(2)}/MT vs $${best.baseline_rate_usd_ton} baseline.`;
-  document.getElementById("ld-penalty-val").textContent = `$${payload.penalty_per_ton.toFixed(2)}`;
-  ld.classList.add("show");
-
-  // Scroll pinned card into view
-  const card = document.getElementById(`card-${best.id}`);
-  if (card) setTimeout(() => card.scrollIntoView({ behavior: "smooth", block: "start" }), 400);
+// ── Alert functions ────────────────────────────────────
+function showLockdown(crits) {
+  const p=cache[crits[0].id];
+  document.getElementById("ld-body").textContent=`CFI ${p.cfi.toFixed(1)} on ${crits[0].short} — ${p.band}. Penalty: $${p.penalty_per_ton.toFixed(2)}/MT vs $${crits[0].baseline_rate_usd_ton} baseline.`;
+  document.getElementById("ld-penalty-val").textContent=`$${p.penalty_per_ton.toFixed(2)}`;
+  document.getElementById("lockdown").classList.add("show");
+  const card=document.getElementById(`card-${crits[0].id}`);
+  if(card) setTimeout(()=>card.scrollIntoView({behavior:"smooth",block:"start"}),400);
+}
+function hideLockdown(){document.getElementById("lockdown").classList.remove("show");}
+function showToast(crits){
+  const p=cache[crits[0].id];
+  document.getElementById("toast-body").textContent=`${crits[0].short} CFI ${p.cfi.toFixed(1)} — $${p.penalty_per_ton.toFixed(2)}/MT penalty. Outreach window open.`;
+  const t=document.getElementById("toast"); t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),5500);
+}
+function triggerChirp(){
+  try{
+    if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+    osc.connect(gain);gain.connect(audioCtx.destination);osc.type="sine";
+    osc.frequency.setValueAtTime(1046,audioCtx.currentTime);
+    osc.frequency.setValueAtTime(880,audioCtx.currentTime+0.12);
+    osc.frequency.setValueAtTime(1046,audioCtx.currentTime+0.24);
+    gain.gain.setValueAtTime(0,audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.18,audioCtx.currentTime+0.02);
+    gain.gain.linearRampToValueAtTime(0.18,audioCtx.currentTime+0.32);
+    gain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+0.48);
+    osc.start(audioCtx.currentTime);osc.stop(audioCtx.currentTime+0.5);
+  }catch(e){}
 }
 
-function hideLockdown() {
-  document.getElementById("lockdown").classList.remove("show");
+// ═══════════════════════════════════════════════════════
+// SECTION 4 — FIXTURE COUNTDOWN
+// ═══════════════════════════════════════════════════════
+function estimateRepriceWindow(cfi,level){
+  if(level==="critical") return{hours:Math.max(8,Math.round(36-((cfi-75)/25)*18)),label:"Reprice expected within",urgency:"urgent"};
+  if(level==="high")     return{hours:Math.round(72-((cfi-55)/20)*36),label:"Window closes in approx.",urgency:"warning"};
+  if(level==="moderate") return{hours:Math.round(120-((cfi-30)/25)*48),label:"Monitor window:",urgency:"ok"};
+  return{hours:null,label:"No reprice signal",urgency:"nominal"};
+}
+function formatCountdown(h){if(!h)return "Market stable";if(h<1)return"<1h";if(h<24)return`~${h}h`;const d=Math.floor(h/24),r=h%24;return r>0?`~${d}d ${r}h`:`~${d}d`;}
+function barColor(u){if(u==="urgent")return"var(--critical)";if(u==="warning")return"var(--warn)";if(u==="ok")return"var(--nominal)";return"var(--border-mid)";}
+function buildCountdown(route,p,container){
+  const win=estimateRepriceWindow(p.cfi,p.level);
+  const pct=win.hours?Math.round((1-win.hours/(p.level==="critical"?36:p.level==="high"?72:120))*100):0;
+  const div=document.createElement("div");
+  div.className="fixture-countdown";div.id=`countdown-${route.id}`;
+  div.innerHTML=`<div class="fc-label">${win.label}</div><div class="fc-timer ${win.urgency}">${formatCountdown(win.hours)}</div><div class="fc-sub">${win.urgency==="urgent"?"Act now — first mover wins":win.urgency==="warning"?"Prepare outreach":win.urgency==="ok"?"Continue monitoring":"No action required"}</div><div class="fc-bar"><div class="fc-bar-fill" style="width:${pct}%;background:${barColor(win.urgency)}"></div></div>`;
+  container.appendChild(div);
+  if(win.urgency==="urgent"&&win.hours){
+    if(tickRegistry[route.id]) clearInterval(tickRegistry[route.id]);
+    let rem=win.hours*60;
+    tickRegistry[route.id]=setInterval(()=>{
+      rem=Math.max(0,rem-1);
+      const el=document.querySelector(`#countdown-${route.id} .fc-timer`);
+      if(el) el.textContent=rem>60?`~${Math.floor(rem/60)}h ${rem%60}m`:rem>0?`${rem}m remaining`:"⚡ Window closing";
+      if(rem===0)clearInterval(tickRegistry[route.id]);
+    },60000);
+  }
 }
 
-// ── Toast ─────────────────────────────────────────────────────────
-function showToast(critRoutes) {
-  const payload = cache[critRoutes[0].id];
-  document.getElementById("toast-body").textContent =
-    `${critRoutes[0].short} CFI ${payload.cfi.toFixed(1)} — $${payload.penalty_per_ton.toFixed(2)}/MT friction penalty. Outreach window open.`;
-  const t = document.getElementById("toast");
-  t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), 5500);
+// ═══════════════════════════════════════════════════════
+// SECTION 5 — RATE CALCULATOR
+// ═══════════════════════════════════════════════════════
+function runCalc(){
+  const routeId = document.getElementById("calc-route").value;
+  const cargo   = parseFloat(document.getElementById("calc-cargo").value)||170000;
+  const voyages = parseFloat(document.getElementById("calc-voyages").value)||1;
+
+  // Find route in ALL_ROUTES across all classes
+  const route = [...ALL_ROUTES.capesize,...ALL_ROUTES.panamax].find(r=>r.id===routeId);
+  if(!route) return;
+
+  const p = cache[routeId] || calcRoute(route);
+  const totalExposure    = parseFloat((p.penalty_per_ton * cargo * voyages).toFixed(0));
+  const singleExposure   = parseFloat((p.penalty_per_ton * cargo).toFixed(0));
+  const annualBaseline   = parseFloat((route.baseline_rate_usd_ton * cargo * voyages).toFixed(0));
+  const frictionPct      = parseFloat(((p.penalty_per_ton/route.baseline_rate_usd_ton)*100).toFixed(1));
+
+  const res = document.getElementById("calc-result");
+  res.className="calc-result show";
+  res.innerHTML=`
+    <div class="calc-headline">$${totalExposure.toLocaleString()}</div>
+    <div class="calc-sub-line">Total friction exposure across ${voyages} voyage${voyages>1?"s":""} of ${cargo.toLocaleString()} MT on ${route.short} · CFI ${p.cfi.toFixed(1)} [${p.band}]</div>
+    <div class="calc-breakdown">
+      <div class="cbi"><div class="cbi-lbl">Penalty/MT</div><div class="cbi-val" style="color:var(--critical)">$${p.penalty_per_ton.toFixed(2)}</div></div>
+      <div class="cbi"><div class="cbi-lbl">Single Voyage</div><div class="cbi-val" style="color:var(--critical)">$${singleExposure.toLocaleString()}</div></div>
+      <div class="cbi"><div class="cbi-lbl">Annual Freight Base</div><div class="cbi-val">$${annualBaseline.toLocaleString()}</div></div>
+      <div class="cbi"><div class="cbi-lbl">Friction % of Rate</div><div class="cbi-val" style="color:var(--warn)">${frictionPct}%</div></div>
+    </div>
+    <div style="margin-top:12px;font-size:9px;color:var(--gold);letter-spacing:.06em">Pitch line: "Based on current market conditions, your ${route.short} programme is absorbing an estimated <strong>$${totalExposure.toLocaleString()}</strong> in friction-driven freight costs across ${voyages} fixture${voyages>1?"s":""}. We can help you reduce this exposure."</div>`;
 }
 
-// ── Web Audio chirp ───────────────────────────────────────────────
-function triggerChirp() {
-  try {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc  = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    // Two-tone alert: high → low sweep
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(1046, audioCtx.currentTime);         // C6
-    osc.frequency.setValueAtTime(880,  audioCtx.currentTime + 0.12);  // A5
-    osc.frequency.setValueAtTime(1046, audioCtx.currentTime + 0.24);  // C6
-    gain.gain.setValueAtTime(0.0, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 0.02);
-    gain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 0.32);
-    gain.gain.linearRampToValueAtTime(0.0,  audioCtx.currentTime + 0.48);
-    osc.start(audioCtx.currentTime);
-    osc.stop(audioCtx.currentTime + 0.5);
-  } catch(e) { /* audio blocked — visual alert still fires */ }
+// ═══════════════════════════════════════════════════════
+// SECTION 6 — BDI DIVERGENCE ENGINE
+// ═══════════════════════════════════════════════════════
+function normaliseBDI(bdi){const MIN=500,MAX=4000;return parseFloat(((Math.min(MAX,Math.max(MIN,bdi))-MIN)/(MAX-MIN)*100).toFixed(1));}
+function calcDivergence(cfi,bdiN){return parseFloat((cfi-bdiN).toFixed(1));}
+function classifyDivergence(div){
+  if(div>=25) return{label:"CFI Ahead of Market",cls:"div-ahead"};
+  if(div>=10) return{label:"Market Lagging",cls:"div-watch"};
+  return            {label:"Market Aligned",cls:"div-aligned"};
+}
+function runBDI(){
+  const bdiRaw=parseFloat(document.getElementById("bdi-value").value);
+  const bdiPrev=parseFloat(document.getElementById("bdi-prev").value)||null;
+  if(!bdiRaw||isNaN(bdiRaw)){document.getElementById("bdi-value").focus();return;}
+  const bdiNorm=normaliseBDI(bdiRaw);
+  const bdiChange=bdiPrev?parseFloat((bdiRaw-bdiPrev).toFixed(0)):null;
+  const resultsEl=document.getElementById("bdi-results");
+  const insightEl=document.getElementById("bdi-insight");
+  resultsEl.style.display="flex";
+  let allInsights=[];
+  resultsEl.innerHTML=getActiveRoutes().map(route=>{
+    const p=cache[route.id]; if(!p) return "";
+    const div=calcDivergence(p.cfi,bdiNorm);
+    const cls=classifyDivergence(div);
+    const imp=parseFloat((div/100*route.baseline_rate_usd_ton).toFixed(2));
+    allInsights.push({route,div,imp,cfi:p.cfi,bdiNorm});
+    return `<div class="bdi-route-row">
+      <div class="bdr-label">${route.short}</div>
+      <div class="bdr-item"><div class="bdr-lbl">CFI Score</div><div class="bdr-val ${p.level}">${p.cfi.toFixed(1)}</div></div>
+      <div class="bdr-item"><div class="bdr-lbl">BDI Normalised</div><div class="bdr-val gold">${bdiNorm.toFixed(1)}</div></div>
+      <div class="bdr-item"><div class="bdr-lbl">Divergence</div><div class="bdr-val ${div>=25?"crit":div>=10?"warn":"nom"}">${div>=0?"+":""}${div}</div></div>
+      <div class="bdr-item"><div class="bdr-lbl">Implied Premium</div><div class="bdr-val ${imp>=0?"crit":"nom"}">${imp>=0?"+":""}$${Math.abs(imp).toFixed(2)}/MT</div></div>
+      <div class="div-badge ${cls.cls}">${cls.label}</div>
+    </div>`;
+  }).join("")+`
+    <div style="padding:10px 18px;background:var(--card);border:1px solid var(--border);display:flex;gap:28px;flex-wrap:wrap;align-items:center;margin-top:2px">
+      <div class="bdr-item"><div class="bdr-lbl">BDI Today</div><div class="bdr-val gold">${bdiRaw.toLocaleString()}</div></div>
+      ${bdiChange!==null?`<div class="bdr-item"><div class="bdr-lbl">vs Yesterday</div><div class="bdr-val ${bdiChange>0?"nom":"crit"}">${bdiChange>0?"▲ +":"▼ "}${bdiChange}</div></div>`:""}
+      <div class="bdr-item"><div class="bdr-lbl">Normalised</div><div class="bdr-val">${bdiNorm.toFixed(1)}</div></div>
+    </div>`;
+  const worst=allInsights.sort((a,b)=>b.div-a.div)[0];
+  insightEl.innerHTML=worst.div>=25
+    ?`<strong>Critical divergence on ${worst.route.short}.</strong> CFI ${worst.cfi.toFixed(1)} vs BDI-normalised ${worst.bdiNorm.toFixed(1)} — gap of +${worst.div}pts. The market has not priced this in. Implied unpriced premium: $${Math.abs(worst.imp).toFixed(2)}/MT. This is your window — act before the BDI catches up.`
+    :worst.div>=10
+    ?`<strong>Market lagging on ${worst.route.short}.</strong> +${worst.div}pt divergence. Prepare outreach now. Implied premium: $${Math.abs(worst.imp).toFixed(2)}/MT.`
+    :`<strong>Markets aligned.</strong> No divergence opportunity active. Continue monitoring.`;
+  insightEl.classList.add("show");
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// SECTION 4 — MODAL & EMAIL
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// SECTION 7 — SANDBOX
+// ═══════════════════════════════════════════════════════
+function runSandbox(){
+  const routeId=document.getElementById("sb-route").value;
+  const delay=parseFloat(document.getElementById("sb-delay").value)||4.5;
+  const cong=parseFloat(document.getElementById("sb-congestion").value)||0.28;
+  const wx=parseFloat(document.getElementById("sb-weather").value)||0.18;
+  const speed=parseFloat(document.getElementById("sb-speed").value)||13.2;
+  const precip=parseFloat(document.getElementById("sb-precip").value)||8;
+  const route=[...ALL_ROUTES.capesize,...ALL_ROUTES.panamax].find(r=>r.id===routeId);
+  if(!route) return;
+  const baf=bafCongestionLift(speed),wet=wetLoadingPenalty(precip);
+  const fc=Math.min(0.95,cong+baf),td=delay+wet;
+  const cfi=parseFloat((td/route.typical_voyage_days)*(1+fc)*(1+wx)*100).toFixed(2);
+  const cls=classifyCFI(parseFloat(cfi));
+  const pen=((parseFloat(cfi)/100)*route.baseline_rate_usd_ton).toFixed(2);
+  const res=document.getElementById("sb-result");
+  res.style.display="flex";
+  res.innerHTML=[
+    ["CFI Score",`<span class="sbr-val ${cls.level}">${cfi}</span>`],
+    ["Band",`<span class="sbr-val ${cls.level}">${cls.band}</span>`],
+    ["Penalty/MT",`<span class="sbr-val ${cls.level}">$${pen}</span>`],
+    ["BAF Lift",`<span class="sbr-val">+${baf.toFixed(2)}</span>`],
+    ["Wet Shutdown",`<span class="sbr-val">+${wet.toFixed(2)}d</span>`],
+    ["Final Delay",`<span class="sbr-val">${td.toFixed(2)}d</span>`],
+    ["Final Cong.",`<span class="sbr-val">${fc.toFixed(3)}</span>`],
+    ["Voyage Days",`<span class="sbr-val">${route.typical_voyage_days}d</span>`],
+  ].map(([l,v])=>`<div class="sbr-item"><div class="sbr-lbl">${l}</div>${v}</div>`).join("");
+}
 
-function openModal(routeId, leadId) {
-  const route   = DB.routes.find(r => r.id === routeId);
-  const lead    = DB.leads.find(l => l.id === leadId);
-  const payload = cache[routeId];
-  if (!route || !lead) return;
+// ═══════════════════════════════════════════════════════
+// SECTION 8 — EMAIL SEND LOG
+// ═══════════════════════════════════════════════════════
+function logSend(lead,route,p){
+  const entry={
+    id:Date.now(), ts:new Date().toLocaleString("en-GB"),
+    contact:lead.name, company:lead.company,
+    route:route.short, cfi:p?p.cfi.toFixed(1):"—",
+    band:p?p.band:"—", penalty:p?`$${p.penalty_per_ton.toFixed(2)}/MT`:"—",
+  };
+  sendLog.unshift(entry);
+  if(sendLog.length>50) sendLog=sendLog.slice(0,50);
+  try{localStorage.setItem("cfi_send_log",JSON.stringify(sendLog));}catch(e){}
+  renderLog();
+}
+function clearLog(){
+  sendLog=[];
+  try{localStorage.removeItem("cfi_send_log");}catch(e){}
+  renderLog();
+}
+function renderLog(){
+  const el=document.getElementById("log-body");
+  if(!sendLog.length){
+    el.innerHTML='<div class="log-empty">No outreach logged yet. Send your first email to track here.</div>';
+    return;
+  }
+  el.innerHTML=`<table class="log-table">
+    <tr><th>Date / Time</th><th>Contact</th><th>Company</th><th>Route</th><th>CFI at Send</th><th>Band</th><th>Penalty/MT</th></tr>
+    ${sendLog.map(e=>`<tr>
+      <td>${e.ts}</td><td style="color:var(--text)">${e.contact}</td>
+      <td>${e.company}</td><td style="color:var(--gold)">${e.route}</td>
+      <td style="color:var(--critical)">${e.cfi}</td>
+      <td><span class="log-badge ${e.band==="Critical Anomaly"?"crit":e.band==="High"?"high":"mod"}">${e.band}</span></td>
+      <td style="color:var(--critical)">${e.penalty}</td>
+    </tr>`).join("")}
+  </table>`;
+}
 
-  activeModal = { route, lead, payload };
-
-  document.getElementById("m-sub").textContent = `${route.name} · ${lead.company}`;
-
-  // Meta bar
-  const p = payload || {};
-  document.getElementById("m-meta").innerHTML = [
-    ["CFI Score",   `<span class="mm-val red">${p.cfi ? p.cfi.toFixed(1) : "—"}</span>`],
-    ["Band",        `<span class="mm-val red">${p.band || "—"}</span>`],
-    ["Penalty/MT",  `<span class="mm-val red">$${p.penalty_per_ton ? p.penalty_per_ton.toFixed(2) : "—"}</span>`],
-    ["Delay Days",  p.inputs ? p.inputs.delay_days.toFixed(2) : "—"],
-    ["Congestion",  p.inputs ? p.inputs.congestion_index.toFixed(3) : "—"],
-    ["Ballast Spd", p.inputs ? `${p.inputs.ballast_speed_kn.toFixed(1)} kn` : "—"],
-    ["Precip.",     p.inputs ? `${p.inputs.precip_mm.toFixed(1)} mm/d` : "—"],
-    ["Wet-Load",    p.inputs ? `${p.inputs.wet_loading_days.toFixed(2)} d` : "—"],
-  ].map(([l, v]) => `<div class="mm-item"><div class="mm-lbl">${l}</div><div class="mm-val">${v}</div></div>`).join("");
-
-  const email = buildEmail(route, lead, payload);
-
-  document.getElementById("m-subj").innerHTML =
-    `<span>Subject: </span><span>${email.subject}</span>`;
-  document.getElementById("m-email").innerHTML = email.html;
-
-  // mailto link
-  const mailto = `mailto:${lead.email}?subject=${encodeURIComponent(email.subject)}&body=${encodeURIComponent(email.plain)}`;
-  document.getElementById("btn-mailto").href = mailto;
-
+// ═══════════════════════════════════════════════════════
+// SECTION 9 — MODAL & EMAIL
+// ═══════════════════════════════════════════════════════
+function openModal(routeId,leadId){
+  const route=[...ALL_ROUTES.capesize,...ALL_ROUTES.panamax].find(r=>r.id===routeId);
+  const lead=ALL_LEADS.find(l=>l.id===leadId);
+  const p=cache[routeId];
+  if(!route||!lead) return;
+  activeModal={route,lead,payload:p};
+  document.getElementById("m-sub").textContent=`${route.name} · ${lead.company}`;
+  document.getElementById("m-meta").innerHTML=[
+    ["CFI Score",`<span class="mm-val red">${p?p.cfi.toFixed(1):"—"}</span>`],
+    ["Band",`<span class="mm-val red">${p?p.band:"—"}</span>`],
+    ["Penalty/MT",`<span class="mm-val red">$${p?p.penalty_per_ton.toFixed(2):"—"}</span>`],
+    ["Delay Days",p?p.inputs.delay_days.toFixed(2):"—"],
+    ["Congestion",p?p.inputs.congestion_index.toFixed(3):"—"],
+    ["Ballast",p?`${p.inputs.ballast_speed_kn.toFixed(1)} kn`:"—"],
+    ["Precip.",p?`${p.inputs.precip_mm.toFixed(1)} mm/d`:"—"],
+    ["Wet-Load",p?`${p.inputs.wet_loading_days.toFixed(2)}d`:"—"],
+  ].map(([l,v])=>`<div class="mm-item"><div class="mm-lbl">${l}</div><div class="mm-val">${v}</div></div>`).join("");
+  const email=buildEmail(route,lead,p);
+  document.getElementById("m-subj").innerHTML=`<span>Subject: </span><span>${email.subject}</span>`;
+  document.getElementById("m-email").innerHTML=email.html;
+  const mailto=`mailto:${lead.email}?subject=${encodeURIComponent(email.subject)}&body=${encodeURIComponent(email.plain)}`;
+  document.getElementById("btn-mailto").href=mailto;
+  const waMsg=encodeURIComponent(`Hi ${lead.name.split(" ")[0]},\n\nI'm reaching out regarding a ${route.vessel_class==="panamax"?"Panamax":"Capesize"} freight opportunity on the ${route.short} corridor.\n\nOur CFI index has registered a score of ${p?p.cfi.toFixed(1):"—"} [${p?p.band:"—"}], indicating an estimated friction cost of ${p?"$"+p.penalty_per_ton.toFixed(2):"—"}/MT above baseline.\n\nAre you available for a brief call to discuss?\n\nBest regards`);
+  document.getElementById("btn-wa-modal").href=`https://wa.me/${lead.phone.replace(/\D/g,"")}?text=${waMsg}`;
   document.getElementById("overlay").classList.add("open");
 }
 
-function buildEmail(route, lead, p) {
-  const today        = new Date();
-  const fmt          = d => d.toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
-  const fmtShort     = d => d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"});
-  const laycanOpen   = addDays(today, 7);
-  const laycanClose  = addDays(today, 21);
-  const cfiVal       = p ? p.cfi.toFixed(1) : "N/A";
-  const band         = p ? p.band : "N/A";
-  const penalty      = p ? `USD ${p.penalty_per_ton.toFixed(2)}` : "N/A";
-  const baseline     = `USD ${route.baseline_rate_usd_ton.toFixed(2)}`;
-  const slowNote     = p?.inputs?.slow_steam_flag
-    ? `\nAIS telemetry further indicates average ballast speeds on this corridor have declined to ${p.inputs.ballast_speed_kn.toFixed(1)} knots — below the 12-knot threshold — consistent with widespread slow-steaming behaviour and delayed replacement tonnage arrival windows. This creates compounding displacement risk for prompt fixtures.\n`
-    : "";
-  const wetNote      = p?.inputs?.wet_loading_days > 0
-    ? `\nWet-loading friction logic has flagged elevated precipitation (${p?.inputs?.precip_mm.toFixed(1)} mm/day at origin), triggering an estimated ${p.inputs.wet_loading_days.toFixed(2)}-day port shutdown scenario under iron ore liquefaction risk protocols. This structural loading delay is embedded in the CFI calculation above.\n`
-    : "";
-
-  const subject = `Capesize Charter Inquiry — ${route.short} — CFI ${cfiVal} [${band.toUpperCase()}] — Laycan ${fmtShort(laycanOpen)}/${fmtShort(laycanClose)}`;
-
-  const plain = `STRICTLY PRIVATE AND CONFIDENTIAL
+function buildEmail(route,lead,p){
+  const today=new Date();
+  const fmt=d=>d.toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
+  const fmts=d=>d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"});
+  const lo=addDays(today,7),lc=addDays(today,21);
+  const cfiVal=p?p.cfi.toFixed(1):"N/A";
+  const band=p?p.band:"N/A";
+  const pen=p?`USD ${p.penalty_per_ton.toFixed(2)}`:"N/A";
+  const base=`USD ${route.baseline_rate_usd_ton.toFixed(2)}`;
+  const slowNote=p?.inputs?.slow_steam_flag?`\nAIS telemetry indicates average ballast speeds have declined to ${p.inputs.ballast_speed_kn.toFixed(1)} knots — below the 12-knot threshold — consistent with slow-steaming behaviour and delayed replacement tonnage windows.\n`:"";
+  const wetNote=p?.inputs?.wet_loading_days>0?`\nWet-loading friction has flagged elevated precipitation (${p.inputs.precip_mm.toFixed(1)} mm/day at origin), triggering an estimated ${p.inputs.wet_loading_days.toFixed(2)}-day port shutdown scenario under iron ore liquefaction risk protocols.\n`:"";
+  const subject=`${route.vessel_class==="panamax"?"Panamax":"Capesize"} Charter Inquiry — ${route.short} — CFI ${cfiVal} [${band.toUpperCase()}] — Laycan ${fmts(lo)}/${fmts(lc)}`;
+  const plain=`STRICTLY PRIVATE AND CONFIDENTIAL
 
 For the Attention of the Chartering Desk
 
@@ -1063,356 +1109,84 @@ ${fmt(today)}
 
 Dear ${lead.name.split(" ")[0]},
 
-Re: Capesize Iron Ore Freight Opportunity — ${route.origin.port} to ${route.destination.port} — CFI Alert ${cfiVal} [${band}]
+Re: ${route.vessel_class==="panamax"?"Panamax":"Capesize"} ${route.commodity} Freight Opportunity — ${route.origin.port} to ${route.destination.port} — CFI Alert ${cfiVal} [${band}]
 
-I write to you on behalf of our chartering desk in connection with an active Capesize freight opportunity on the ${route.origin.port}–${route.destination.port} corridor, loading Iron Ore.
+I write to you on behalf of our chartering desk in connection with an active freight opportunity on the ${route.origin.port}–${route.destination.port} corridor, loading ${route.commodity}.
 
 MARKET INTELLIGENCE — CAPESIZE FRICTION INDEX
 Our proprietary Capesize Friction Index (CFI) has registered a score of ${cfiVal} on this route as at ${fmt(today)}, triggering a ${band.toUpperCase()} classification against our alert threshold of 75.
 
-This score represents an estimated freight friction cost of ${penalty} per metric ton against the current market baseline of ${baseline}/MT — a commercially significant displacement that creates an immediate fixture cost-advantage window for counterparties who act ahead of spot rate adjustment.
+This represents an estimated friction cost of ${pen} per metric ton against the current market baseline of ${base}/MT.
 ${slowNote}${wetNote}
-Key inputs underpinning the current CFI reading:
+Key inputs:
 
-  Total Delay Days:            ${p?.inputs?.delay_days.toFixed(2) || "N/A"} days
-    └ Beaufort Weather Delay:  ${p?.inputs?.beaufort_delay.toFixed(2) || "N/A"} days
-    └ Port Congestion Delay:   ${p?.inputs?.congestion_raw.toFixed(2) || "N/A"} days
-    └ Wet-Loading Shutdown:    ${p?.inputs?.wet_loading_days.toFixed(2) || "0.00"} days
-  Congestion Index (BAF-adj):  ${p?.inputs?.congestion_index.toFixed(3) || "N/A"}
-  Weather Factor:              ${p?.inputs?.weather_factor.toFixed(2) || "N/A"}
-  Wind Speed:                  ${p?.inputs?.wind_speed_kn.toFixed(1) || "N/A"} knots
-  Ballast Speed (AIS):         ${p?.inputs?.ballast_speed_kn.toFixed(1) || "N/A"} knots
-  Estimated Penalty/MT:        ${penalty}
+  Total Delay Days:            ${p?.inputs?.delay_days.toFixed(2)||"N/A"} days
+    └ Weather Delay:           ${p?.inputs?.beaufort_delay.toFixed(2)||"N/A"} days
+    └ Port Congestion:         ${p?.inputs?.congestion_raw.toFixed(2)||"N/A"} days
+    └ Wet-Loading Shutdown:    ${p?.inputs?.wet_loading_days.toFixed(2)||"0.00"} days
+  Congestion Index (BAF-adj):  ${p?.inputs?.congestion_index.toFixed(3)||"N/A"}
+  Weather Factor:              ${p?.inputs?.weather_factor.toFixed(2)||"N/A"}
+  Ballast Speed (AIS):         ${p?.inputs?.ballast_speed_kn.toFixed(1)||"N/A"} knots
+  Estimated Penalty/MT:        ${pen}
 
 FREIGHT PROPOSAL
-We have ${route.vessel} tonnage positioned and available for this corridor. We would welcome the opportunity to discuss a competitive fixture on NYPE/GENCON terms, adapted to COA structures as required.
+We have ${route.vessel} tonnage available for this corridor on NYPE/GENCON terms, adaptable to COA structures.
 
 Cargo Details:
   Commodity:       ${route.commodity}
   Loading Port:    ${route.origin.port}, ${route.origin.country}
   Discharge Port:  ${route.destination.port}, ${route.destination.country}
-  Voyage Distance: ${route.distance_nm.toLocaleString()} nautical miles
+  Distance:        ${route.distance_nm.toLocaleString()} nautical miles
   Typical Voyage:  ${route.typical_voyage_days} days
-  Laycan:          ${fmtShort(laycanOpen)} / ${fmtShort(laycanClose)}
-  Quantity:        To be agreed per lifting schedule
-
-Please treat the content of this communication as strictly private and confidential.
+  Laycan:          ${fmts(lo)} / ${fmts(lc)}
 
 ──────────────────────────────────────────────────────────────────
 INTERMEDIARY FEE PROTECTION — IMFPA NOTICE
 ──────────────────────────────────────────────────────────────────
-This communication is transmitted subject to and protected by an Irrevocable Master Fee Protection Agreement (IMFPA). All brokerage, advisory, and intermediary fees arising from any transaction, fixture, or commercial engagement introduced, facilitated, or originated through this communication are irrevocably protected and payable to [Your Firm Name] in full accordance with the terms of the operative IMFPA on file. Any circumvention, bypass, or extinguishment of the fee entitlements described herein — whether direct, indirect, or through third-party arrangement — shall constitute a material breach of the IMFPA and shall be subject to full legal remedy under applicable maritime and commercial law. Acceptance of this communication implies acknowledgement of these terms.
+This communication is transmitted subject to and protected by an Irrevocable Master Fee Protection Agreement (IMFPA). All brokerage, advisory, and intermediary fees arising from any transaction, fixture, or commercial engagement introduced, facilitated, or originated through this communication are irrevocably protected and payable to [Your Firm Name] in full accordance with the terms of the operative IMFPA on file. Any circumvention, bypass, or extinguishment of these fee entitlements shall constitute a material breach of the IMFPA and be subject to full legal remedy under applicable maritime and commercial law.
 ──────────────────────────────────────────────────────────────────
-
-We look forward to hearing from you.
 
 Yours faithfully,
 
 [Your Name]
 [Your Title]
-[Your Firm Name] · Capesize Freight Brokerage
+[Your Firm Name] · Freight Brokerage
 [Phone] · [Email]
 
 —
-CFI Score at dispatch: ${cfiVal} [${band}]
-Formula: CFI = (delay_days / voyage_days) × (1 + congestion_index) × (1 + weather_factor) × 100
-Threshold: 75 · Penalty/MT: ${penalty} vs Baseline ${baseline}`;
+CFI Score at dispatch: ${cfiVal} [${band}] · Penalty/MT: ${pen} vs Baseline ${base}`;
 
-  // HTML version for modal display (with IMFPA styled block)
-  const parts  = plain.split("──────────────────────────────────────────────────────────────────");
-  const before = parts[0] || plain;
-  const imfpa  = parts[2] || "";
-  const after  = parts[4] || "";
-
-  const html = `<span>${escHtml(before)}</span>` +
-    `<div class="imfpa-block"><div class="imfpa-lbl">IMFPA — Intermediary Fee Protection Notice</div>${escHtml(imfpa.trim())}</div>` +
-    `<span>${escHtml(after)}</span>`;
-
-  return { subject, plain, html };
+  const parts=plain.split("──────────────────────────────────────────────────────────────────");
+  const html=`<span>${escHtml(parts[0]||plain)}</span>`+
+    `<div class="imfpa-block"><div class="imfpa-lbl">IMFPA — Intermediary Fee Protection Notice</div>${escHtml((parts[2]||"").trim())}</div>`+
+    `<span>${escHtml(parts[4]||"")}</span>`;
+  return{subject,plain,html};
 }
 
-function escHtml(s) {
-  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-}
-
-function closeModal(event) {
-  if (event && event.target !== document.getElementById("overlay")) return;
+function closeModal(event){
+  if(event&&event.target!==document.getElementById("overlay"))return;
   document.getElementById("overlay").classList.remove("open");
 }
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
 
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
-
-function copyEmail() {
-  if (!activeModal) return;
-  const email = buildEmail(activeModal.route, activeModal.lead, activeModal.payload);
-  navigator.clipboard.writeText(`Subject: ${email.subject}\n\n${email.plain}`).then(() => {
-    const btn = document.getElementById("btn-copy");
-    btn.textContent = "✓ Copied";
-    btn.classList.add("ok");
-    setTimeout(() => { btn.textContent = "Copy Email"; btn.classList.remove("ok"); }, 2400);
+function copyEmail(){
+  if(!activeModal) return;
+  const email=buildEmail(activeModal.route,activeModal.lead,activeModal.payload);
+  navigator.clipboard.writeText(`Subject: ${email.subject}\n\n${email.plain}`).then(()=>{
+    logSend(activeModal.lead,activeModal.route,activeModal.payload);
+    const btn=document.getElementById("btn-copy");
+    btn.textContent="✓ Logged & Copied"; btn.classList.add("ok");
+    setTimeout(()=>{btn.textContent="Copy Email";btn.classList.remove("ok");},2400);
   });
 }
 
-// ═══════════════════════════════════════════════════════════════════
-
-// ═══════════════════════════════════════════════════════════════════
-
-// ═══════════════════════════════════════════════════════════════════
-// SECTION 4b — FIXTURE WINDOW COUNTDOWN ENGINE
-// Estimates hours remaining before the market reprices this route.
-// Based on CFI level, BDI momentum, and historical reprice lag data.
-// ═══════════════════════════════════════════════════════════════════
-
-/**
- * Reprice lag model — how many hours typically pass before the
- * spot freight market adjusts to a given CFI level.
- * Derived from historical Capesize Baltic route repricing patterns.
- *
- *  Critical (>75): Market typically moves within 18–36 hours
- *  High (55–75):   Market typically moves within 36–72 hours
- *  Moderate (30–55): Market typically moves within 72–120 hours
- *  Low (<30):      No meaningful reprice expected
- */
-function estimateRepriceWindow(cfi, level) {
-  if (level === "critical") {
-    // Higher CFI = faster reprice
-    const hrs = Math.max(8, Math.round(36 - ((cfi - 75) / 25) * 18));
-    return { hours: hrs, label: "Reprice expected within", urgency: "urgent" };
-  }
-  if (level === "high") {
-    const hrs = Math.round(72 - ((cfi - 55) / 20) * 36);
-    return { hours: hrs, label: "Window closes in approx.", urgency: "warning" };
-  }
-  if (level === "moderate") {
-    const hrs = Math.round(120 - ((cfi - 30) / 25) * 48);
-    return { hours: hrs, label: "Monitor window:", urgency: "ok" };
-  }
-  return { hours: null, label: "No reprice signal", urgency: "nominal" };
-}
-
-/** Format hours into a readable countdown string */
-function formatCountdown(hours) {
-  if (!hours) return "Market stable";
-  if (hours < 1) return "< 1 hour";
-  if (hours < 24) return `~${hours}h`;
-  const days = Math.floor(hours / 24);
-  const rem  = hours % 24;
-  return rem > 0 ? `~${days}d ${rem}h` : `~${days}d`;
-}
-
-/** Returns fill % for the urgency bar (100% = most urgent) */
-function countdownBarPct(hours, level) {
-  if (!hours || level === "nominal") return 0;
-  const maxHrs = level === "critical" ? 36 : level === "high" ? 72 : 120;
-  return Math.round((1 - hours / maxHrs) * 100);
-}
-
-function barColor(urgency) {
-  if (urgency === "urgent")  return "var(--critical)";
-  if (urgency === "warning") return "var(--warn)";
-  if (urgency === "ok")      return "var(--nominal)";
-  return "var(--border-mid)";
-}
-
-/** Called from populateCard — builds and appends countdown block */
-function buildCountdown(route, p, container) {
-  const win  = estimateRepriceWindow(p.cfi, p.level);
-  const pct  = countdownBarPct(win.hours, p.level);
-  const text = formatCountdown(win.hours);
-
-  const div        = document.createElement("div");
-  div.className    = "fixture-countdown";
-  div.id           = `countdown-${route.id}`;
-  div.innerHTML    = `
-    <div class="fc-label">${win.label}</div>
-    <div class="fc-timer ${win.urgency}">${text}</div>
-    <div class="fc-sub">${win.urgency === "urgent" ? "Act now — first mover wins" : win.urgency === "warning" ? "Prepare outreach" : win.urgency === "ok" ? "Continue monitoring" : "No action required"}</div>
-    <div class="fc-bar"><div class="fc-bar-fill" style="width:${pct}%;background:${barColor(win.urgency)}"></div></div>
-  `;
-  container.appendChild(div);
-
-  // Live tick-down for critical routes — updates every minute
-  if (win.urgency === "urgent" && win.hours) {
-    startLiveTick(route.id, win.hours);
-  }
-}
-
-// Live tick registry — avoids duplicate intervals
-const tickRegistry = {};
-
-function startLiveTick(routeId, initialHours) {
-  if (tickRegistry[routeId]) clearInterval(tickRegistry[routeId]);
-
-  let remainingMins = initialHours * 60;
-
-  tickRegistry[routeId] = setInterval(() => {
-    remainingMins = Math.max(0, remainingMins - 1);
-    const hrs  = Math.floor(remainingMins / 60);
-    const mins = remainingMins % 60;
-    const el   = document.querySelector(`#countdown-${routeId} .fc-timer`);
-    if (el) {
-      el.textContent = remainingMins > 60
-        ? `~${hrs}h ${mins}m`
-        : remainingMins > 0
-        ? `${mins}m remaining`
-        : "⚡ Window closing";
-    }
-    if (remainingMins === 0) clearInterval(tickRegistry[routeId]);
-  }, 60000); // tick every minute
-}
-
-// SECTION 5b — BDI DIVERGENCE ENGINE
-// BDI is the public market benchmark. CFI is your leading indicator.
-// Divergence = gap between what you see and what the market has priced.
-// ═══════════════════════════════════════════════════════════════════
-
-/**
- * BDI Normalisation
- * Maps the raw BDI number onto a 0–100 scale comparable to CFI.
- * Historical BDI range: ~300 (floor) to ~11,000 (2008 peak).
- * Working range for dry bulk iron ore context: 500–4000.
- */
-function normaliseBDI(bdi) {
-  const MIN = 500, MAX = 4000;
-  const clamped = Math.min(MAX, Math.max(MIN, bdi));
-  return parseFloat(((clamped - MIN) / (MAX - MIN) * 100).toFixed(1));
-}
-
-/**
- * Divergence score: how far ahead of the market your CFI reading is.
- * Positive = CFI sees more stress than BDI reflects (your edge).
- * Negative = BDI already priced in more than CFI shows.
- */
-function calcDivergence(cfi, bdiNormalised) {
-  return parseFloat((cfi - bdiNormalised).toFixed(1));
-}
-
-function classifyDivergence(div) {
-  if (div >= 25)  return { label: "CFI Ahead of Market", cls: "div-ahead",   insight: "critical" };
-  if (div >= 10)  return { label: "Market Lagging",      cls: "div-watch",   insight: "watch" };
-  return                 { label: "Market Aligned",      cls: "div-aligned", insight: "aligned" };
-}
-
-function runBDI() {
-  const bdiRaw  = parseFloat(document.getElementById("bdi-value").value);
-  const bdiPrev = parseFloat(document.getElementById("bdi-prev").value) || null;
-
-  if (!bdiRaw || isNaN(bdiRaw)) {
-    document.getElementById("bdi-value").focus();
-    return;
-  }
-
-  const bdiNorm    = normaliseBDI(bdiRaw);
-  const bdiChange  = bdiPrev ? parseFloat((bdiRaw - bdiPrev).toFixed(0)) : null;
-  const bdiTrend   = bdiChange !== null ? (bdiChange > 0 ? `▲ +${bdiChange}` : `▼ ${bdiChange}`) : "—";
-  const trendColor = bdiChange > 0 ? "nom" : bdiChange < 0 ? "crit" : "gold";
-
-  const resultsEl = document.getElementById("bdi-results");
-  const insightEl = document.getElementById("bdi-insight");
-  resultsEl.style.display = "flex";
-
-  let worstDiv = -999;
-  let worstRoute = null;
-  let allInsights = [];
-
-  resultsEl.innerHTML = DB.routes.map(route => {
-    const p = cache[route.id];
-    if (!p) return "";
-
-    const div     = calcDivergence(p.cfi, bdiNorm);
-    const cls     = classifyDivergence(div);
-    if (div > worstDiv) { worstDiv = div; worstRoute = route; }
-
-    // Implied freight premium: divergence as % of baseline rate
-    const impliedPremium = parseFloat((div / 100 * route.baseline_rate_usd_ton).toFixed(2));
-    const premiumSign    = impliedPremium >= 0 ? "+" : "";
-
-    allInsights.push({ route, div, cls, impliedPremium, cfi: p.cfi, bdiNorm });
-
-    return `
-      <div class="bdi-route-row">
-        <div class="bdr-label">${route.short}</div>
-        <div class="bdr-item"><div class="bdr-lbl">CFI Score</div><div class="bdr-val ${p.level}">${p.cfi.toFixed(1)}</div></div>
-        <div class="bdr-item"><div class="bdr-lbl">BDI (normalised)</div><div class="bdr-val gold">${bdiNorm.toFixed(1)}</div></div>
-        <div class="bdr-item"><div class="bdr-lbl">Divergence</div><div class="bdr-val ${div >= 25 ? 'crit' : div >= 10 ? 'warn' : 'nom'}">${div >= 0 ? '+' : ''}${div}</div></div>
-        <div class="bdr-item"><div class="bdr-lbl">Implied Premium</div><div class="bdr-val ${impliedPremium >= 0 ? 'crit' : 'nom'}">${premiumSign}$${Math.abs(impliedPremium).toFixed(2)}/MT</div></div>
-        <div class="div-badge ${cls.cls}">${cls.label}</div>
-      </div>`;
-  }).join("");
-
-  // BDI summary row
-  resultsEl.innerHTML += `
-    <div style="padding:10px 18px;background:var(--card);border:1px solid var(--border);display:flex;gap:28px;flex-wrap:wrap;align-items:center;margin-top:2px">
-      <div class="bdr-item"><div class="bdr-lbl">BDI Today</div><div class="bdr-val gold">${bdiRaw.toLocaleString()}</div></div>
-      ${bdiChange !== null ? `<div class="bdr-item"><div class="bdr-lbl">vs Yesterday</div><div class="bdr-val ${trendColor}">${bdiTrend}</div></div>` : ""}
-      <div class="bdr-item"><div class="bdr-lbl">Normalised (0–100)</div><div class="bdr-val">${bdiNorm.toFixed(1)}</div></div>
-      <div class="bdr-item"><div class="bdr-lbl">BDI Range Reference</div><div class="bdr-val" style="font-size:10px;color:var(--text-dim)">500 (floor) → 4,000 (elevated)</div></div>
-    </div>`;
-
-  // Insight block
-  const worst = allInsights.sort((a, b) => b.div - a.div)[0];
-  let insightText = "";
-
-  if (worst.div >= 25) {
-    insightText = `<strong>Critical divergence detected on ${worst.route.short}.</strong> Your CFI reads ${worst.cfi.toFixed(1)} against a BDI-normalised market price of ${worst.bdiNorm.toFixed(1)} — a gap of +${worst.div} points. The public market has not priced in this level of freight stress yet. This is your asymmetric window. Every hour you delay outreach narrows the gap as the market catches up. The implied unpriced premium is $${Math.abs(worst.impliedPremium).toFixed(2)}/MT — use this figure as your opening line.`;
-  } else if (worst.div >= 10) {
-    insightText = `<strong>Market is lagging on ${worst.route.short}.</strong> CFI divergence of +${worst.div} points suggests freight stress is building faster than the BDI currently reflects. Monitor closely and prepare outreach materials now. Implied unpriced premium: $${Math.abs(worst.impliedPremium).toFixed(2)}/MT.`;
-  } else {
-    insightText = `<strong>Markets are broadly aligned.</strong> CFI and BDI are within normal tracking range across both routes. No immediate divergence opportunity. Continue monitoring — divergence can open quickly when weather or congestion spikes.`;
-  }
-
-  insightEl.innerHTML = insightText;
-  insightEl.classList.add("show");
-}
-
-// SECTION 5 — SANDBOX
-// ═══════════════════════════════════════════════════════════════════
-
-function runSandbox() {
-  const routeKey  = document.getElementById("sb-route").value;
-  const delay     = parseFloat(document.getElementById("sb-delay").value)      || 4.5;
-  const cong      = parseFloat(document.getElementById("sb-congestion").value) || 0.28;
-  const wx        = parseFloat(document.getElementById("sb-weather").value)    || 0.18;
-  const speed     = parseFloat(document.getElementById("sb-speed").value)      || 13.2;
-  const precip    = parseFloat(document.getElementById("sb-precip").value)     || 8;
-  const route     = DB.routes.find(r => r.id === (routeKey === "tubaro" ? "tubaro_qingdao" : "hedland_qingdao"));
-
-  // Apply BAF and wet-loading on top of manual inputs
-  const baf     = bafCongestionLift(speed);
-  const wet     = wetLoadingPenalty(precip);
-  const finalCong = Math.min(0.95, cong + baf);
-  const totalDelay = delay + wet;
-
-  const cfi   = parseFloat((totalDelay / route.typical_voyage_days) * (1 + finalCong) * (1 + wx) * 100).toFixed(2);
-  const cnum  = parseFloat(cfi);
-  const cls   = classifyCFI(cnum);
-  const pen   = ((cnum / 100) * route.baseline_rate_usd_ton).toFixed(2);
-
-  const res = document.getElementById("sb-result");
-  res.style.display = "flex";
-  res.innerHTML = [
-    ["CFI Score",    `<span class="sbr-val ${cls.level}">${cfi}</span>`],
-    ["Band",         `<span class="sbr-val ${cls.level}">${cls.band}</span>`],
-    ["Penalty/MT",   `<span class="sbr-val ${cls.level}">$${pen}</span>`],
-    ["BAF Lift",     `<span class="sbr-val">+${(baf).toFixed(2)}</span>`],
-    ["Wet Shutdown", `<span class="sbr-val">+${wet.toFixed(2)}d</span>`],
-    ["Final Delay",  `<span class="sbr-val">${totalDelay.toFixed(2)}d</span>`],
-    ["Final Cong.",  `<span class="sbr-val">${finalCong.toFixed(3)}</span>`],
-    ["Voyage Days",  `<span class="sbr-val">${route.typical_voyage_days}d</span>`],
-  ].map(([l,v]) => `<div class="sbr-item"><div class="sbr-lbl">${l}</div>${v}</div>`).join("");
-}
-
-// ── Utility ───────────────────────────────────────────────────────
-function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate()+n); return x; }
+function escHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x;}
 </script>
-
-  <script>
-    // Register service worker for PWA offline support
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
-      });
-    }
-  </script>
+<script>
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+  }
+</script>
 </body>
 </html>
