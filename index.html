@@ -20,7 +20,7 @@
     :root{
       --void:#0d1117;--surface:#111820;--card:#141c26;--card-hover:#18222e;--inset:#0a1018;
       --border:rgba(255,255,255,0.06);--border-mid:rgba(255,255,255,0.11);
-      --text:#c9d1d9;--text-dim:#6e7681;--text-mute:#30363d;--silver:#e6edf3;
+      --text:#c9d1d9;--text-dim:#8b949e;--text-mute:#586069;--silver:#e6edf3;
       --gold:#c9a96e;--gold-dim:rgba(201,169,110,0.14);
       --nominal:#238636;--nominal-bg:rgba(35,134,54,0.10);--nominal-br:rgba(35,134,54,0.25);
       --moderate:#9e6a03;--mod-bg:rgba(158,106,3,0.10);--mod-br:rgba(158,106,3,0.30);
@@ -313,20 +313,148 @@
 
     /* RESPONSIVE */
     @media(max-width:1100px){
-      .hdr,.sbar,main,.ftr{padding-left:20px;padding-right:20px}
-      .lockdown{margin-left:20px;margin-right:20px}
+      .hdr,.sbar,main,.ftr{padding-left:16px;padding-right:16px}
+      .lockdown{margin-left:16px;margin-right:16px}
       .rcard{grid-template-columns:1fr;gap:14px}
       .sb{align-items:flex-start;flex-direction:row;align-items:center}
       .metrics{grid-template-columns:repeat(3,1fr)}
       .mc-cell:nth-child(3){border-right:none}
       .mc-cell:nth-child(1),.mc-cell:nth-child(2),.mc-cell:nth-child(3){border-bottom:1px solid var(--border)}
       .sb-grid,.calc-grid{grid-template-columns:repeat(2,1fr)}
-      .bdi-route-row{grid-template-columns:1fr 1fr 1fr}
+      .bdi-route-row{grid-template-columns:1fr 1fr}
       .calc-breakdown{grid-template-columns:repeat(2,1fr)}
     }
-    @media(max-width:640px){
-      .hdr-title{font-size:24px}
+
+    /* ── MOBILE (phones) ── */
+    @media(max-width:480px){
+      /* Typography scale-up for readability */
+      html{font-size:14px}
+      --text-dim: #9aa5b1;
+      --text-mute: #6b7785;
+
+      /* Header */
+      .hdr{padding:16px 16px 14px;flex-direction:column;align-items:flex-start;gap:12px}
+      .hdr-r{flex-direction:row;align-items:center;justify-content:space-between;width:100%}
+      .hdr-title{font-size:28px}
+      .hdr-sub{display:none}
+      .hdr-eye{font-size:10px}
+
+      /* Status bar — wrap to 2 rows, hide less important items */
+      .sbar{padding:8px 16px;gap:14px;overflow-x:auto;flex-wrap:nowrap}
+      .si{font-size:10px;flex-shrink:0}
+      .ssep{display:none}
+
+      /* Main padding */
+      main{padding:20px 16px 48px}
+      .sec-lbl{font-size:10px;margin-bottom:14px}
+
+      /* Vessel tabs */
+      .vessel-tabs{overflow-x:auto}
+      .vtab{font-size:11px;padding:10px 18px 8px;flex-shrink:0}
+
+      /* Route cards — single column, bigger text */
+      .rcard{padding:16px;gap:12px}
+      .rname{font-size:16px}
+      .rcode{font-size:10px}
+      .mc{font-size:10px}
+      .mc span{color:#6b7785}
+
+      /* Metrics grid — 2 columns on mobile */
       .metrics{grid-template-columns:1fr 1fr}
+      .mc-cell{padding:10px 12px}
+      .mc-lbl{font-size:10px;color:#8a9ab0;letter-spacing:.06em}
+      .mc-val{font-size:16px}
+      .mc-unit{font-size:10px;color:#8a9ab0}
+      .mc-cell:nth-child(3){border-right:1px solid var(--border)}
+      .mc-cell:nth-child(2n){border-right:none}
+      .mc-cell:nth-child(1),.mc-cell:nth-child(2),.mc-cell:nth-child(3),.mc-cell:nth-child(4){border-bottom:1px solid var(--border)}
+
+      /* Score block */
+      .sb{flex-direction:column;align-items:flex-start;gap:8px;min-width:unset;width:100%}
+      .sc-num{font-size:52px}
+      .sc-lbl{font-size:10px;color:#8a9ab0}
+      .badge{font-size:10px;padding:4px 12px}
+      .penalty-tag{font-size:11px;text-align:left}
+      .btn-action{font-size:11px;padding:12px 20px;width:100%;text-align:center}
+
+      /* Fixture countdown */
+      .fc-label{font-size:10px;color:#8a9ab0}
+      .fc-timer{font-size:13px}
+      .fc-sub{font-size:10px;color:#8a9ab0}
+
+      /* Lockdown banner */
+      .lockdown{flex-direction:column;gap:10px;padding:14px 16px}
+      .ld-penalty{margin-left:0;text-align:left;font-size:22px}
+
+      /* Lead cards */
+      .leads-grid{grid-template-columns:1fr}
+      .lead-card{padding:14px 16px}
+      .lead-name{font-size:16px}
+      .lead-role{font-size:11px;color:#9aa5b1}
+      .lead-co{font-size:11px;color:#9aa5b1}
+      .lc{font-size:11px;color:#9aa5b1}
+      .lc a{color:var(--gold)}
+      .lead-tier{font-size:9px;padding:2px 8px}
+      .btn-outreach,.btn-wa{font-size:11px;padding:9px 14px}
+      .lead-actions{gap:8px}
+
+      /* Panels */
+      .calc-panel,.bdi-panel,.sandbox,.log-panel,.chart-panel{padding:16px}
+      .calc-grid,.sb-grid{grid-template-columns:1fr}
+      .calc-input,.calc-select,.sb-input,.sb-select,.bdi-input{font-size:14px;padding:10px 12px;width:100%}
+      .btn-calc,.btn-bdi,.btn-run{font-size:11px;padding:11px 20px;width:100%;margin-top:12px}
+
+      /* BDI results */
+      .bdi-route-row{grid-template-columns:1fr;gap:10px;padding:12px}
+      .bdr-label{font-size:15px}
+      .bdr-lbl{font-size:10px;color:#8a9ab0}
+      .bdr-val{font-size:14px}
+      .div-badge{font-size:10px;padding:5px 12px}
+      .bdi-insight{font-size:11px;line-height:1.7}
+      .bdi-heading,.chart-heading{font-size:17px}
+      .bdi-sub,.chart-sub{font-size:11px;color:#9aa5b1}
+      .bdi-source{font-size:11px}
+
+      /* Sandbox results */
+      .sb-result{flex-direction:column;gap:12px;align-items:flex-start}
+      .sbr-val{font-size:20px}
+      .sbr-lbl{font-size:10px;color:#8a9ab0}
+
+      /* Calc breakdown */
+      .calc-result{padding:14px}
+      .calc-headline{font-size:32px}
+      .calc-sub-line{font-size:11px;color:#9aa5b1}
+      .calc-breakdown{grid-template-columns:1fr 1fr;gap:10px}
+      .cbi-lbl{font-size:10px;color:#8a9ab0}
+      .cbi-val{font-size:16px}
+
+      /* Log */
+      .log-table{font-size:11px}
+      .log-table th{font-size:9px;color:#8a9ab0}
+      .log-badge{font-size:9px}
+
+      /* Modal */
+      .modal{max-height:95vh;border-radius:0}
+      .mhdr{padding:14px 16px}
+      .m-title{font-size:18px}
+      .m-sub{font-size:11px;color:#9aa5b1}
+      .m-meta{gap:16px;padding:10px 16px}
+      .mm-lbl{font-size:9px;color:#8a9ab0}
+      .mm-val{font-size:13px}
+      .m-body{padding:16px}
+      .m-email{font-size:12px;line-height:1.8}
+      .mftr{padding:12px 16px;flex-direction:column;align-items:stretch;gap:10px}
+      .mftr-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+      .btn-copy,.btn-mailto,.btn-wa-modal{font-size:10px;padding:10px 8px;text-align:center}
+
+      /* Footer */
+      .ftr{padding:12px 16px;flex-direction:column;gap:4px;text-align:center}
+      .ftr-l,.ftr-r{font-size:10px;color:#6b7785}
+
+      /* Toast */
+      .toast{top:12px;right:12px;left:12px;max-width:unset}
+      .toast-title{font-size:11px}
+      .toast-body{font-size:11px}
     }
   </style>
 </head>
