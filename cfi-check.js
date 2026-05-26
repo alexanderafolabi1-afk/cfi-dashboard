@@ -9,8 +9,8 @@
 "use strict";
 
 // ── Config ────────────────────────────────────────────────────────
-const TG_TOKEN   = process.env.TG_TOKEN   || "8947755675:AAFMIF3t_VcSNeS_Jd2KWx2G_PBGMRzYSHA";
-const TG_CHAT_ID = process.env.TG_CHAT_ID || "8653303114";
+const TG_TOKEN   = process.env.TG_TOKEN;
+const TG_CHAT_ID = process.env.TG_CHAT_ID;
 const CFI_CRITICAL = 75;
 
 // ── Route database ────────────────────────────────────────────────
