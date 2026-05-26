@@ -1,0 +1,28 @@
+name: CFI Alert Monitor
+
+# Runs automatically every 30 minutes around the clock.
+# Also lets you trigger it manually from the GitHub Actions tab.
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  cfi-check:
+    name: Calculate CFI & Alert
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run CFI calculation & send Telegram alert if critical
+        run: node cfi-check.js
+        env:
+          TG_TOKEN:   ${{ secrets.TG_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
