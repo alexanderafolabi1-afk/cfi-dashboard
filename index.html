@@ -227,6 +227,39 @@
     .btn-mailto{font-family:var(--font-m);font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;cursor:pointer;transition:all .15s;border:1px solid var(--border-mid);color:var(--text-dim);background:transparent;text-decoration:none;display:inline-block}
     .btn-mailto:hover{color:var(--silver);border-color:var(--border-mid)}
 
+    /* BDI OVERLAY */
+    .bdi-panel{background:var(--card);border:1px solid var(--border);padding:24px;margin-bottom:40px}
+    .bdi-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+    .bdi-heading{font-family:var(--font-d);font-size:16px;color:var(--silver);font-weight:600}
+    .bdi-sub{font-size:9px;color:var(--text-dim);margin-top:3px;max-width:520px;line-height:1.6}
+    .bdi-source{font-size:8px;color:var(--text-mute);margin-top:5px}
+    .bdi-source a{color:var(--gold);text-decoration:none}
+    .bdi-source a:hover{color:#e8c97e}
+    .bdi-input-row{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+    .bdi-field{display:flex;flex-direction:column;gap:5px}
+    .bdi-lbl{font-size:8px;letter-spacing:.14em;color:var(--text-dim);text-transform:uppercase}
+    .bdi-input{font-family:var(--font-m);font-size:14px;color:var(--silver);background:var(--inset);border:1px solid var(--border);padding:8px 14px;width:160px;outline:none;transition:border-color .15s;-webkit-appearance:none}
+    .bdi-input:focus{border-color:var(--gold-dim)}
+    .btn-bdi{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:9px 22px;cursor:pointer;border:1px solid var(--gold-dim);background:transparent;color:var(--gold);transition:all .15s}
+    .btn-bdi:hover{background:var(--gold-dim);color:#e8c97e}
+    .bdi-results{display:none;margin-top:20px;flex-direction:column;gap:2px}
+    .bdi-route-row{background:var(--inset);border:1px solid var(--border);padding:14px 18px;display:grid;grid-template-columns:180px repeat(4,1fr) auto;gap:14px;align-items:center}
+    .bdr-label{font-family:var(--font-d);font-size:14px;color:var(--silver);font-weight:600}
+    .bdr-item{display:flex;flex-direction:column;gap:2px}
+    .bdr-lbl{font-size:7.5px;letter-spacing:.13em;color:var(--text-mute);text-transform:uppercase}
+    .bdr-val{font-size:13px;font-weight:500;color:var(--text)}
+    .bdr-val.gold{color:var(--gold)}
+    .bdr-val.crit{color:var(--critical)}
+    .bdr-val.warn{color:var(--warn)}
+    .bdr-val.nom{color:var(--nominal)}
+    .div-badge{font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border:1px solid;white-space:nowrap}
+    .div-ahead{color:var(--critical);background:var(--crit-bg);border-color:var(--crit-br)}
+    .div-watch{color:var(--warn);background:rgba(245,166,35,0.08);border-color:rgba(245,166,35,0.3)}
+    .div-aligned{color:var(--nominal);background:var(--nominal-bg);border-color:var(--nominal-br)}
+    .bdi-insight{margin-top:14px;padding:12px 16px;background:var(--inset);border-left:2px solid var(--gold);font-size:10px;color:var(--text-dim);line-height:1.7;display:none}
+    .bdi-insight.show{display:block}
+    .bdi-insight strong{color:var(--gold)}
+
     /* FOOTER */
     .ftr{border-top:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;justify-content:space-between}
     .ftr-l,.ftr-r{font-size:8.5px;color:var(--text-mute);letter-spacing:.08em}
@@ -308,6 +341,32 @@
   <!-- LEADS -->
   <div class="sec-lbl">Institutional Target Database</div>
   <div class="leads-grid" id="leads-grid"></div>
+
+
+  <!-- BDI OVERLAY -->
+  <div class="sec-lbl">Baltic Dry Index — Market Divergence Monitor</div>
+  <div class="bdi-panel">
+    <div class="bdi-top">
+      <div>
+        <div class="bdi-heading">BDI vs CFI Divergence Analysis</div>
+        <div class="bdi-sub">Enter today's Baltic Dry Index reading to calculate the gap between your proprietary CFI signal and where the public market is currently priced. A high divergence means you are seeing stress the market has not yet acted on — your outreach window.</div>
+        <div class="bdi-source">Live BDI: <a href="https://www.bloomberg.com/quote/BDIY:IND" target="_blank">bloomberg.com/quote/BDIY:IND</a> &nbsp;·&nbsp; <a href="https://www.balticexchange.com/en/data/indices/bdi.html" target="_blank">balticexchange.com</a></div>
+      </div>
+    </div>
+    <div class="bdi-input-row">
+      <div class="bdi-field">
+        <div class="bdi-lbl">Today's BDI</div>
+        <input class="bdi-input" type="number" id="bdi-value" placeholder="e.g. 1840" min="100" max="12000" step="1" />
+      </div>
+      <div class="bdi-field">
+        <div class="bdi-lbl">Previous BDI (optional)</div>
+        <input class="bdi-input" type="number" id="bdi-prev" placeholder="e.g. 1790" min="100" max="12000" step="1" />
+      </div>
+      <button class="btn-bdi" onclick="runBDI()">Calculate Divergence</button>
+    </div>
+    <div class="bdi-results" id="bdi-results"></div>
+    <div class="bdi-insight" id="bdi-insight"></div>
+  </div>
 
   <!-- SANDBOX -->
   <div class="sec-lbl">Interactive Testing Sandbox</div>
@@ -1080,6 +1139,112 @@ function copyEmail() {
 }
 
 // ═══════════════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════════════
+// SECTION 5b — BDI DIVERGENCE ENGINE
+// BDI is the public market benchmark. CFI is your leading indicator.
+// Divergence = gap between what you see and what the market has priced.
+// ═══════════════════════════════════════════════════════════════════
+
+/**
+ * BDI Normalisation
+ * Maps the raw BDI number onto a 0–100 scale comparable to CFI.
+ * Historical BDI range: ~300 (floor) to ~11,000 (2008 peak).
+ * Working range for dry bulk iron ore context: 500–4000.
+ */
+function normaliseBDI(bdi) {
+  const MIN = 500, MAX = 4000;
+  const clamped = Math.min(MAX, Math.max(MIN, bdi));
+  return parseFloat(((clamped - MIN) / (MAX - MIN) * 100).toFixed(1));
+}
+
+/**
+ * Divergence score: how far ahead of the market your CFI reading is.
+ * Positive = CFI sees more stress than BDI reflects (your edge).
+ * Negative = BDI already priced in more than CFI shows.
+ */
+function calcDivergence(cfi, bdiNormalised) {
+  return parseFloat((cfi - bdiNormalised).toFixed(1));
+}
+
+function classifyDivergence(div) {
+  if (div >= 25)  return { label: "CFI Ahead of Market", cls: "div-ahead",   insight: "critical" };
+  if (div >= 10)  return { label: "Market Lagging",      cls: "div-watch",   insight: "watch" };
+  return                 { label: "Market Aligned",      cls: "div-aligned", insight: "aligned" };
+}
+
+function runBDI() {
+  const bdiRaw  = parseFloat(document.getElementById("bdi-value").value);
+  const bdiPrev = parseFloat(document.getElementById("bdi-prev").value) || null;
+
+  if (!bdiRaw || isNaN(bdiRaw)) {
+    document.getElementById("bdi-value").focus();
+    return;
+  }
+
+  const bdiNorm    = normaliseBDI(bdiRaw);
+  const bdiChange  = bdiPrev ? parseFloat((bdiRaw - bdiPrev).toFixed(0)) : null;
+  const bdiTrend   = bdiChange !== null ? (bdiChange > 0 ? `▲ +${bdiChange}` : `▼ ${bdiChange}`) : "—";
+  const trendColor = bdiChange > 0 ? "nom" : bdiChange < 0 ? "crit" : "gold";
+
+  const resultsEl = document.getElementById("bdi-results");
+  const insightEl = document.getElementById("bdi-insight");
+  resultsEl.style.display = "flex";
+
+  let worstDiv = -999;
+  let worstRoute = null;
+  let allInsights = [];
+
+  resultsEl.innerHTML = DB.routes.map(route => {
+    const p = cache[route.id];
+    if (!p) return "";
+
+    const div     = calcDivergence(p.cfi, bdiNorm);
+    const cls     = classifyDivergence(div);
+    if (div > worstDiv) { worstDiv = div; worstRoute = route; }
+
+    // Implied freight premium: divergence as % of baseline rate
+    const impliedPremium = parseFloat((div / 100 * route.baseline_rate_usd_ton).toFixed(2));
+    const premiumSign    = impliedPremium >= 0 ? "+" : "";
+
+    allInsights.push({ route, div, cls, impliedPremium, cfi: p.cfi, bdiNorm });
+
+    return `
+      <div class="bdi-route-row">
+        <div class="bdr-label">${route.short}</div>
+        <div class="bdr-item"><div class="bdr-lbl">CFI Score</div><div class="bdr-val ${p.level}">${p.cfi.toFixed(1)}</div></div>
+        <div class="bdr-item"><div class="bdr-lbl">BDI (normalised)</div><div class="bdr-val gold">${bdiNorm.toFixed(1)}</div></div>
+        <div class="bdr-item"><div class="bdr-lbl">Divergence</div><div class="bdr-val ${div >= 25 ? 'crit' : div >= 10 ? 'warn' : 'nom'}">${div >= 0 ? '+' : ''}${div}</div></div>
+        <div class="bdr-item"><div class="bdr-lbl">Implied Premium</div><div class="bdr-val ${impliedPremium >= 0 ? 'crit' : 'nom'}">${premiumSign}$${Math.abs(impliedPremium).toFixed(2)}/MT</div></div>
+        <div class="div-badge ${cls.cls}">${cls.label}</div>
+      </div>`;
+  }).join("");
+
+  // BDI summary row
+  resultsEl.innerHTML += `
+    <div style="padding:10px 18px;background:var(--card);border:1px solid var(--border);display:flex;gap:28px;flex-wrap:wrap;align-items:center;margin-top:2px">
+      <div class="bdr-item"><div class="bdr-lbl">BDI Today</div><div class="bdr-val gold">${bdiRaw.toLocaleString()}</div></div>
+      ${bdiChange !== null ? `<div class="bdr-item"><div class="bdr-lbl">vs Yesterday</div><div class="bdr-val ${trendColor}">${bdiTrend}</div></div>` : ""}
+      <div class="bdr-item"><div class="bdr-lbl">Normalised (0–100)</div><div class="bdr-val">${bdiNorm.toFixed(1)}</div></div>
+      <div class="bdr-item"><div class="bdr-lbl">BDI Range Reference</div><div class="bdr-val" style="font-size:10px;color:var(--text-dim)">500 (floor) → 4,000 (elevated)</div></div>
+    </div>`;
+
+  // Insight block
+  const worst = allInsights.sort((a, b) => b.div - a.div)[0];
+  let insightText = "";
+
+  if (worst.div >= 25) {
+    insightText = `<strong>Critical divergence detected on ${worst.route.short}.</strong> Your CFI reads ${worst.cfi.toFixed(1)} against a BDI-normalised market price of ${worst.bdiNorm.toFixed(1)} — a gap of +${worst.div} points. The public market has not priced in this level of freight stress yet. This is your asymmetric window. Every hour you delay outreach narrows the gap as the market catches up. The implied unpriced premium is $${Math.abs(worst.impliedPremium).toFixed(2)}/MT — use this figure as your opening line.`;
+  } else if (worst.div >= 10) {
+    insightText = `<strong>Market is lagging on ${worst.route.short}.</strong> CFI divergence of +${worst.div} points suggests freight stress is building faster than the BDI currently reflects. Monitor closely and prepare outreach materials now. Implied unpriced premium: $${Math.abs(worst.impliedPremium).toFixed(2)}/MT.`;
+  } else {
+    insightText = `<strong>Markets are broadly aligned.</strong> CFI and BDI are within normal tracking range across both routes. No immediate divergence opportunity. Continue monitoring — divergence can open quickly when weather or congestion spikes.`;
+  }
+
+  insightEl.innerHTML = insightText;
+  insightEl.classList.add("show");
+}
+
 // SECTION 5 — SANDBOX
 // ═══════════════════════════════════════════════════════════════════
 
