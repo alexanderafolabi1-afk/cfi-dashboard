@@ -10,9 +10,9 @@ const ASSETS = [
   "/",
   "/index.html",
   "/manifest.json",
-  "/icon-192.png",
-  "/icon-512.png",
-  "/icon-180.png",
+  "/icon-192.jpg",
+  "/icon-512.jpg",
+  "/icon-180.jpg",
 ];
 
 // Install: cache all core assets
