@@ -4,15 +4,15 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Capesize Friction Index — CFI Terminal</title>
-  <link rel="manifest" href="./manifest.json"/>
+  <link rel="manifest" href="/cfi-dashboard/manifest.json"/>
   <meta name="mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="CFI Terminal"/>
   <meta name="theme-color" content="#0d1117"/>
-  <link rel="apple-touch-icon" href="icon-180.jpg"/>
-  <link rel="icon" type="image/jpeg" sizes="192x192" href="icon-192.jpg"/>
-  <link rel="icon" type="image/jpeg" sizes="512x512" href="icon-512.jpg"/>
+  <link rel="apple-touch-icon" href="/cfi-dashboard/icon-180.jpg"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.jpg"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.jpg"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet"/>
@@ -1377,10 +1377,6 @@ function copyEmail(){
 function escHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x;}
 </script>
-<script>
-  if('serviceWorker' in navigator){
-    window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-  }
-</script>
+
 </body>
 </html>
