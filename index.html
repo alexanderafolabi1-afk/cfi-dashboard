@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capesize Friction Index — CFI Terminal</title>
+  <!-- PWA / Home Screen App -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="CFI Terminal" />
+  <meta name="theme-color" content="#0d1117" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --void:       #0d1117;
+      --surface:    #111820;
+      --card:       #141c26;
+      --card-hover: #18222e;
+      --inset:      #0a1018;
+      --border:     rgba(255,255,255,0.06);
+      --border-mid: rgba(255,255,255,0.11);
+      --text:       #c9d1d9;
+      --text-dim:   #6e7681;
+      --text-mute:  #30363d;
+      --silver:     #e6edf3;
+      --gold:       #c9a96e;
+      --gold-dim:   rgba(201,169,110,0.14);
+      --nominal:    #238636;
+      --nominal-bg: rgba(35,134,54,0.10);
+      --nominal-br: rgba(35,134,54,0.25);
+      --moderate:   #9e6a03;
+      --mod-bg:     rgba(158,106,3,0.10);
+      --mod-br:     rgba(158,106,3,0.30);
+      --high:       #d29922;
+      --high-bg:    rgba(210,153,34,0.09);
+      --high-br:    rgba(210,153,34,0.32);
+      --critical:   #da3633;
+      --crit-bg:    rgba(218,54,51,0.08);
+      --crit-br:    rgba(218,54,51,0.40);
+      --crit-glow:  rgba(218,54,51,0.15);
+      --font-d: 'Cormorant Garamond', Georgia, serif;
+      --font-m: 'IBM Plex Mono', 'Courier New', monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{background:var(--void);color:var(--text);font-family:var(--font-m);font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased}
+    ::selection{background:var(--gold-dim);color:var(--gold)}
+    ::-webkit-scrollbar{width:3px;height:3px}
+    ::-webkit-scrollbar-track{background:var(--void)}
+    ::-webkit-scrollbar-thumb{background:var(--border-mid);border-radius:2px}
+    body{min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(201,169,110,0.02) 0%,transparent 300px),var(--void)}
+
+    /* HEADER */
+    .hdr{border-bottom:1px solid var(--border);padding:24px 48px 20px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;position:relative}
+    .hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim) 25%,var(--gold-dim) 75%,transparent)}
+    .hdr-l{display:flex;flex-direction:column;gap:5px}
+    .hdr-eye{font-size:9px;letter-spacing:.24em;color:var(--gold);text-transform:uppercase;font-weight:500}
+    .hdr-title{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--silver);line-height:1}
+    .hdr-title em{color:var(--gold)}
+    .hdr-sub{font-size:10px;color:var(--text-dim);letter-spacing:.08em;margin-top:1px}
+    .hdr-r{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+    .ts-lbl{font-size:8px;color:var(--text-mute);letter-spacing:.15em;text-transform:uppercase}
+    .ts-val{font-size:10px;color:var(--text-dim)}
+    .btn{font-family:var(--font-m);font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;padding:7px 18px;cursor:pointer;transition:all .18s;border:1px solid}
+    .btn-gold{color:var(--gold);background:transparent;border-color:var(--gold-dim)}
+    .btn-gold:hover{background:var(--gold-dim);border-color:rgba(201,169,110,.35);color:#e8c97e}
+    .btn-gold.loading{color:var(--text-mute);pointer-events:none;border-color:var(--border)}
+
+    /* STATUS BAR */
+    .sbar{border-bottom:1px solid var(--border);padding:9px 48px;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+    .si{display:flex;align-items:center;gap:7px;font-size:9px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase}
+    .dot{width:5px;height:5px;border-radius:50%}
+    .d-nom{background:var(--nominal);box-shadow:0 0 5px var(--nominal)}
+    .d-mod{background:var(--moderate);box-shadow:0 0 5px var(--moderate)}
+    .d-hi {background:var(--high);box-shadow:0 0 5px var(--high)}
+    .d-crit{background:var(--critical);box-shadow:0 0 7px var(--critical);animation:pd 1.4s ease-in-out infinite}
+    @keyframes pd{0%,100%{opacity:1}50%{opacity:.3}}
+    .ssep{width:1px;height:12px;background:var(--border)}
+    .slive{margin-left:auto;font-size:9px;letter-spacing:.15em;display:flex;align-items:center;gap:5px}
+    .blink{width:4px;height:4px;border-radius:50%;animation:bl 2s ease-in-out infinite}
+    @keyframes bl{0%,100%{opacity:1}50%{opacity:.1}}
+
+    /* CRITICAL LOCKDOWN BANNER */
+    .lockdown{display:none;background:var(--crit-bg);border:1px solid var(--crit-br);border-left:4px solid var(--critical);padding:14px 24px;margin:20px 48px 0;animation:ldf 1.6s ease-in-out infinite}
+    .lockdown.show{display:flex;align-items:center;gap:16px}
+    @keyframes ldf{0%,100%{border-left-color:var(--critical);box-shadow:0 0 0 0 var(--crit-glow)}50%{border-left-color:#ff6b6b;box-shadow:0 0 20px var(--crit-glow)}}
+    .ld-icon{font-size:20px;flex-shrink:0}
+    .ld-text{flex:1}
+    .ld-hed{font-size:11px;font-weight:600;color:var(--critical);letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px}
+    .ld-body{font-size:10px;color:var(--text-dim)}
+    .ld-penalty{font-size:18px;font-weight:600;color:var(--critical);margin-left:auto;text-align:right;flex-shrink:0}
+    .ld-plabel{font-size:8px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1px}
+
+    /* TOAST */
+    .toast{position:fixed;top:20px;right:20px;z-index:9999;background:#1a0a0a;border:1px solid var(--critical);border-left:3px solid var(--critical);padding:12px 20px;max-width:320px;transform:translateX(120%);transition:transform .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.6)}
+    .toast.show{transform:translateX(0)}
+    .toast-title{font-size:10px;font-weight:600;color:var(--critical);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}
+    .toast-body{font-size:10px;color:var(--text-dim)}
+
+    /* MAIN */
+    main{flex:1;padding:32px 48px 60px}
+    .sec-lbl{font-size:8px;letter-spacing:.24em;color:var(--text-mute);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+    .sec-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
+
+    /* ROUTE CARDS */
+    .routes{display:flex;flex-direction:column;gap:2px;margin-bottom:40px}
+    .rcard{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--border);padding:18px 22px;display:grid;grid-template-columns:240px 1fr auto;gap:20px;align-items:center;transition:all .2s;position:relative;overflow:hidden;animation:ci .4s ease both}
+    @keyframes ci{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .rcard:hover{background:var(--card-hover);border-color:var(--border-mid)}
+    .rcard.nominal {border-left-color:var(--nominal)}
+    .rcard.moderate{border-left-color:var(--moderate);background:color-mix(in srgb,var(--card) 93%,var(--mod-bg))}
+    .rcard.high    {border-left-color:var(--high);background:color-mix(in srgb,var(--card) 92%,var(--high-bg))}
+    .rcard.critical{border-left-color:var(--critical);background:color-mix(in srgb,var(--card) 90%,var(--crit-bg));box-shadow:inset 0 0 40px var(--crit-glow),0 0 0 1px var(--crit-br);animation:ci .4s ease both,crp 2.5s ease-in-out infinite}
+    @keyframes crp{0%,100%{box-shadow:inset 0 0 40px var(--crit-glow),0 0 0 1px var(--crit-br)}50%{box-shadow:inset 0 0 70px rgba(218,54,51,.22),0 0 0 1px var(--crit-br)}}
+    .rcard.pinned{order:-1}
+
+    .ri{display:flex;flex-direction:column;gap:5px}
+    .rcode{font-size:8px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+    .rname{font-family:var(--font-d);font-size:17px;font-weight:600;color:var(--silver);line-height:1.2}
+    .rmeta{display:flex;gap:14px;flex-wrap:wrap;margin-top:2px}
+    .mc{font-size:8px;letter-spacing:.1em;color:var(--text-dim);text-transform:uppercase}
+    .mc span{color:var(--text-mute);margin-right:3px}
+
+    /* METRICS GRID */
+    .metrics{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border)}
+    .mc-cell{padding:9px 14px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
+    .mc-cell:last-child{border-right:none}
+    .mc-lbl{font-size:7.5px;letter-spacing:.14em;color:var(--text-mute);text-transform:uppercase}
+    .mc-val{font-size:14px;font-weight:500;color:var(--text);letter-spacing:.02em}
+    .mc-val.shim{background:linear-gradient(90deg,var(--border),var(--border-mid),var(--border));background-size:200% 100%;animation:sh 1.3s ease-in-out infinite;color:transparent;border-radius:2px}
+    @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .mc-unit{font-size:8px;color:var(--text-dim)}
+
+    /* SCORE BLOCK */
+    .sb{display:flex;flex-direction:column;align-items:flex-end;gap:10px;min-width:150px}
+    .sc-lbl{font-size:8px;letter-spacing:.18em;color:var(--text-mute);text-transform:uppercase}
+    .sc-num{font-size:44px;font-weight:600;line-height:1;letter-spacing:-.02em;transition:color .3s}
+    .sc-num.loading{color:var(--text-mute)}
+    .sc-num.nominal {color:var(--nominal)}
+    .sc-num.moderate{color:var(--moderate)}
+    .sc-num.high    {color:var(--high)}
+    .sc-num.critical{color:var(--critical);text-shadow:0 0 18px rgba(218,54,51,.5)}
+    .badge{font-size:8px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:2px 9px;border:1px solid}
+    .badge.nominal {color:var(--nominal); background:var(--nominal-bg); border-color:var(--nominal-br)}
+    .badge.moderate{color:var(--moderate);background:var(--mod-bg);    border-color:var(--mod-br)}
+    .badge.high    {color:var(--high);    background:var(--high-bg);   border-color:var(--high-br)}
+    .badge.critical{color:var(--critical);background:var(--crit-bg);  border-color:var(--crit-br);animation:bf 1.6s ease-in-out infinite}
+    @keyframes bf{0%,100%{opacity:1}50%{opacity:.5}}
+    .badge.loading{color:var(--text-mute);background:transparent;border-color:var(--border)}
+    .btn-action{font-family:var(--font-m);font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:9px 16px;cursor:pointer;transition:all .15s;border:none;color:#0d1117;background:var(--critical);white-space:nowrap}
+    .btn-action:hover{background:#f85149;box-shadow:0 0 18px rgba(218,54,51,.4)}
+
+    /* PENALTY TAG */
+    .penalty-tag{font-size:8px;color:var(--critical);letter-spacing:.08em;text-align:right}
+
+    /* LEADS SECTION */
+    .leads-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;margin-bottom:40px}
+    .lead-card{background:var(--card);border:1px solid var(--border);padding:16px 20px;display:flex;flex-direction:column;gap:10px;transition:background .2s}
+    .lead-card:hover{background:var(--card-hover)}
+    .lead-route-tag{font-size:7.5px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-bottom:2px}
+    .lead-name{font-family:var(--font-d);font-size:15px;font-weight:600;color:var(--silver)}
+    .lead-role{font-size:9px;color:var(--text-dim);margin-top:1px}
+    .lead-co{font-size:9px;color:var(--text-dim)}
+    .lead-contacts{display:flex;gap:14px;flex-wrap:wrap}
+    .lc{font-size:8.5px;color:var(--text-dim)}
+    .lc a{color:var(--gold);text-decoration:none}
+    .lc a:hover{color:#e8c97e}
+    .lead-tier{display:inline-block;font-size:7px;padding:1px 6px;letter-spacing:.1em;text-transform:uppercase;background:var(--gold-dim);color:var(--gold)}
+    .btn-outreach{font-family:var(--font-m);font-size:8px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;cursor:pointer;border:1px solid var(--border-mid);background:transparent;color:var(--text);transition:all .15s;margin-top:2px}
+    .btn-outreach:hover{border-color:var(--gold-dim);color:var(--gold);background:var(--gold-dim)}
+
+    /* SANDBOX */
+    .sandbox{background:var(--card);border:1px solid var(--border);padding:24px;margin-bottom:40px}
+    .sb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+    .sb-field{display:flex;flex-direction:column;gap:6px}
+    .sb-lbl{font-size:8px;letter-spacing:.14em;color:var(--text-dim);text-transform:uppercase}
+    .sb-sub{font-size:7.5px;color:var(--text-mute);margin-top:-2px}
+    .sb-input{font-family:var(--font-m);font-size:12px;color:var(--silver);background:var(--inset);border:1px solid var(--border);padding:8px 12px;width:100%;outline:none;transition:border-color .15s;-webkit-appearance:none}
+    .sb-input:focus{border-color:var(--gold-dim)}
+    .sb-select{font-family:var(--font-m);font-size:12px;color:var(--silver);background:var(--inset);border:1px solid var(--border);padding:8px 12px;width:100%;outline:none;cursor:pointer}
+    .sb-result{margin-top:20px;padding:16px;background:var(--inset);border:1px solid var(--border);display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+    .sbr-item{display:flex;flex-direction:column;gap:2px}
+    .sbr-lbl{font-size:7.5px;letter-spacing:.14em;color:var(--text-mute);text-transform:uppercase}
+    .sbr-val{font-size:18px;font-weight:500;color:var(--silver)}
+    .sbr-val.crit{color:var(--critical)}
+    .sbr-val.high{color:var(--high)}
+    .sbr-val.mod{color:var(--moderate)}
+    .sbr-val.nom{color:var(--nominal)}
+    .btn-run{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:9px 22px;cursor:pointer;border:1px solid var(--gold-dim);background:transparent;color:var(--gold);transition:all .15s;margin-top:16px}
+    .btn-run:hover{background:var(--gold-dim);color:#e8c97e}
+
+    /* MODAL */
+    .overlay{position:fixed;inset:0;background:rgba(13,17,23,.94);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:opacity .22s;backdrop-filter:blur(8px)}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:#111820;border:1px solid var(--border-mid);border-top:2px solid var(--critical);width:100%;max-width:760px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;transform:translateY(14px);transition:transform .22s;box-shadow:0 40px 80px rgba(0,0,0,.7),0 0 0 1px var(--border)}
+    .overlay.open .modal{transform:translateY(0)}
+    .mhdr{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0}
+    .mhdr-l{display:flex;flex-direction:column;gap:3px}
+    .m-eye{font-size:8px;letter-spacing:.2em;color:var(--critical);text-transform:uppercase}
+    .m-title{font-family:var(--font-d);font-size:22px;font-weight:600;color:var(--silver)}
+    .m-sub{font-size:10px;color:var(--text-dim)}
+    .m-close{font-size:18px;color:var(--text-dim);background:none;border:none;cursor:pointer;padding:0 4px;line-height:1;transition:color .15s;flex-shrink:0}
+    .m-close:hover{color:var(--silver)}
+    .m-meta{padding:10px 24px;background:var(--inset);border-bottom:1px solid var(--border);display:flex;gap:24px;flex-wrap:wrap;flex-shrink:0}
+    .mm-item{display:flex;flex-direction:column;gap:1px}
+    .mm-lbl{font-size:7.5px;letter-spacing:.14em;color:var(--text-mute);text-transform:uppercase}
+    .mm-val{font-size:13px;font-weight:500;color:var(--text)}
+    .mm-val.red{color:var(--critical)}
+    .m-body{flex:1;overflow-y:auto;padding:20px 24px}
+    .m-subj{font-size:9px;color:var(--text-dim);padding:9px 12px;background:var(--inset);border:1px solid var(--border);margin-bottom:14px;letter-spacing:.06em}
+    .m-subj span{color:var(--gold)}
+    .m-email{font-family:var(--font-m);font-size:11px;line-height:1.85;color:var(--text);white-space:pre-wrap;word-break:break-word}
+    .imfpa-block{background:rgba(218,54,51,.05);border:1px solid rgba(218,54,51,.20);border-left:2px solid var(--critical);padding:10px 14px;margin:14px 0;font-size:10px;color:var(--text-dim);line-height:1.7}
+    .imfpa-lbl{font-size:8px;letter-spacing:.14em;color:var(--critical);text-transform:uppercase;margin-bottom:4px;font-weight:600}
+    .mftr{padding:12px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+    .mftr-note{font-size:8.5px;color:var(--text-mute)}
+    .mftr-btns{display:flex;gap:8px}
+    .btn-copy{font-family:var(--font-m);font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;cursor:pointer;transition:all .15s;border:1px solid var(--gold-dim);color:var(--gold);background:transparent}
+    .btn-copy:hover{background:var(--gold-dim)}
+    .btn-copy.ok{color:var(--nominal);border-color:var(--nominal-br);background:var(--nominal-bg)}
+    .btn-mailto{font-family:var(--font-m);font-size:8.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;cursor:pointer;transition:all .15s;border:1px solid var(--border-mid);color:var(--text-dim);background:transparent;text-decoration:none;display:inline-block}
+    .btn-mailto:hover{color:var(--silver);border-color:var(--border-mid)}
+
+    /* FOOTER */
+    .ftr{border-top:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;justify-content:space-between}
+    .ftr-l,.ftr-r{font-size:8.5px;color:var(--text-mute);letter-spacing:.08em}
+
+    /* RESPONSIVE */
+    @media(max-width:1100px){
+      .hdr,.sbar,main,.ftr{padding-left:20px;padding-right:20px}
+      .lockdown{margin-left:20px;margin-right:20px}
+      .rcard{grid-template-columns:1fr;gap:14px}
+      .sb{align-items:flex-start;flex-direction:row;align-items:center}
+      .metrics{grid-template-columns:repeat(3,1fr)}
+      .mc-cell:nth-child(3){border-right:none}
+      .mc-cell:nth-child(1),.mc-cell:nth-child(2),.mc-cell:nth-child(3){border-bottom:1px solid var(--border)}
+      .sb-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:640px){
+      .hdr-title{font-size:24px}
+      .metrics{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-title">⛔ Critical Anomaly Detected</div>
+  <div class="toast-body" id="toast-body">CFI threshold exceeded. Immediate outreach opportunity active.</div>
+</div>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-l">
+    <div class="hdr-eye">Proprietary Chartering Intelligence · Iron Ore Capesize</div>
+    <h1 class="hdr-title">Capesize <em>Friction</em> Index</h1>
+    <div class="hdr-sub">CFI = (delay_days / voyage_days) × (1 + congestion_index) × (1 + weather_factor) × 100 · Threshold: 75</div>
+  </div>
+  <div class="hdr-r">
+    <div><div class="ts-lbl">Last Calculated</div><div class="ts-val" id="ts">—</div></div>
+    <button class="btn btn-gold" id="btn-refresh" onclick="refreshAll()">↻ &nbsp;Recalculate</button>
+  </div>
+</header>
+
+<!-- STATUS BAR -->
+<div class="sbar">
+  <div class="si"><div class="dot d-nom"></div>Low · CFI &lt; 30</div>
+  <div class="ssep"></div>
+  <div class="si"><div class="dot d-mod"></div>Moderate · 30–55</div>
+  <div class="ssep"></div>
+  <div class="si"><div class="dot d-hi"></div>High · 55–75</div>
+  <div class="ssep"></div>
+  <div class="si"><div class="dot d-crit"></div>Critical Anomaly · &gt; 75</div>
+  <div class="ssep"></div>
+  <div class="si"><span style="color:var(--gold)">2</span>&nbsp;Routes · Iron Ore · Capesize</div>
+  <div class="ssep"></div>
+  <div class="si" id="next-refresh" style="color:var(--text-mute)">Auto-check: 30m</div>
+  <div class="slive" id="slive"><div class="blink" style="background:var(--gold)"></div>Initialising…</div>
+</div>
+
+<!-- CRITICAL LOCKDOWN BANNER -->
+<div class="lockdown" id="lockdown">
+  <div class="ld-icon">⛔</div>
+  <div class="ld-text">
+    <div class="ld-hed">Critical Market Anomaly — Immediate Action Required</div>
+    <div class="ld-body" id="ld-body">CFI threshold exceeded on active route. Outreach window is live.</div>
+  </div>
+  <div class="ld-penalty">
+    <div class="ld-plabel">Friction Penalty / MT</div>
+    <div id="ld-penalty-val">—</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- ROUTES -->
+  <div class="sec-lbl">Live Route Monitor</div>
+  <div class="routes" id="routes-grid"></div>
+
+  <!-- LEADS -->
+  <div class="sec-lbl">Institutional Target Database</div>
+  <div class="leads-grid" id="leads-grid"></div>
+
+  <!-- SANDBOX -->
+  <div class="sec-lbl">Interactive Testing Sandbox</div>
+  <div class="sandbox">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-family:var(--font-d);font-size:16px;color:var(--silver);font-weight:600">Manual Parameter Override</div>
+        <div style="font-size:9px;color:var(--text-dim);margin-top:3px">Adjust inputs to test friction variances live. Results do not affect route cards.</div>
+      </div>
+    </div>
+    <div class="sb-grid">
+      <div class="sb-field">
+        <div class="sb-lbl">Route</div>
+        <div class="sb-sub">Select baseline</div>
+        <select class="sb-select" id="sb-route">
+          <option value="tubaro">Tubarão → Qingdao (35d voyage)</option>
+          <option value="hedland">Port Hedland → Qingdao (12d voyage)</option>
+        </select>
+      </div>
+      <div class="sb-field">
+        <div class="sb-lbl">Delay Days</div>
+        <div class="sb-sub">Weather + port shutdown</div>
+        <input class="sb-input" type="number" id="sb-delay" value="4.5" min="0" max="30" step="0.5" />
+      </div>
+      <div class="sb-field">
+        <div class="sb-lbl">Congestion Index</div>
+        <div class="sb-sub">0.00 – 0.95</div>
+        <input class="sb-input" type="number" id="sb-congestion" value="0.28" min="0" max="0.95" step="0.01" />
+      </div>
+      <div class="sb-field">
+        <div class="sb-lbl">Weather Factor</div>
+        <div class="sb-sub">0.00 – 0.80</div>
+        <input class="sb-input" type="number" id="sb-weather" value="0.18" min="0" max="0.80" step="0.01" />
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div class="sb-field" style="margin-top:14px">
+        <div class="sb-lbl">Ballast Speed (kn)</div>
+        <input class="sb-input" type="number" id="sb-speed" value="13.2" min="7" max="16" step="0.1" style="width:140px"/>
+      </div>
+      <div class="sb-field" style="margin-top:14px">
+        <div class="sb-lbl">Precip. (mm/day)</div>
+        <input class="sb-input" type="number" id="sb-precip" value="8" min="0" max="120" step="1" style="width:140px"/>
+      </div>
+      <button class="btn-run" onclick="runSandbox()">Run Calculation</button>
+    </div>
+    <div class="sb-result" id="sb-result" style="display:none"></div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="ftr">
+  <div class="ftr-l">CFI · All scores indicative · Not financial advice · Standalone offline edition</div>
+  <div class="ftr-r">Iron Ore Capesize · Brazil–China · Australia–China · Simulation engine active</div>
+</footer>
+
+<!-- OUTREACH MODAL -->
+<div class="overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="mhdr">
+      <div class="mhdr-l">
+        <div class="m-eye">⚠ BIMCO-Style Outreach · IMFPA Protected</div>
+        <div class="m-title">Institutional Freight Pitch</div>
+        <div class="m-sub" id="m-sub">—</div>
+      </div>
+      <button class="m-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="m-meta" id="m-meta"></div>
+    <div class="m-body">
+      <div class="m-subj" id="m-subj"></div>
+      <div class="m-email" id="m-email"></div>
+    </div>
+    <div class="mftr">
+      <div class="mftr-note">Edit firm details before sending. IMFPA clause is template only — obtain legal review.</div>
+      <div class="mftr-btns">
+        <button class="btn-copy" id="btn-copy" onclick="copyEmail()">Copy Email</button>
+        <a class="btn-mailto" id="btn-mailto" href="#">Open in Mail ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+// ═══════════════════════════════════════════════════════════════════
+// SECTION 1 — ROUTE & LEAD DATABASE
+// ═══════════════════════════════════════════════════════════════════
+const DB = {
+  routes: [
+    {
+      id: "tubaro_qingdao",
+      name: "Ponta da Madeira / Tubarão → Qingdao",
+      short: "TBR–QDG",
+      region: "South Atlantic – Pacific",
+      commodity: "Iron Ore",
+      vessel: "Capesize 180k DWT",
+      origin: { port: "Tubarão / Ponta da Madeira", country: "Brazil", congestion_baseline: 2.4 },
+      destination: { port: "Qingdao", country: "China" },
+      distance_nm: 11850,
+      typical_voyage_days: 35,
+      baseline_rate_usd_ton: 36.25,
+      ballast_speed_kn: 12.8,
+    },
+    {
+      id: "hedland_qingdao",
+      name: "Dampier / Port Hedland → Qingdao",
+      short: "PHD–QDG",
+      region: "Indian Ocean – Pacific",
+      commodity: "Iron Ore",
+      vessel: "Capesize 180k DWT",
+      origin: { port: "Port Hedland / Dampier", country: "Australia", congestion_baseline: 1.7 },
+      destination: { port: "Qingdao", country: "China" },
+      distance_nm: 3650,
+      typical_voyage_days: 12,
+      baseline_rate_usd_ton: 15.45,
+      ballast_speed_kn: 13.4,
+    }
+  ],
+
+  leads: [
+    // ── Brazil route (3) ─────────────────────────────────────────
+    {
+      id: "l01", route_id: "tubaro_qingdao",
+      name: "Carlos Drummond",
+      title: "Head of Global Chartering",
+      company: "Austral Mineração S.A.",
+      email: "c.drummond@australmineracao.com.br",
+      phone: "+55 21 3478 9200 ext. 4112",
+      tier: 1,
+      notes: "Controls >12Mt annual Capesize allocation. Q4 programme open for tender."
+    },
+    {
+      id: "l02", route_id: "tubaro_qingdao",
+      name: "Fernanda Machado",
+      title: "VP Mineral Supply Chain",
+      company: "Minas Rio Trading S.A.",
+      email: "f.machado@minasriotrading.com",
+      phone: "+55 31 3301 5540 ext. 2204",
+      tier: 1,
+      notes: "Procurement authority to $50M freight. COA structures strongly preferred."
+    },
+    {
+      id: "l03", route_id: "tubaro_qingdao",
+      name: "Ricardo Sobral",
+      title: "Lead Dry Bulk Tonnage Allocator",
+      company: "Meridian Commodities Group",
+      email: "r.sobral@meridiancommodities.com",
+      phone: "+55 11 4502 8810",
+      tier: 2,
+      notes: "Independent trading house. Spot and voyage charter focus. Fast decision cycle."
+    },
+    // ── Australia route (2) ──────────────────────────────────────
+    {
+      id: "l04", route_id: "hedland_qingdao",
+      name: "James Whitmore",
+      title: "Head of Freight & Logistics",
+      company: "Pinnacle Resources Pty Ltd",
+      email: "j.whitmore@pinnacleresources.com.au",
+      phone: "+61 8 6212 4400 ext. 302",
+      tier: 1,
+      notes: "Reports to CFO. Controls ballast leg positioning decisions. Open to period."
+    },
+    {
+      id: "l05", route_id: "hedland_qingdao",
+      name: "Sarah Chen",
+      title: "VP Mineral Supply Chain – Asia",
+      company: "Pacific Iron Holdings Ltd",
+      email: "s.chen@pacificiron.com.au",
+      phone: "+61 2 9280 3365",
+      tier: 1,
+      notes: "Manages 18–22 vessel loadings per quarter. Strong preference for Capesize over Panamax."
+    }
+  ]
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// SECTION 2 — CALCULATION ENGINE
+// Formula: CFI = (delay_days / typical_voyage_days) * (1 + congestion_index) * (1 + weather_factor) * 100
+// ═══════════════════════════════════════════════════════════════════
+
+const CFI_CRITICAL = 75;
+
+/** Deterministic weather sim seeded by port name + UTC hour */
+function simWeather(portName) {
+  const seed     = portName.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  const hbias    = (new Date().getUTCHours() % 12) / 12;
+  const wind_ms  = parseFloat((2.5 + ((seed % 11) + hbias * 4.5)).toFixed(1));
+  const precip   = parseFloat(((seed % 20) + hbias * 18).toFixed(1));
+  const labels   = ["clear sky","light cloud","scattered cloud","overcast","light rain","moderate rain","heavy rain","near gale"];
+  const desc     = labels[Math.floor(((seed + hbias * 4)) % labels.length)];
+  return { wind_ms, precip_mm: precip, description: desc };
+}
+
+/** Simulate AIS ballast speed with baseline + noise */
+function simSpeed(routeId, baseline) {
+  const seed  = routeId.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  const noise = (Math.random() - 0.5) * 1.8;
+  return parseFloat(Math.max(8.0, baseline - (seed % 3) * 0.3 + noise).toFixed(2));
+}
+
+/** Simulate port congestion peaking 08–18 UTC */
+function simCongestion(portName, baseline) {
+  const seed = portName.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  const hour = new Date().getUTCHours();
+  const peak = (hour >= 8 && hour < 18) ? 1.35 : 0.75;
+  const base = baseline + ((seed % 5) - 2) * 0.25;
+  return parseFloat(Math.max(0.4, base * peak).toFixed(2));
+}
+
+/**
+ * Iron Ore Wet-Loading Friction Logic
+ * Heavy rain (>15mm/day) risks iron ore liquefaction, triggering port shutdown days.
+ */
+function wetLoadingPenalty(precip_mm) {
+  const THRESHOLD = 15; // mm/day
+  if (precip_mm <= THRESHOLD) return 0;
+  // Each mm above threshold adds 0.12 shutdown days, capped at 4 days
+  return parseFloat(Math.min(4.0, (precip_mm - THRESHOLD) * 0.12).toFixed(2));
+}
+
+/**
+ * Bunker Fuel Adjustment Factor (BAF)
+ * Slow-steaming vessels (< 12 kn) delay tonnage replacement arrivals → raise congestion
+ */
+function bafCongestionLift(speedKn) {
+  if (speedKn < 11)   return 0.22; // severe slow-steam
+  if (speedKn < 12)   return 0.14; // moderate slow-steam
+  if (speedKn < 13)   return 0.06; // slight under-performance
+  return 0;
+}
+
+/** Derive weather factor (0–0.80) from wind speed m/s */
+function deriveWeatherFactor(wind_ms) {
+  const kn = wind_ms * 1.944;
+  if (kn >= 48) return 0.80;
+  if (kn >= 34) return 0.55;
+  if (kn >= 22) return 0.32;
+  if (kn >= 11) return 0.14;
+  return 0.04;
+}
+
+/** Classify CFI into interpretation band */
+function classifyCFI(cfi) {
+  if (cfi > CFI_CRITICAL) return { band: "Critical Anomaly", level: "critical", short: "CRITICAL" };
+  if (cfi > 55)           return { band: "High",             level: "high",     short: "HIGH" };
+  if (cfi > 30)           return { band: "Moderate",         level: "moderate", short: "MODERATE" };
+  return                         { band: "Low",              level: "nominal",  short: "LOW" };
+}
+
+/**
+ * Core route calculation — equivalent to the Netlify function logic running client-side.
+ * Returns the full payload that index.html consumes.
+ */
+function calcRoute(route) {
+  const weather      = simWeather(route.origin.port);
+  const ballast_spd  = simSpeed(route.id, route.ballast_speed_kn);
+  const cong_raw     = simCongestion(route.origin.port, route.origin.congestion_baseline);
+  const wet_days     = wetLoadingPenalty(weather.precip_mm);
+  const baf_lift     = bafCongestionLift(ballast_spd);
+  const wind_kn      = parseFloat((weather.wind_ms * 1.944).toFixed(1));
+
+  // Build congestion_index (0–0.95) incorporating BAF
+  const congestion_index = parseFloat(Math.min(0.95, (cong_raw / 10) + baf_lift).toFixed(3));
+
+  // Weather delay from Beaufort
+  const beaufort_delay = wind_kn >= 34 ? 3.5 : wind_kn >= 22 ? 2.2 : wind_kn >= 11 ? 1.1 : 0.5;
+
+  // Total delay days: weather + congestion + wet-loading shutdown
+  const delay_days = parseFloat((beaufort_delay + cong_raw + wet_days).toFixed(2));
+
+  // Weather factor
+  const weather_factor = deriveWeatherFactor(weather.wind_ms);
+
+  // ── THE FORMULA ──
+  const CFI = parseFloat(
+    (delay_days / route.typical_voyage_days) * (1 + congestion_index) * (1 + weather_factor) * 100
+  ).toFixed(2);
+
+  const cfi_num = parseFloat(CFI);
+  const cls     = classifyCFI(cfi_num);
+
+  // Financial penalty per metric ton
+  const penalty_per_ton = parseFloat(((cfi_num / 100) * route.baseline_rate_usd_ton).toFixed(2));
+
+  return {
+    route_id:        route.id,
+    timestamp:       new Date().toISOString(),
+    cfi:             cfi_num,
+    band:            cls.band,
+    level:           cls.level,
+    critical_anomaly: cfi_num > CFI_CRITICAL,
+    inputs: {
+      delay_days, congestion_index, weather_factor,
+      beaufort_delay, congestion_raw: cong_raw, wet_loading_days: wet_days,
+      ballast_speed_kn: ballast_spd, baf_lift,
+      wind_speed_kn: wind_kn, wind_ms: weather.wind_ms,
+      precip_mm: weather.precip_mm, weather_description: weather.description,
+      slow_steam_flag: ballast_spd < 12,
+    },
+    penalty_per_ton,
+    baseline_rate: route.baseline_rate_usd_ton,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SECTION 3 — STATE & UI
+// ═══════════════════════════════════════════════════════════════════
+
+let cache       = {};  // route_id → payload
+let activeModal = null; // { route, lead }
+let audioCtx    = null;
+
+// ── Telegram Alert Config ─────────────────────────────────────────
+const TG_TOKEN    = "8947755675:AAFMIF3t_VcSNeS_Jd2KWx2G_PBGMRzYSHA";
+const TG_CHAT_ID  = "8653303114";
+const TG_API      = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`;
+
+// Track which routes have already triggered a Telegram alert this session
+// so you don't get spammed every 30 minutes for the same route
+const tgAlertSent = {};
+
+// Auto-refresh interval: every 30 minutes (1,800,000 ms)
+const REFRESH_INTERVAL_MS = 30 * 60 * 1000;
+
+/**
+ * Send a Telegram message to your phone.
+ * Fires silently in the background — UI is never blocked.
+ */
+async function sendTelegramAlert(crits) {
+  for (const route of crits) {
+    // Only alert once per route per session unless score has moved significantly
+    const p         = cache[route.id];
+    const cacheKey  = `${route.id}_${Math.floor(p.cfi / 5)}`; // re-alert if score moves 5+ points
+    if (tgAlertSent[cacheKey]) continue;
+    tgAlertSent[cacheKey] = true;
+
+    const leads     = DB.leads.filter(l => l.route_id === route.id && l.tier === 1);
+    const leadNames = leads.map(l => `${l.name} — ${l.company}`).join("\n  ");
+    const time      = new Date().toUTCString().replace("GMT", "UTC");
+
+    const msg = [
+      `⛔ *CFI CRITICAL ANOMALY*`,
+      ``,
+      `*Route:* ${route.name}`,
+      `*CFI Score:* ${p.cfi.toFixed(1)} \\[threshold: 75\\]`,
+      `*Band:* ${p.band}`,
+      `*Penalty/MT:* $${p.penalty_per_ton.toFixed(2)} vs $${route.baseline_rate_usd_ton} baseline`,
+      ``,
+      `*Key Inputs:*`,
+      `  Delay Days: ${p.inputs.delay_days.toFixed(2)}d`,
+      `  Congestion: ${p.inputs.congestion_index.toFixed(3)}`,
+      `  Weather: ${p.inputs.weather_description}`,
+      `  Ballast Speed: ${p.inputs.ballast_speed_kn.toFixed(1)} kn${p.inputs.slow_steam_flag ? " ⚠ slow-steam" : ""}`,
+      p.inputs.wet_loading_days > 0 ? `  Wet-Load Risk: ${p.inputs.wet_loading_days.toFixed(2)}d shutdown` : null,
+      ``,
+      `*Tier 1 Targets:*`,
+      `  ${leadNames}`,
+      ``,
+      `🕐 ${time}`,
+      `_Open CFI dashboard → Generate Outreach → Send_`,
+    ].filter(Boolean).join("\n");
+
+    try {
+      await fetch(TG_API, {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id:    TG_CHAT_ID,
+          text:       msg,
+          parse_mode: "Markdown",
+        }),
+      });
+    } catch (err) {
+      console.warn("[CFI] Telegram alert failed:", err.message);
+    }
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  renderSkeletons();
+  renderLeads();
+  setTimeout(refreshAll, 300);
+
+  // Auto-refresh every 30 minutes
+  setInterval(refreshAll, REFRESH_INTERVAL_MS);
+  updateNextRefreshDisplay();
+  setInterval(updateNextRefreshDisplay, 60 * 1000); // update countdown every minute
+});
+
+/** Shows a live "Next check in X min" counter in the status bar */
+let nextRefreshAt = null;
+function updateNextRefreshDisplay() {
+  if (!nextRefreshAt) { nextRefreshAt = Date.now() + REFRESH_INTERVAL_MS; return; }
+  const minsLeft = Math.max(0, Math.round((nextRefreshAt - Date.now()) / 60000));
+  const el = document.getElementById("next-refresh");
+  if (el) el.textContent = `Next check in ${minsLeft}m`;
+}
+
+function resetRefreshTimer() {
+  nextRefreshAt = Date.now() + REFRESH_INTERVAL_MS;
+  updateNextRefreshDisplay();
+}
+
+// ── Refresh ───────────────────────────────────────────────────────
+function refreshAll() {
+  const btn  = document.getElementById("btn-refresh");
+  const live = document.getElementById("slive");
+  btn.classList.add("loading");
+  btn.textContent = "Calculating…";
+  live.innerHTML  = '<div class="blink" style="background:var(--gold)"></div>Running…';
+
+  DB.routes.forEach(route => {
+    try { cache[route.id] = calcRoute(route); }
+    catch(e) { console.error(e); cache[route.id] = null; }
+    populateCard(route, cache[route.id]);
+  });
+
+  document.getElementById("ts").textContent = new Date().toUTCString().replace("GMT","UTC");
+
+  // Check for criticals
+  const crits = DB.routes.filter(r => cache[r.id]?.critical_anomaly);
+
+  // Pin critical cards to top
+  crits.forEach(r => {
+    const card = document.getElementById(`card-${r.id}`);
+    if (card) card.classList.add("pinned");
+  });
+
+  if (crits.length > 0) {
+    showLockdown(crits);
+    showToast(crits);
+    triggerChirp();
+    sendTelegramAlert(crits); // ← fires Telegram message to your phone
+    live.innerHTML = `<div class="blink" style="background:var(--critical)"></div>${crits.length} Critical`;
+    live.style.color = "var(--critical)";
+  } else {
+    hideLockdown();
+    live.innerHTML = '<div class="blink" style="background:var(--nominal);box-shadow:0 0 5px var(--nominal)"></div>All Clear';
+    live.style.color = "var(--nominal)";
+  }
+
+  btn.classList.remove("loading");
+  btn.innerHTML = "↻ &nbsp;Recalculate";
+  resetRefreshTimer();
+}
+
+// ── Skeleton ──────────────────────────────────────────────────────
+function renderSkeletons() {
+  document.getElementById("routes-grid").innerHTML = DB.routes.map((r, i) => `
+    <div class="rcard" id="card-${r.id}" style="animation-delay:${i*.08}s">
+      <div class="ri">
+        <div class="rcode">${r.short} · ${r.region}</div>
+        <div class="rname">${r.name}</div>
+        <div class="rmeta">
+          <div class="mc"><span>Cargo</span>${r.commodity}</div>
+          <div class="mc"><span>Vessel</span>${r.vessel}</div>
+          <div class="mc"><span>Voyage</span>${r.typical_voyage_days}d</div>
+          <div class="mc"><span>Baseline</span>$${r.baseline_rate_usd_ton}/MT</div>
+        </div>
+      </div>
+      <div class="metrics">
+        <div class="mc-cell"><div class="mc-lbl">Delay Days</div><div class="mc-val shim" id="v-delay-${r.id}">——</div><div class="mc-unit">total</div></div>
+        <div class="mc-cell"><div class="mc-lbl">Congestion Idx</div><div class="mc-val shim" id="v-cong-${r.id}">——</div><div class="mc-unit">BAF-adjusted</div></div>
+        <div class="mc-cell"><div class="mc-lbl">Weather Factor</div><div class="mc-val shim" id="v-wx-${r.id}">——</div><div class="mc-unit">Beaufort</div></div>
+        <div class="mc-cell"><div class="mc-lbl">Ballast Speed</div><div class="mc-val shim" id="v-spd-${r.id}">——</div><div class="mc-unit">knots</div></div>
+        <div class="mc-cell"><div class="mc-lbl">Wet-Load Days</div><div class="mc-val shim" id="v-wet-${r.id}">——</div><div class="mc-unit">shutdown risk</div></div>
+      </div>
+      <div class="sb">
+        <div>
+          <div class="sc-lbl">CFI Score</div>
+          <div class="sc-num loading" id="sc-${r.id}">—</div>
+        </div>
+        <div class="badge loading" id="badge-${r.id}">Calculating</div>
+      </div>
+    </div>
+  `).join("");
+}
+
+// ── Populate card ─────────────────────────────────────────────────
+function populateCard(route, p) {
+  const card    = document.getElementById(`card-${route.id}`);
+  const scEl    = document.getElementById(`sc-${route.id}`);
+  const bdgEl   = document.getElementById(`badge-${route.id}`);
+
+  if (!p) { scEl.textContent = "ERR"; return; }
+
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) { el.classList.remove("shim"); el.textContent = val; }
+  };
+
+  set(`v-delay-${route.id}`, p.inputs.delay_days.toFixed(2));
+  set(`v-cong-${route.id}`,  p.inputs.congestion_index.toFixed(3));
+  set(`v-wx-${route.id}`,    p.inputs.weather_factor.toFixed(2));
+  set(`v-spd-${route.id}`,   p.inputs.ballast_speed_kn.toFixed(1) + (p.inputs.slow_steam_flag ? " ⚠" : ""));
+  set(`v-wet-${route.id}`,   p.inputs.wet_loading_days.toFixed(2));
+
+  scEl.textContent = p.cfi.toFixed(1);
+  scEl.className   = `sc-num ${p.level}`;
+
+  const labels = { nominal:"Low", moderate:"Moderate", high:"High", critical:"Critical Anomaly" };
+  bdgEl.textContent = labels[p.level];
+  bdgEl.className   = `badge ${p.level}`;
+  card.className    = `rcard ${p.level}${p.critical_anomaly ? " pinned" : ""}`;
+
+  // Clean up previous dynamic children
+  card.querySelectorAll(".btn-action,.penalty-tag").forEach(e => e.remove());
+
+  const sb = card.querySelector(".sb");
+
+  // Penalty tag
+  const ptag = document.createElement("div");
+  ptag.className = "penalty-tag";
+  ptag.textContent = `Penalty: $${p.penalty_per_ton.toFixed(2)}/MT`;
+  sb.appendChild(ptag);
+
+  // Action button for high/critical
+  if (p.level === "critical" || p.level === "high") {
+    const btn      = document.createElement("button");
+    btn.className  = "btn-action";
+    btn.textContent = "⚡ Trigger Outreach";
+    btn.onclick    = () => {
+      const lead = DB.leads.find(l => l.route_id === route.id && l.tier === 1);
+      openModal(route.id, lead?.id || DB.leads.find(l => l.route_id === route.id)?.id);
+    };
+    sb.appendChild(btn);
+  }
+}
+
+// ── Lead cards ────────────────────────────────────────────────────
+function renderLeads() {
+  document.getElementById("leads-grid").innerHTML = DB.leads.map(lead => {
+    const route = DB.routes.find(r => r.id === lead.route_id);
+    return `
+      <div class="lead-card">
+        <div>
+          <div class="lead-route-tag">${route?.short || "—"} · ${route?.commodity}</div>
+          <div class="lead-name">${lead.name}</div>
+          <div class="lead-role">${lead.title}</div>
+          <div class="lead-co">${lead.company}</div>
+        </div>
+        <div class="lead-contacts">
+          <div class="lc">✉ <a href="mailto:${lead.email}">${lead.email}</a></div>
+          <div class="lc">☎ ${lead.phone}</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+          <div class="lead-tier">Tier ${lead.tier}</div>
+          <button class="btn-outreach" onclick="openModal('${lead.route_id}','${lead.id}')">
+            Generate Outreach →
+          </button>
+        </div>
+        <div style="font-size:8.5px;color:var(--text-mute);line-height:1.5">${lead.notes}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+// ── Critical lockdown banner ──────────────────────────────────────
+function showLockdown(critRoutes) {
+  const best   = critRoutes[0];
+  const payload = cache[best.id];
+  const ld     = document.getElementById("lockdown");
+  document.getElementById("ld-body").textContent =
+    `CFI ${payload.cfi.toFixed(1)} on ${best.short} — ${payload.band}. Penalty: $${payload.penalty_per_ton.toFixed(2)}/MT vs $${best.baseline_rate_usd_ton} baseline.`;
+  document.getElementById("ld-penalty-val").textContent = `$${payload.penalty_per_ton.toFixed(2)}`;
+  ld.classList.add("show");
+
+  // Scroll pinned card into view
+  const card = document.getElementById(`card-${best.id}`);
+  if (card) setTimeout(() => card.scrollIntoView({ behavior: "smooth", block: "start" }), 400);
+}
+
+function hideLockdown() {
+  document.getElementById("lockdown").classList.remove("show");
+}
+
+// ── Toast ─────────────────────────────────────────────────────────
+function showToast(critRoutes) {
+  const payload = cache[critRoutes[0].id];
+  document.getElementById("toast-body").textContent =
+    `${critRoutes[0].short} CFI ${payload.cfi.toFixed(1)} — $${payload.penalty_per_ton.toFixed(2)}/MT friction penalty. Outreach window open.`;
+  const t = document.getElementById("toast");
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 5500);
+}
+
+// ── Web Audio chirp ───────────────────────────────────────────────
+function triggerChirp() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc  = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    // Two-tone alert: high → low sweep
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(1046, audioCtx.currentTime);         // C6
+    osc.frequency.setValueAtTime(880,  audioCtx.currentTime + 0.12);  // A5
+    osc.frequency.setValueAtTime(1046, audioCtx.currentTime + 0.24);  // C6
+    gain.gain.setValueAtTime(0.0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 0.02);
+    gain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 0.32);
+    gain.gain.linearRampToValueAtTime(0.0,  audioCtx.currentTime + 0.48);
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime + 0.5);
+  } catch(e) { /* audio blocked — visual alert still fires */ }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SECTION 4 — MODAL & EMAIL
+// ═══════════════════════════════════════════════════════════════════
+
+function openModal(routeId, leadId) {
+  const route   = DB.routes.find(r => r.id === routeId);
+  const lead    = DB.leads.find(l => l.id === leadId);
+  const payload = cache[routeId];
+  if (!route || !lead) return;
+
+  activeModal = { route, lead, payload };
+
+  document.getElementById("m-sub").textContent = `${route.name} · ${lead.company}`;
+
+  // Meta bar
+  const p = payload || {};
+  document.getElementById("m-meta").innerHTML = [
+    ["CFI Score",   `<span class="mm-val red">${p.cfi ? p.cfi.toFixed(1) : "—"}</span>`],
+    ["Band",        `<span class="mm-val red">${p.band || "—"}</span>`],
+    ["Penalty/MT",  `<span class="mm-val red">$${p.penalty_per_ton ? p.penalty_per_ton.toFixed(2) : "—"}</span>`],
+    ["Delay Days",  p.inputs ? p.inputs.delay_days.toFixed(2) : "—"],
+    ["Congestion",  p.inputs ? p.inputs.congestion_index.toFixed(3) : "—"],
+    ["Ballast Spd", p.inputs ? `${p.inputs.ballast_speed_kn.toFixed(1)} kn` : "—"],
+    ["Precip.",     p.inputs ? `${p.inputs.precip_mm.toFixed(1)} mm/d` : "—"],
+    ["Wet-Load",    p.inputs ? `${p.inputs.wet_loading_days.toFixed(2)} d` : "—"],
+  ].map(([l, v]) => `<div class="mm-item"><div class="mm-lbl">${l}</div><div class="mm-val">${v}</div></div>`).join("");
+
+  const email = buildEmail(route, lead, payload);
+
+  document.getElementById("m-subj").innerHTML =
+    `<span>Subject: </span><span>${email.subject}</span>`;
+  document.getElementById("m-email").innerHTML = email.html;
+
+  // mailto link
+  const mailto = `mailto:${lead.email}?subject=${encodeURIComponent(email.subject)}&body=${encodeURIComponent(email.plain)}`;
+  document.getElementById("btn-mailto").href = mailto;
+
+  document.getElementById("overlay").classList.add("open");
+}
+
+function buildEmail(route, lead, p) {
+  const today        = new Date();
+  const fmt          = d => d.toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
+  const fmtShort     = d => d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"});
+  const laycanOpen   = addDays(today, 7);
+  const laycanClose  = addDays(today, 21);
+  const cfiVal       = p ? p.cfi.toFixed(1) : "N/A";
+  const band         = p ? p.band : "N/A";
+  const penalty      = p ? `USD ${p.penalty_per_ton.toFixed(2)}` : "N/A";
+  const baseline     = `USD ${route.baseline_rate_usd_ton.toFixed(2)}`;
+  const slowNote     = p?.inputs?.slow_steam_flag
+    ? `\nAIS telemetry further indicates average ballast speeds on this corridor have declined to ${p.inputs.ballast_speed_kn.toFixed(1)} knots — below the 12-knot threshold — consistent with widespread slow-steaming behaviour and delayed replacement tonnage arrival windows. This creates compounding displacement risk for prompt fixtures.\n`
+    : "";
+  const wetNote      = p?.inputs?.wet_loading_days > 0
+    ? `\nWet-loading friction logic has flagged elevated precipitation (${p?.inputs?.precip_mm.toFixed(1)} mm/day at origin), triggering an estimated ${p.inputs.wet_loading_days.toFixed(2)}-day port shutdown scenario under iron ore liquefaction risk protocols. This structural loading delay is embedded in the CFI calculation above.\n`
+    : "";
+
+  const subject = `Capesize Charter Inquiry — ${route.short} — CFI ${cfiVal} [${band.toUpperCase()}] — Laycan ${fmtShort(laycanOpen)}/${fmtShort(laycanClose)}`;
+
+  const plain = `STRICTLY PRIVATE AND CONFIDENTIAL
+
+For the Attention of the Chartering Desk
+
+${lead.name}
+${lead.title}
+${lead.company}
+
+${fmt(today)}
+
+Dear ${lead.name.split(" ")[0]},
+
+Re: Capesize Iron Ore Freight Opportunity — ${route.origin.port} to ${route.destination.port} — CFI Alert ${cfiVal} [${band}]
+
+I write to you on behalf of our chartering desk in connection with an active Capesize freight opportunity on the ${route.origin.port}–${route.destination.port} corridor, loading Iron Ore.
+
+MARKET INTELLIGENCE — CAPESIZE FRICTION INDEX
+Our proprietary Capesize Friction Index (CFI) has registered a score of ${cfiVal} on this route as at ${fmt(today)}, triggering a ${band.toUpperCase()} classification against our alert threshold of 75.
+
+This score represents an estimated freight friction cost of ${penalty} per metric ton against the current market baseline of ${baseline}/MT — a commercially significant displacement that creates an immediate fixture cost-advantage window for counterparties who act ahead of spot rate adjustment.
+${slowNote}${wetNote}
+Key inputs underpinning the current CFI reading:
+
+  Total Delay Days:            ${p?.inputs?.delay_days.toFixed(2) || "N/A"} days
+    └ Beaufort Weather Delay:  ${p?.inputs?.beaufort_delay.toFixed(2) || "N/A"} days
+    └ Port Congestion Delay:   ${p?.inputs?.congestion_raw.toFixed(2) || "N/A"} days
+    └ Wet-Loading Shutdown:    ${p?.inputs?.wet_loading_days.toFixed(2) || "0.00"} days
+  Congestion Index (BAF-adj):  ${p?.inputs?.congestion_index.toFixed(3) || "N/A"}
+  Weather Factor:              ${p?.inputs?.weather_factor.toFixed(2) || "N/A"}
+  Wind Speed:                  ${p?.inputs?.wind_speed_kn.toFixed(1) || "N/A"} knots
+  Ballast Speed (AIS):         ${p?.inputs?.ballast_speed_kn.toFixed(1) || "N/A"} knots
+  Estimated Penalty/MT:        ${penalty}
+
+FREIGHT PROPOSAL
+We have ${route.vessel} tonnage positioned and available for this corridor. We would welcome the opportunity to discuss a competitive fixture on NYPE/GENCON terms, adapted to COA structures as required.
+
+Cargo Details:
+  Commodity:       ${route.commodity}
+  Loading Port:    ${route.origin.port}, ${route.origin.country}
+  Discharge Port:  ${route.destination.port}, ${route.destination.country}
+  Voyage Distance: ${route.distance_nm.toLocaleString()} nautical miles
+  Typical Voyage:  ${route.typical_voyage_days} days
+  Laycan:          ${fmtShort(laycanOpen)} / ${fmtShort(laycanClose)}
+  Quantity:        To be agreed per lifting schedule
+
+Please treat the content of this communication as strictly private and confidential.
+
+──────────────────────────────────────────────────────────────────
+INTERMEDIARY FEE PROTECTION — IMFPA NOTICE
+──────────────────────────────────────────────────────────────────
+This communication is transmitted subject to and protected by an Irrevocable Master Fee Protection Agreement (IMFPA). All brokerage, advisory, and intermediary fees arising from any transaction, fixture, or commercial engagement introduced, facilitated, or originated through this communication are irrevocably protected and payable to [Your Firm Name] in full accordance with the terms of the operative IMFPA on file. Any circumvention, bypass, or extinguishment of the fee entitlements described herein — whether direct, indirect, or through third-party arrangement — shall constitute a material breach of the IMFPA and shall be subject to full legal remedy under applicable maritime and commercial law. Acceptance of this communication implies acknowledgement of these terms.
+──────────────────────────────────────────────────────────────────
+
+We look forward to hearing from you.
+
+Yours faithfully,
+
+[Your Name]
+[Your Title]
+[Your Firm Name] · Capesize Freight Brokerage
+[Phone] · [Email]
+
+—
+CFI Score at dispatch: ${cfiVal} [${band}]
+Formula: CFI = (delay_days / voyage_days) × (1 + congestion_index) × (1 + weather_factor) × 100
+Threshold: 75 · Penalty/MT: ${penalty} vs Baseline ${baseline}`;
+
+  // HTML version for modal display (with IMFPA styled block)
+  const parts  = plain.split("──────────────────────────────────────────────────────────────────");
+  const before = parts[0] || plain;
+  const imfpa  = parts[2] || "";
+  const after  = parts[4] || "";
+
+  const html = `<span>${escHtml(before)}</span>` +
+    `<div class="imfpa-block"><div class="imfpa-lbl">IMFPA — Intermediary Fee Protection Notice</div>${escHtml(imfpa.trim())}</div>` +
+    `<span>${escHtml(after)}</span>`;
+
+  return { subject, plain, html };
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function closeModal(event) {
+  if (event && event.target !== document.getElementById("overlay")) return;
+  document.getElementById("overlay").classList.remove("open");
+}
+
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+function copyEmail() {
+  if (!activeModal) return;
+  const email = buildEmail(activeModal.route, activeModal.lead, activeModal.payload);
+  navigator.clipboard.writeText(`Subject: ${email.subject}\n\n${email.plain}`).then(() => {
+    const btn = document.getElementById("btn-copy");
+    btn.textContent = "✓ Copied";
+    btn.classList.add("ok");
+    setTimeout(() => { btn.textContent = "Copy Email"; btn.classList.remove("ok"); }, 2400);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SECTION 5 — SANDBOX
+// ═══════════════════════════════════════════════════════════════════
+
+function runSandbox() {
+  const routeKey  = document.getElementById("sb-route").value;
+  const delay     = parseFloat(document.getElementById("sb-delay").value)      || 4.5;
+  const cong      = parseFloat(document.getElementById("sb-congestion").value) || 0.28;
+  const wx        = parseFloat(document.getElementById("sb-weather").value)    || 0.18;
+  const speed     = parseFloat(document.getElementById("sb-speed").value)      || 13.2;
+  const precip    = parseFloat(document.getElementById("sb-precip").value)     || 8;
+  const route     = DB.routes.find(r => r.id === (routeKey === "tubaro" ? "tubaro_qingdao" : "hedland_qingdao"));
+
+  // Apply BAF and wet-loading on top of manual inputs
+  const baf     = bafCongestionLift(speed);
+  const wet     = wetLoadingPenalty(precip);
+  const finalCong = Math.min(0.95, cong + baf);
+  const totalDelay = delay + wet;
+
+  const cfi   = parseFloat((totalDelay / route.typical_voyage_days) * (1 + finalCong) * (1 + wx) * 100).toFixed(2);
+  const cnum  = parseFloat(cfi);
+  const cls   = classifyCFI(cnum);
+  const pen   = ((cnum / 100) * route.baseline_rate_usd_ton).toFixed(2);
+
+  const res = document.getElementById("sb-result");
+  res.style.display = "flex";
+  res.innerHTML = [
+    ["CFI Score",    `<span class="sbr-val ${cls.level}">${cfi}</span>`],
+    ["Band",         `<span class="sbr-val ${cls.level}">${cls.band}</span>`],
+    ["Penalty/MT",   `<span class="sbr-val ${cls.level}">$${pen}</span>`],
+    ["BAF Lift",     `<span class="sbr-val">+${(baf).toFixed(2)}</span>`],
+    ["Wet Shutdown", `<span class="sbr-val">+${wet.toFixed(2)}d</span>`],
+    ["Final Delay",  `<span class="sbr-val">${totalDelay.toFixed(2)}d</span>`],
+    ["Final Cong.",  `<span class="sbr-val">${finalCong.toFixed(3)}</span>`],
+    ["Voyage Days",  `<span class="sbr-val">${route.typical_voyage_days}d</span>`],
+  ].map(([l,v]) => `<div class="sbr-item"><div class="sbr-lbl">${l}</div>${v}</div>`).join("");
+}
+
+// ── Utility ───────────────────────────────────────────────────────
+function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate()+n); return x; }
+</script>
+
+  <script>
+    // Register service worker for PWA offline support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
