@@ -2,7 +2,7 @@
   "name": "Capesize Friction Index",
   "short_name": "CFI Terminal",
   "description": "Proprietary Capesize chartering intelligence. Iron ore route friction monitoring with instant alerts.",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#0d1117",
   "theme_color": "#0d1117",
@@ -20,5 +20,6 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "scope": "./"
 }
