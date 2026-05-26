@@ -1,21 +1,20 @@
 /**
  * CFI Terminal — Service Worker
- * Caches the dashboard so it loads instantly and works offline.
- * Telegram alerts still require an internet connection.
+ * Scoped to /cfi-dashboard/ for GitHub Pages subdirectory
  */
 
-const CACHE_NAME = "cfi-terminal-v1";
+const CACHE_NAME = "cfi-terminal-v2";
+const BASE = "/cfi-dashboard/";
 
 const ASSETS = [
-  "/",
-  "/index.html",
-  "/manifest.json",
-  "/icon-192.jpg",
-  "/icon-512.jpg",
-  "/icon-180.jpg",
+  BASE,
+  BASE + "index.html",
+  BASE + "manifest.json",
+  BASE + "icon-180.jpg",
+  BASE + "icon-192.jpg",
+  BASE + "icon-512.jpg",
 ];
 
-// Install: cache all core assets
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
@@ -23,7 +22,6 @@ self.addEventListener("install", event => {
   self.skipWaiting();
 });
 
-// Activate: remove old caches
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -33,11 +31,9 @@ self.addEventListener("activate", event => {
   self.clients.claim();
 });
 
-// Fetch: serve from cache, fall back to network
 self.addEventListener("fetch", event => {
-  // Don't cache Telegram API calls — always go live
   if (event.request.url.includes("api.telegram.org")) return;
-
+  if (event.request.url.includes("stooq.com")) return;
   event.respondWith(
     caches.match(event.request).then(cached => cached || fetch(event.request))
   );
