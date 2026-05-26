@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Capesize Friction Index — CFI Terminal</title>
-  <link rel="manifest" href="/manifest.json"/>
+  <link rel="manifest" href="./manifest.json"/>
   <meta name="mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -154,6 +154,18 @@
     .fc-sub{font-size:8px;color:var(--text-mute);margin-top:1px}
     .fc-bar{height:2px;background:var(--border);margin-top:5px;border-radius:1px;overflow:hidden}
     .fc-bar-fill{height:100%;transition:width .5s linear;border-radius:1px}
+
+    /* HISTORICAL CHART */
+    .chart-panel{background:var(--card);border:1px solid var(--border);padding:24px;margin-bottom:40px}
+    .chart-heading{font-family:var(--font-d);font-size:16px;color:var(--silver);font-weight:600}
+    .chart-sub{font-size:9px;color:var(--text-dim);margin-top:3px;line-height:1.6}
+    .chart-wrap{position:relative;margin-top:18px;overflow-x:auto}
+    canvas#cfi-chart{display:block;width:100%;max-height:280px}
+    .chart-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+    .cl-item{display:flex;align-items:center;gap:6px;font-size:8.5px;color:var(--text-dim);letter-spacing:.06em}
+    .cl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .chart-empty{padding:40px 0;text-align:center;font-size:10px;color:var(--text-mute)}
+    .chart-tooltip{position:absolute;background:#0d1117;border:1px solid var(--border-mid);padding:8px 12px;font-size:9px;color:var(--text);pointer-events:none;display:none;z-index:10;white-space:nowrap;line-height:1.7}
 
     /* LEADS */
     .leads-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;margin-bottom:40px}
@@ -346,7 +358,7 @@
   <div class="ssep"></div>
   <div class="si"><div class="dot d-crit"></div>Critical · &gt;75</div>
   <div class="ssep"></div>
-  <div class="si" id="route-count-display"><span style="color:var(--gold)">4</span>&nbsp;Routes Active</div>
+  <div class="si" id="route-count-display"><span style="color:var(--gold)" id="route-count-val">4</span>&nbsp;Routes Active</div>
   <div class="ssep"></div>
   <div class="si" id="next-refresh" style="color:var(--text-mute)">Auto-check: 30m</div>
   <div class="slive" id="slive"><div class="blink" style="background:var(--gold)"></div>Initialising…</div>
@@ -377,6 +389,19 @@
 
   <div class="sec-lbl">Institutional Target Database</div>
   <div class="leads-grid" id="leads-grid"></div>
+
+
+  <!-- HISTORICAL CFI CHART -->
+  <div class="sec-lbl">Historical CFI Trend — Last 30 Days</div>
+  <div class="chart-panel">
+    <div class="chart-heading">CFI Score Over Time</div>
+    <div class="chart-sub">All 6 routes plotted. Red dashed line = alert threshold (75). Data updates every 30 minutes via GitHub Actions. Chart builds up over time — check back after the first 24 hours.</div>
+    <div class="chart-wrap">
+      <canvas id="cfi-chart" height="260"></canvas>
+      <div class="chart-tooltip" id="chart-tooltip"></div>
+    </div>
+    <div class="chart-legend" id="chart-legend"></div>
+  </div>
 
   <!-- RATE CALCULATOR -->
   <div class="sec-lbl">Cargo Exposure Calculator</div>
@@ -603,6 +628,13 @@ const ALL_LEADS = [
   {id:"l11",route_id:"newcastle_rotterdam_pmax",name:"Marta Kowalski",title:"Panamax Chartering Executive",company:"Oldendorff Carriers",email:"m.kowalski@oldendorff.com",phone:"+49 451 1500 200",tier:1,notes:"One of largest Panamax operators globally. Open to back-to-back voyages."},
   {id:"l12",route_id:"santos_qingdao_pmax",name:"Rafael Costa",title:"Grain Logistics VP",company:"Cargill Ocean Transportation",email:"r.costa@cargill.com",phone:"+55 13 3219 0000",tier:1,notes:"World's largest grain shipper. Massive Panamax programme out of Santos."},
   {id:"l13",route_id:"santos_qingdao_pmax",name:"Liu Pengfei",title:"Bulk Import Manager",company:"COFCO International",email:"liu.pengfei@cofco.com",phone:"+86 10 6789 8888",tier:1,notes:"China state grain importer. Largest single soybean import programme."},
+  // ── Additional leads (expanded database) ──────────────────────────
+  {id:"l14",route_id:"hedland_qingdao",name:"Andrew Nkosi",title:"Global Shipping Manager",company:"Fortescue Metals Group",email:"a.nkosi@fmg.com.au",phone:"+61 8 6218 8888",tier:1,notes:"Expanding shipping desk. Open to spot and period fixtures."},
+  {id:"l15",route_id:"richards_rotterdam",name:"Marcus Webb",title:"Head of Physical Coal Trading",company:"Engie Energy Trading",email:"m.webb@engie.com",phone:"+44 20 7320 8000",tier:1,notes:"European utility buyer. Large spot programme for ARA delivery. Q4 peak demand."},
+  {id:"l16",route_id:"dampier_pohang",name:"Park Ji-Ho",title:"Logistics & Procurement Manager",company:"Korea Zinc Shipping",email:"jiho.park@koreazinc.co.kr",phone:"+82 52 760 5114",tier:2,notes:"Supplemental shipper. Prefers back-to-back voyage structures."},
+  {id:"l17",route_id:"newcastle_rotterdam_pmax",name:"Thomas Bergmann",title:"Head of Coal Procurement",company:"E.ON Commodities GmbH",email:"t.bergmann@eon.com",phone:"+49 201 184 0000",tier:1,notes:"German utility with significant coal import programme. Long-term COA appetite."},
+  {id:"l18",route_id:"santos_qingdao_pmax",name:"Zhang Wei",title:"VP Import Operations",company:"Sinograin Import & Export",email:"zhang.wei@sinograin.com.cn",phone:"+86 10 6834 9999",tier:1,notes:"State grain reserve buyer. Massive annual soybean volume. COA preferred."},
+  {id:"l19",route_id:"tubaro_qingdao",name:"Luiz Pinheiro",title:"Freight Procurement Director",company:"CSN Mining (Companhia Siderúrgica Nacional)",email:"l.pinheiro@csn.com.br",phone:"+55 11 3049 7700",tier:1,notes:"Brazilian steel giant. Captive iron ore shipper. 15Mt annual Capesize volume."},
 ];
 
 // ═══════════════════════════════════════════════════════
@@ -695,6 +727,7 @@ window.addEventListener("DOMContentLoaded",()=>{
   renderLeads();
   renderLog();
   setTimeout(refreshAll,300);
+  setTimeout(loadAndRenderChart, 800);
   setInterval(refreshAll,REFRESH_MS);
   setInterval(updateTimer,60000);
   nextRefreshAt = Date.now()+REFRESH_MS;
@@ -723,6 +756,166 @@ function switchVesselClass(cls) {
   const count = getActiveRoutes().length;
   document.getElementById("route-count-display").innerHTML=`<span style="color:var(--gold)">${count}</span>&nbsp;Routes Active`;
 }
+
+
+// ═══════════════════════════════════════════════════════════════════
+// SECTION 10 — HISTORICAL CFI CHART
+// Reads /data/history.json written by GitHub Actions every 30 mins
+// ═══════════════════════════════════════════════════════════════════
+
+// Route colours for chart lines
+const ROUTE_COLORS = {
+  "TBR-QDG": "#c9a96e",  // gold
+  "PHD-QDG": "#3de8c4",  // cyan
+  "RBY-RTM": "#d29922",  // amber
+  "DMP-PHG": "#58a6ff",  // blue
+  "NCS-RTM": "#a371f7",  // purple
+  "STS-QDG": "#56d364",  // green
+};
+
+async function loadAndRenderChart() {
+  const canvas  = document.getElementById("cfi-chart");
+  const emptyEl = canvas.parentElement.querySelector(".chart-empty");
+
+  try {
+    const res = await fetch("./data/history.json?t=" + Date.now());
+    if (!res.ok) throw new Error("history.json not found");
+    const data = await res.json();
+
+    if (!data.entries || data.entries.length < 2) {
+      canvas.style.display = "none";
+      if (!emptyEl) {
+        const d = document.createElement("div");
+        d.className = "chart-empty";
+        d.textContent = "Building history — first data points appear after the next GitHub Actions run. Check back in 30 minutes.";
+        canvas.parentElement.appendChild(d);
+      }
+      return;
+    }
+
+    renderCFIChart(canvas, data.entries);
+    buildChartLegend(data.entries[0]);
+  } catch(e) {
+    canvas.style.display = "none";
+    const d = document.createElement("div");
+    d.className = "chart-empty";
+    d.textContent = "Chart data not yet available. GitHub Actions will populate it on the next run.";
+    canvas.parentElement.appendChild(d);
+  }
+}
+
+function renderCFIChart(canvas, entries) {
+  // entries are newest-first — reverse for chronological display
+  const sorted = [...entries].reverse();
+
+  const dpr    = window.devicePixelRatio || 1;
+  const W      = canvas.offsetWidth  || 800;
+  const H      = 260;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.height = H + "px";
+
+  const ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+
+  const PAD = { top:20, right:20, bottom:36, left:44 };
+  const cW  = W - PAD.left - PAD.right;
+  const cH  = H - PAD.top  - PAD.bottom;
+
+  // Find score range
+  let maxCFI = 80;
+  const routeKeys = Object.keys(sorted[0]?.r || {});
+  for (const e of sorted) {
+    for (const k of routeKeys) {
+      if (e.r[k]) maxCFI = Math.max(maxCFI, e.r[k][0]);
+    }
+  }
+  maxCFI = Math.ceil(maxCFI / 10) * 10 + 10;
+
+  const xScale = i  => PAD.left + (i / (sorted.length - 1)) * cW;
+  const yScale = v  => PAD.top  + cH - (v / maxCFI) * cH;
+
+  // Background
+  ctx.fillStyle = "#0a1018";
+  ctx.fillRect(0, 0, W, H);
+
+  // Grid lines
+  ctx.strokeStyle = "rgba(255,255,255,0.04)";
+  ctx.lineWidth   = 1;
+  for (let y = 0; y <= maxCFI; y += 25) {
+    const yp = yScale(y);
+    ctx.beginPath(); ctx.moveTo(PAD.left, yp); ctx.lineTo(W - PAD.right, yp); ctx.stroke();
+    ctx.fillStyle   = "#30363d";
+    ctx.font        = "9px IBM Plex Mono, monospace";
+    ctx.textAlign   = "right";
+    ctx.fillText(y, PAD.left - 6, yp + 3);
+  }
+
+  // X-axis time labels (show up to 6 evenly spaced)
+  const labelStep = Math.max(1, Math.floor(sorted.length / 6));
+  ctx.fillStyle   = "#30363d";
+  ctx.font        = "8px IBM Plex Mono, monospace";
+  ctx.textAlign   = "center";
+  for (let i = 0; i < sorted.length; i += labelStep) {
+    const d    = new Date(sorted[i].ts);
+    const lbl  = `${d.getUTCMonth()+1}/${d.getUTCDate()} ${String(d.getUTCHours()).padStart(2,"0")}h`;
+    ctx.fillText(lbl, xScale(i), H - PAD.bottom + 14);
+  }
+
+  // Alert threshold line at 75
+  const y75 = yScale(75);
+  ctx.strokeStyle = "rgba(218,54,51,0.55)";
+  ctx.lineWidth   = 1;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(PAD.left, y75); ctx.lineTo(W - PAD.right, y75); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle   = "rgba(218,54,51,0.7)";
+  ctx.font        = "8px IBM Plex Mono, monospace";
+  ctx.textAlign   = "left";
+  ctx.fillText("75 — Alert", PAD.left + 4, y75 - 4);
+
+  // Route lines
+  for (const key of routeKeys) {
+    const color = ROUTE_COLORS[key] || "#666";
+    ctx.strokeStyle = color;
+    ctx.lineWidth   = 1.5;
+    ctx.beginPath();
+    let started = false;
+    for (let i = 0; i < sorted.length; i++) {
+      const val = sorted[i].r[key]?.[0];
+      if (val == null) continue;
+      const x = xScale(i), y = yScale(val);
+      if (!started) { ctx.moveTo(x, y); started = true; }
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Mark critical points with a dot
+    for (let i = 0; i < sorted.length; i++) {
+      const val = sorted[i].r[key]?.[0];
+      if (val != null && val > 75) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(xScale(i), yScale(val), 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+}
+
+function buildChartLegend(latestEntry) {
+  const leg = document.getElementById("chart-legend");
+  if (!leg || !latestEntry?.r) return;
+  leg.innerHTML = Object.entries(latestEntry.r).map(([key, vals]) => {
+    const color = ROUTE_COLORS[key] || "#666";
+    const cfi   = vals?.[0]?.toFixed(1) || "—";
+    return `<div class="cl-item"><div class="cl-dot" style="background:${color}"></div>${key}: ${cfi}</div>`;
+  }).join("");
+}
+
+// Load chart on boot and after each refresh
+const _origRefreshAll = refreshAll;
+window._chartLoaded = false;
 
 // ── Refresh ──────────────────────────────────────────
 function refreshAll() {
@@ -753,6 +946,7 @@ function refreshAll() {
   }
   btn.classList.remove("loading"); btn.innerHTML="↻ &nbsp;Recalculate";
   resetTimer();
+  loadAndRenderChart();
 }
 
 // ── Skeletons ─────────────────────────────────────────
@@ -1185,7 +1379,7 @@ function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x;}
 </script>
 <script>
   if('serviceWorker' in navigator){
-    window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+    window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
   }
 </script>
 </body>
