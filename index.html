@@ -745,28 +745,15 @@ const ALL_ROUTES = {
 };
 
 const ALL_LEADS = [
-  // ── CAPESIZE LEADS ───────────────────────────────────────────────
-  {id:"l01",route_id:"tubaro_qingdao",name:"Carlos Drummond",title:"Head of Global Chartering",company:"Austral Mineração S.A.",email:"c.drummond@australmineracao.com.br",phone:"+55 21 3478 9200 ext. 4112",tier:1,notes:"Controls >12Mt annual Capesize allocation. Q4 programme open for tender."},
-  {id:"l02",route_id:"tubaro_qingdao",name:"Fernanda Machado",title:"VP Mineral Supply Chain",company:"Minas Rio Trading S.A.",email:"f.machado@minasriotrading.com",phone:"+55 31 3301 5540 ext. 2204",tier:1,notes:"Procurement authority to $50M freight. COA structures strongly preferred."},
-  {id:"l03",route_id:"tubaro_qingdao",name:"Ricardo Sobral",title:"Lead Dry Bulk Tonnage Allocator",company:"Meridian Commodities Group",email:"r.sobral@meridiancommodities.com",phone:"+55 11 4502 8810",tier:2,notes:"Independent trading house. Spot and voyage charter focus. Fast decision cycle."},
-  {id:"l04",route_id:"hedland_qingdao",name:"James Whitmore",title:"Head of Freight & Logistics",company:"Pinnacle Resources Pty Ltd",email:"j.whitmore@pinnacleresources.com.au",phone:"+61 8 6212 4400 ext. 302",tier:1,notes:"Reports to CFO. Controls ballast leg positioning. Open to period charter."},
-  {id:"l05",route_id:"hedland_qingdao",name:"Sarah Chen",title:"VP Mineral Supply Chain – Asia",company:"Pacific Iron Holdings Ltd",email:"s.chen@pacificiron.com.au",phone:"+61 2 9280 3365",tier:1,notes:"Manages 18–22 vessel loadings per quarter. Strong preference for Capesize."},
-  {id:"l06",route_id:"richards_rotterdam",name:"Pieter van der Berg",title:"Coal Trading & Freight Manager",company:"Glencore Coal Division",email:"p.vdberg@glencore.com",phone:"+27 11 444 2300",tier:1,notes:"Dominant shipper on this lane. Seasonal volume spikes Q4. COA renewal cycle."},
-  {id:"l07",route_id:"richards_rotterdam",name:"Isabelle Fournier",title:"Freight Operations Lead",company:"Trafigura Bulk Commodities",email:"i.fournier@trafigura.com",phone:"+44 20 7096 1000",tier:1,notes:"Active COA renewal. Pricing benchmarked to C5TC. Open to spot supplement."},
-  {id:"l08",route_id:"dampier_pohang",name:"Kim Seong-Jun",title:"Raw Materials Logistics Director",company:"POSCO International",email:"seongjun.kim@posco.co.kr",phone:"+82 2 3457 5000",tier:1,notes:"Steel mill captive shipper. Annual volume 8Mt+. COA focus."},
-  {id:"l09",route_id:"dampier_pohang",name:"Takahiro Yamamoto",title:"Bulk Carrier Chartering",company:"Mitsui O.S.K. Lines – Bulkers",email:"t.yamamoto@mol.co.jp",phone:"+81 3 3587 7111",tier:1,notes:"Largest Japanese dry bulk operator. Strong period charter appetite."},
-  // ── PANAMAX LEADS ─────────────────────────────────────────────────
-  {id:"l10",route_id:"newcastle_rotterdam_pmax",name:"David Okafor",title:"Head of Coal Freight – EMEA",company:"Vitol Group Marine",email:"d.okafor@vitol.com",phone:"+44 20 3301 6200",tier:1,notes:"Trades thermal coal for European utilities. Spot-oriented. Fast cycle."},
-  {id:"l11",route_id:"newcastle_rotterdam_pmax",name:"Marta Kowalski",title:"Panamax Chartering Executive",company:"Oldendorff Carriers",email:"m.kowalski@oldendorff.com",phone:"+49 451 1500 200",tier:1,notes:"One of largest Panamax operators globally. Open to back-to-back voyages."},
-  {id:"l12",route_id:"santos_qingdao_pmax",name:"Rafael Costa",title:"Grain Logistics VP",company:"Cargill Ocean Transportation",email:"r.costa@cargill.com",phone:"+55 13 3219 0000",tier:1,notes:"World's largest grain shipper. Massive Panamax programme out of Santos."},
-  {id:"l13",route_id:"santos_qingdao_pmax",name:"Liu Pengfei",title:"Bulk Import Manager",company:"COFCO International",email:"liu.pengfei@cofco.com",phone:"+86 10 6789 8888",tier:1,notes:"China state grain importer. Largest single soybean import programme."},
-  // ── Additional leads (expanded database) ──────────────────────────
-  {id:"l14",route_id:"hedland_qingdao",name:"Andrew Nkosi",title:"Global Shipping Manager",company:"Fortescue Metals Group",email:"a.nkosi@fmg.com.au",phone:"+61 8 6218 8888",tier:1,notes:"Expanding shipping desk. Open to spot and period fixtures."},
-  {id:"l15",route_id:"richards_rotterdam",name:"Marcus Webb",title:"Head of Physical Coal Trading",company:"Engie Energy Trading",email:"m.webb@engie.com",phone:"+44 20 7320 8000",tier:1,notes:"European utility buyer. Large spot programme for ARA delivery. Q4 peak demand."},
-  {id:"l16",route_id:"dampier_pohang",name:"Park Ji-Ho",title:"Logistics & Procurement Manager",company:"Korea Zinc Shipping",email:"jiho.park@koreazinc.co.kr",phone:"+82 52 760 5114",tier:2,notes:"Supplemental shipper. Prefers back-to-back voyage structures."},
-  {id:"l17",route_id:"newcastle_rotterdam_pmax",name:"Thomas Bergmann",title:"Head of Coal Procurement",company:"E.ON Commodities GmbH",email:"t.bergmann@eon.com",phone:"+49 201 184 0000",tier:1,notes:"German utility with significant coal import programme. Long-term COA appetite."},
-  {id:"l18",route_id:"santos_qingdao_pmax",name:"Zhang Wei",title:"VP Import Operations",company:"Sinograin Import & Export",email:"zhang.wei@sinograin.com.cn",phone:"+86 10 6834 9999",tier:1,notes:"State grain reserve buyer. Massive annual soybean volume. COA preferred."},
-  {id:"l19",route_id:"tubaro_qingdao",name:"Luiz Pinheiro",title:"Freight Procurement Director",company:"CSN Mining (Companhia Siderúrgica Nacional)",email:"l.pinheiro@csn.com.br",phone:"+55 11 3049 7700",tier:1,notes:"Brazilian steel giant. Captive iron ore shipper. 15Mt annual Capesize volume."},
+  // ── VERIFIED CONTACTS — sourced via Hunter.io ─────────────────────
+  // CFI — Capesize Iron Ore Routes
+  {id:"l01",route_id:"tubaro_qingdao",name:"Tiago Pedrini",title:"Chartering Specialist",company:"Vale S.A.",email:"tiago.pedrini@vale.com",phone:"+55 21 3485 3900",tier:1,notes:"Verified via Hunter.io. Chartering desk for Tubarão/Ponta da Madeira loading operations."},
+  {id:"l02",route_id:"hedland_qingdao",name:"Tricia Garrido",title:"Freight Coordinator",company:"BHP",email:"tricia.garrido@bhp.com",phone:"+61 8 9320 7777",tier:1,notes:"Verified via Hunter.io. BHP freight coordination for Port Hedland iron ore exports."},
+  {id:"l03",route_id:"hedland_qingdao",name:"Vanessa Torres",title:"Urgent Freight Analyst",company:"BHP",email:"vanessa.torres@bhp.com",phone:"+61 8 9320 7777",tier:1,notes:"Verified via Hunter.io. Urgent freight analysis — high responsiveness to time-critical fixtures."},
+  {id:"l04",route_id:"richards_rotterdam",name:"Tom Currie",title:"Chartering Manager",company:"Glencore",email:"tom.currie@glencore.com",phone:"+41 41 709 2000",tier:1,notes:"Verified via Hunter.io. Chartering Manager — Richards Bay thermal coal export programme."},
+  {id:"l05",route_id:"richards_rotterdam",name:"Geanina Gabathuler",title:"Senior Chartering Manager",company:"Glencore",email:"geanina.gabathuler@glencore.com",phone:"+41 41 709 2000",tier:1,notes:"Verified via Hunter.io. Senior level — decision authority on fixture approvals."},
+  {id:"l06",route_id:"richards_rotterdam",name:"Nicole Bühler",title:"Chartering Operations Manager",company:"Glencore",email:"nicole.buehler@glencore.com",phone:"+41 41 709 2000",tier:1,notes:"Verified via Hunter.io. Operations manager — day-to-day chartering execution."},
+  {id:"l07",route_id:"dampier_pohang",name:"Goran Benko",title:"Chartering Coordinator",company:"Glencore",email:"goran.benko@glencore.com",phone:"+41 41 709 2000",tier:2,notes:"Verified via Hunter.io. Chartering coordination — Dampier/Australia origin coal."},
 ];
 
 // ═══════════════════════════════════════════════════════
@@ -1469,15 +1456,15 @@ Cargo Details:
 ──────────────────────────────────────────────────────────────────
 INTERMEDIARY FEE PROTECTION — IMFPA NOTICE
 ──────────────────────────────────────────────────────────────────
-This communication is transmitted subject to and protected by an Irrevocable Master Fee Protection Agreement (IMFPA). All brokerage, advisory, and intermediary fees arising from any transaction, fixture, or commercial engagement introduced, facilitated, or originated through this communication are irrevocably protected and payable to [Your Firm Name] in full accordance with the terms of the operative IMFPA on file. Any circumvention, bypass, or extinguishment of these fee entitlements shall constitute a material breach of the IMFPA and be subject to full legal remedy under applicable maritime and commercial law.
+This communication is transmitted subject to and protected by an Irrevocable Master Fee Protection Agreement (IMFPA). All brokerage, advisory, and intermediary fees arising from any transaction, fixture, or commercial engagement introduced, facilitated, or originated through this communication are irrevocably protected and payable to The ARB Group in full accordance with the terms of the operative IMFPA on file. Any circumvention, bypass, or extinguishment of these fee entitlements shall constitute a material breach of the IMFPA and be subject to full legal remedy under applicable maritime and commercial law.
 ──────────────────────────────────────────────────────────────────
 
 Yours faithfully,
 
-[Your Name]
-[Your Title]
-[Your Firm Name] · Freight Brokerage
-[Phone] · [Email]
+Alex Afolabi
+Director, The ARB Group
+The ARB Group · Freight Brokerage
+07497 149266 · alex@thearbgroup.co.uk
 
 —
 CFI Score at dispatch: ${cfiVal} [${band}] · Penalty/MT: ${pen} vs Baseline ${base}`;
